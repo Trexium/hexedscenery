@@ -1,0 +1,168 @@
+﻿@using Components
+@page "/mordheim/randomhappenings"
+@using HexedSceneryCommon.Mordheim;
+@inject Services.IRandomHappeningsService _randomHappeningsService
+
+<PageTitle>Hexed Scenery - Random Happenings</PageTitle>
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <div class="random-happening-pane">
+        <h2>Random Happenings</h2>
+
+        <label for="resultNumber">Roll a D66 and enter the result:</label>
+        <br />
+        <input id="resultNumber" @oninput="FindEncounter" />
+        <br />
+        Or
+        <br />
+        <span @onclick="@GenerateResultSubmit" class="btn">
+            <svg width="277" height="62">
+                <defs>
+                    <linearGradient id="grad1">
+                        <stop offset="0%" stop-color="#fffef0" />
+                        <stop offset="100%" stop-color="#666666" />
+                    </linearGradient>
+                </defs>
+                <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
+            </svg>
+            <span>Randomize</span>
+        </span>
+    </div>
+
+    @if (encounter != null)
+    {
+        <br />
+        <div class="encounter">
+            <h3>@encounter.ResultNumber @encounter.Name</h3>
+            <p>@((MarkupString)encounter.Description)</p>
+
+            @if (encounter.DiceChart != null)
+            {
+                <table class="dice-chart-table">
+                    <thead>
+                        <tr>
+                            <th class="first-column">@encounter.DiceChart.Dice</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in encounter.DiceChart.DiceResults)
+                        {
+                            <tr>
+                                <td>@result.ResultNumber</td>
+                                <td>@((MarkupString)result.Description)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            @if (encounter.Monster != null)
+            {
+                @if (encounter.Monster.Profile != null)
+                {
+                    <span class="first-column">@encounter.Monster.Name</span>
+                    <table class="profile-table">
+                        <thead>
+                            <tr>
+                                <th class="first-column">Profile</th>
+                                <th>M</th>
+                                <th>WS</th>
+                                <th>BS</th>
+                                <th>S</th>
+                                <th>T</th>
+                                <th>W</th>
+                                <th>I</th>
+                                <th>A</th>
+                                <th>Ld</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="first-column">@encounter.Monster.Name</td>
+                                <td>@encounter.Monster.Profile.Movement</td>
+                                <td>@encounter.Monster.Profile.WeaponSkill</td>
+                                <td>@encounter.Monster.Profile.BallisticSkill</td>
+                                <td>@encounter.Monster.Profile.Strength</td>
+                                <td>@encounter.Monster.Profile.Toughness</td>
+                                <td>@encounter.Monster.Profile.Wounds</td>
+                                <td>@encounter.Monster.Profile.Initiative</td>
+                                <td>@encounter.Monster.Profile.Attacks</td>
+                                <td>@encounter.Monster.Profile.Leadership</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+
+                @if (encounter.Monster.Skills != null)
+                {
+                    foreach (var skill in encounter.Monster.Skills)
+                    {
+                        <p class="skill"><b>@skill.Name:</b> @((MarkupString)skill.Description)</p>
+                    }
+                }
+            }
+            @if (!string.IsNullOrEmpty(encounter.BottomText))
+            {
+                <p>@((MarkupString)encounter.BottomText)</p>
+            }
+        </div>
+    }
+
+</div>
+
+@code {
+    string resultNumberString = string.Empty;
+
+    Encounter encounter;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+    private void ManualResultSubmit()
+    {
+        if (!string.IsNullOrEmpty(resultNumberString))
+        {
+            if (int.TryParse(resultNumberString, out int resultNumber))
+            {
+                encounter = _randomHappeningsService.GetEncounter(resultNumber);
+            }
+            else
+            {
+                ErrorComponent.ShowError("Invalid dice result.", $"{resultNumberString} is not a valid D66 result.");
+            }
+        }
+    }
+
+    private void FindEncounter(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if (args.Value != null && !string.IsNullOrEmpty(args.Value.ToString()))
+        {
+            if (int.TryParse(args.Value.ToString(), out int resultNumber))
+            {
+                encounter = _randomHappeningsService.GetEncounter(resultNumber);
+            }
+            else
+            {
+                ErrorComponent.ShowError("Invalid dice result.", $"{args.Value.ToString()} is not a valid D66 result.");
+            }
+        }
+    }
+
+    private void GenerateResultSubmit()
+    {
+        encounter = _randomHappeningsService.GetRandomEncounter();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+}
