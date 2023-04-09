@@ -1,0 +1,37 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/appsettings.json
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/appsettings.Development.json
+/.vs
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryCommon/bin/Debug/netstandard2.0
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryCommon/obj
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryData/bin/Debug/net7.0
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryData/obj
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/bin/Debug/net7.0
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/obj
+*.user
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/v17/.suo
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/DesignTimeBuild/.dtbcache.v2
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/FileContentIndex/fceaf40a-feb3-4386-98ba-7eb6c8b44eec.vsidx
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/FileContentIndex/de1826d6-b062-4131-8f3c-ce1dee24fe0b.vsidx
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/FileContentIndex/ba6471ec-a7b2-4128-8644-8034c03a2cff.vsidx
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/FileContentIndex/836100d8-eabe-4bf9-bc0f-0507b256b2f7.vsidx
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/FileContentIndex/7e1925c5-de62-4d8a-a39d-165a4779d03e.vsidx
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/FileContentIndex/76d3c33a-772f-4e76-b7dc-38c5c293745a.vsidx
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/FileContentIndex/1e5fbaee-812e-4a8e-92a3-9172f9c8bcf5.vsidx
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/FileContentIndex/04c40d0f-6a98-4618-9347-4d1f952a1529.vsidx
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/appsettings.Release.json
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs/HexedSceneryWebsite/FileContentIndex
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryCommon/bin/Release/netstandard2.0
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryData/bin/Release/net7.0
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/.config
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/bin/Release/net7.0
+/HexedSceneryWebsite/HexedSceneryWebsite/.vs
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/wwwroot/files/Mordheim Annual 2002.pdf
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/wwwroot/files/Empire In Flames.pdf
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/wwwroot/files/Damned If You Do, Damned If You Don't CJ37.pdf
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/wwwroot/files/btb.pdf
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/wwwroot/files/Athel Loren Campaign Rules.pdf
+/HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/wwwroot/files/Albion Campaign Rules.pdf
