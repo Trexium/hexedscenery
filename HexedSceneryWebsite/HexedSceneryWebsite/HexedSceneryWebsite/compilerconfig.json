@@ -1,0 +1,38 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/Profile.css",
+    "inputFile": "wwwroot/css/Profile.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/DiceChart.css",
+    "inputFile": "wwwroot/css/DiceChart.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/fonts.css",
+    "inputFile": "wwwroot/css/fonts.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/MordheimPage.css",
+    "inputFile": "wwwroot/css/MordheimPage.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Skills.css",
+    "inputFile": "wwwroot/css/Skills.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/MordheimNavMenu.css",
+    "inputFile": "wwwroot/css/MordheimNavMenu.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Encounter.css",
+    "inputFile": "wwwroot/css/Encounter.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/RandomHappeningPane.css",
+    "inputFile": "wwwroot/css/RandomHappeningPane.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/FlexBoxTable.css",
+    "inputFile": "wwwroot/css/FlexBoxTable.scss"
+  }
+]

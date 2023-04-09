@@ -1,0 +1,43 @@
+﻿<div class="top-row ps-3 navbar navbar-dark mordheim">
+    <div class="container-fluid">
+        <span class="menu-title">Hexed Scenery</span>
+
+
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+
+<div class="@NavMenuCssClass nav-scrollable mordheim" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" style="color: #666666;" href="mordheim" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" style="color: #666666;" href="mordheim/hiredswords">
+                <span class="oi oi-person" aria-hidden="true"></span> Hired swords
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" style="color: #666666;" href="mordheim/randomhappenings">
+                <span class="oi oi-script" aria-hidden="true"></span> Random happenings
+            </NavLink>
+        </div>
+    </nav>
+
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

@@ -1,0 +1,34 @@
+﻿@import 'fonts';
+
+table.dice-chart-table {
+    text-align: left;
+    max-width: 500px;
+
+    thead {
+        tr {
+            th {
+                padding-left: 0px;
+
+
+
+                &.first-column {
+                    padding-right: 50px;
+                }
+            }
+        }
+    }
+
+    tbody {
+        tr {
+
+            td {
+                padding: 2px;
+                padding-bottom: 10px;
+
+                &.first-column {
+                    padding-left: 0px;
+                }
+            }
+        }
+    }
+}
