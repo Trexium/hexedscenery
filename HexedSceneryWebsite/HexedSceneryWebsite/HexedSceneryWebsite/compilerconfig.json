@@ -34,5 +34,13 @@
   {
     "outputFile": "wwwroot/css/FlexBoxTable.css",
     "inputFile": "wwwroot/css/FlexBoxTable.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/HiredSwords.css",
+    "inputFile": "wwwroot/css/HiredSwords.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/DropDown.css",
+    "inputFile": "wwwroot/css/DropDown.scss"
   }
 ]

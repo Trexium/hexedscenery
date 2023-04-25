@@ -27,6 +27,10 @@ public partial class HiredSword
 
     public int SourceId { get; set; }
 
+    public string? Rating { get; set; }
+
+    public bool Active { get; set; }
+
     public virtual Grade Grade { get; set; } = null!;
 
     public virtual ICollection<HiredSwordAdditionalProfile> HiredSwordAdditionalProfiles { get; } = new List<HiredSwordAdditionalProfile>();
@@ -34,6 +38,8 @@ public partial class HiredSword
     public virtual ICollection<HiredSwordCompatibleWarband> HiredSwordCompatibleWarbands { get; } = new List<HiredSwordCompatibleWarband>();
 
     public virtual ICollection<HiredSwordEquipment> HiredSwordEquipments { get; } = new List<HiredSwordEquipment>();
+
+    public virtual ICollection<HiredSwordSkillType> HiredSwordSkillTypes { get; } = new List<HiredSwordSkillType>();
 
     public virtual ICollection<HiredSwordSkill> HiredSwordSkills { get; } = new List<HiredSwordSkill>();
 

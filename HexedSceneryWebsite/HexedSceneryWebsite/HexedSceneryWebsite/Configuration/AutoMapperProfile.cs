@@ -9,6 +9,14 @@ namespace HexedSceneryWebsite.Configuration
     {
         public AutoMapperProfile()
         {
+            MapCommon();
+            MapEncounter();
+            MapWarband();
+            MapHiredSword();
+        }
+
+        private void MapCommon()
+        {
             CreateMap<DataModels.DiceResult, Common.DiceResult>()
                 .ForMember(m => m.Description, opt => opt.MapFrom(s => s.Description))
                 .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name))
@@ -42,6 +50,29 @@ namespace HexedSceneryWebsite.Configuration
                 .ForMember(m => m.WeaponSkill, opt => opt.MapFrom(s => s.WeaponSkill))
                 .ForMember(m => m.Wounds, opt => opt.MapFrom(s => s.Wounds));
 
+            CreateMap<DataModels.Grade, Common.Grade>()
+                .ForMember(m => m.Description, opt => opt.MapFrom(s => s.Description))
+                .ForMember(m => m.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name));
+
+            CreateMap<DataModels.Source, Common.Source>()
+                .ForMember(m => m.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(m => m.Key, opt => opt.MapFrom(s => s.Key))
+                .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name))
+                .ForMember(m => m.PdfUrl, opt => opt.MapFrom(s => s.PdfUrl));
+
+            CreateMap<DataModels.Equipment, Common.Equipment>()
+                .ForMember(m => m.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name));
+
+            CreateMap<DataModels.SpecialRule, Common.SpecialRule>()
+                .ForMember(m => m.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name))
+                .ForMember(m => m.Description, opt => opt.MapFrom(s => s.Description));
+        }
+
+        private void MapEncounter()
+        {
             CreateMap<DataModels.Monster, Common.Monster>()
                 .ForMember(m => m.Description, opt => opt.MapFrom(s => s.Description))
                 .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name))
@@ -57,6 +88,54 @@ namespace HexedSceneryWebsite.Configuration
                 .ForMember(m => m.ResultNumber, opt => opt.MapFrom(s => s.ResultNumber))
                 .ForMember(m => m.DiceChart, opt => opt.MapFrom(s => s.DiceChart))
                 .ForMember(m => m.Monster, opt => opt.MapFrom(s => s.Monster));
+        }
+
+        private void MapWarband()
+        {
+            CreateMap<DataModels.Warband, Common.Warband>()
+                .ForMember(m => m.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name));
+        }
+
+        private void MapHiredSword()
+        {
+            CreateMap<DataModels.HiredSword, Common.HiredSword>()
+                .ForMember(m => m.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name))
+                .ForMember(m => m.Description, opt => opt.MapFrom(s => s.Description))
+                .ForMember(m => m.HireFee, opt => opt.MapFrom(s => s.HireFee))
+                .ForMember(m => m.HireFeeDescription, opt => opt.MapFrom(s => s.HireFeeDescription))
+                .ForMember(m => m.UpkeepCost, opt => opt.MapFrom(s => s.UpkeepCost))
+                .ForMember(m => m.UpkeepCostDescription, opt => opt.MapFrom(s => s.UpkeepCostDescription))
+                .ForMember(m => m.CompatabilityDescription, opt => opt.MapFrom(s => s.CompatabilityDescription))
+                .ForMember(m => m.Profile, opt => opt.MapFrom(s => s.Profile))
+                .ForMember(m => m.Grade, opt => opt.MapFrom(s => s.Grade))
+                .ForMember(m => m.Source, opt => opt.MapFrom(s => s.Source))
+                .ForMember(m => m.CompatibleWarbands, opt =>
+                {
+                    opt.PreCondition(s => s.HiredSwordCompatibleWarbands != null && s.HiredSwordCompatibleWarbands.Any());
+                    opt.MapFrom(s => s.HiredSwordCompatibleWarbands.Select(m => m.Warband));
+                })
+                .ForMember(m => m.AdditionalProfiles, opt =>
+                {
+                    opt.PreCondition(s => s.HiredSwordAdditionalProfiles != null && s.HiredSwordAdditionalProfiles.Any());
+                    opt.MapFrom(s => s.HiredSwordAdditionalProfiles.Select(m => m.Profile));
+                })
+                .ForMember(m => m.Equipment, opt =>
+                {
+                    opt.PreCondition(s => s.HiredSwordEquipments != null && s.HiredSwordEquipments.Any());
+                    opt.MapFrom(s => s.HiredSwordEquipments.Select(m => m.Equipment));
+                })
+                .ForMember(m => m.SpecialRules, opt =>
+                {
+                    opt.PreCondition(s => s.HiredSwordSpecialRules != null && s.HiredSwordSpecialRules.Any());
+                    opt.MapFrom(s => s.HiredSwordSpecialRules.Select(m => m.SpecialRule));
+                })
+                .ForMember(m => m.Skills, opt =>
+                {
+                    opt.PreCondition(s => s.HiredSwordSkills != null && s.HiredSwordSkills.Any());
+                    opt.MapFrom(s => s.HiredSwordSkills.Select(m => m.Skill));
+                });
         }
     }
 }
