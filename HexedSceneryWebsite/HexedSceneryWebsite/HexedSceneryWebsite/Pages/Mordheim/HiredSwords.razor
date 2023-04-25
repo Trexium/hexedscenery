@@ -1,4 +1,10 @@
 ﻿@page "/mordheim/hiredswords"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryWebsite.Components;
+@using HexedSceneryWebsite.Enums;
+@inject Services.IHiredSwordService _hiredSwordService;
+@inject Services.IWarbandService _warbandService;
+@inject Services.IGradeService _gradeService;
 
 <PageTitle>Hexed Scenery - Hired Swords</PageTitle>
 
@@ -11,9 +17,274 @@
     </svg>
 </div>
 <div class="mordheim-page">
-    <h2>A group of hired swords are traveling apace to help thou  'i  thy dire needs. But alas hath yet to arrive. </h2>
+
+    @*<h2>A group of hired swords are traveling apace to help thou  'i  thy dire needs. But alas hath yet to arrive. </h2>
     <p>- Town crier</p>
+    *@
+    <h2>Hired Swords</h2>
+    <div class="hired-swords-page">
+
+        <div class="hired-sword-table-filter form-1-box wow fadeInUp">
+            <fieldset class="filter">
+                <legend>Filter</legend>
+                <div class="flex-container">
+                    <DropDownComponent DefaultText="All warbands" Label="Warband: " ValueStore="warbandValueStore" ValueChanged="FilterByWarband" />
+                    <DropDownComponent DefaultText="Choose grade" Label="Min Grade: " ValueStore="gradeValueStore" ValueChanged="FilterByMinGrade" />
+                    <DropDownComponent DefaultText="Choose grade" Label="Max Grade: " ValueStore="gradeValueStore" ValueChanged="FilterByMaxGrade" />
+                </div>
+            </fieldset>
+        </div>
+
+        <table class="hired-swords-table">
+            <thead>
+                <tr>
+                    <th @onclick="SortByName">
+                        Hired Sword
+                        @if (currentSortOrder == SortOrder.NameAsc)
+                        {
+                            <span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span>
+                        }
+                        else if (currentSortOrder == SortOrder.NameDesc)
+                        {
+                            <span class="oi oi-arrow-thick-top" aria-hidden="true"></span>
+                        }
+                    </th>
+                    <th class="priority-2" @onclick="SortByHireFee">
+                        Hire Fee
+                        @if (currentSortOrder == SortOrder.HireFeeAsc)
+                        {
+                            <span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span>
+                        }
+                        else if (currentSortOrder == SortOrder.HireFeeDesc)
+                        {
+                            <span class="oi oi-arrow-thick-top" aria-hidden="true"></span>
+                        }
+                    </th>
+                    <th class="priority-2" @onclick="SortByUpkeepCost">
+                        Upkeep Cost
+                        @if (currentSortOrder == SortOrder.UpkeepCostAsc)
+                        {
+                            <span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span>
+                        }
+                        else if (currentSortOrder == SortOrder.UpkeepCostDesc)
+                        {
+                            <span class="oi oi-arrow-thick-top" aria-hidden="true"></span>
+                        }
+                    </th>
+                    <th class="priority-1" @onclick="SortByGrade">
+                        Grade
+                        @if (currentSortOrder == SortOrder.GradeAsc)
+                        {
+                            <span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span>
+                        }
+                        else if (currentSortOrder == SortOrder.GradeDesc)
+                        {
+                            <span class="oi oi-arrow-thick-top" aria-hidden="true"></span>
+                        }
+                    </th>
+                    <th class="priority-1" @onclick="SortBySource">
+                        Source
+                        @if (currentSortOrder == SortOrder.SourceAsc)
+                        {
+                            <span class="oi oi-arrow-thick-bottom" aria-hidden="true"></span>
+                        }
+                        else if (currentSortOrder == SortOrder.SourceDesc)
+                        {
+                            <span class="oi oi-arrow-thick-top" aria-hidden="true"></span>
+                        }
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var hiredSword in currentHiredSwords)
+                {
+                    <tr>
+                        <td>@hiredSword.Name</td>
+                        <td>@hiredSword.HireFee gc</td>
+                        <td>@hiredSword.UpkeepCost gc</td>
+                        <td>@hiredSword.Grade.Name</td>
+                        <td data-toggle="tooltip" data-placement="top" title="@hiredSword.Source.Name">
+                            @if (!string.IsNullOrEmpty(hiredSword.Source.PdfUrl))
+                            {
+
+                                <a target="_blank" href="@hiredSword.Source.PdfUrl">@hiredSword.Source.Key</a>
+
+                            }
+                            else
+                            {
+                                @hiredSword.Source.Key
+                            }
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (!currentHiredSwords.Any())
+        {
+            <div class="no-result">No result...</div>
+        }
+
+    </div>
+
+
 </div>
 @code {
+    List<HiredSword> allHiredSwords;
+    List<HiredSword> currentHiredSwords;
+    SortOrder currentSortOrder;
+    List<Tuple<int, string>> warbandValueStore;
+    List<Tuple<int, string>> gradeValueStore;
+    int currentWarbandFilteringId;
+    int currentMaxGradeFilteringId;
+    int currentMinGradeFilteringId;
 
+    private void SortByName()
+    {
+        if (currentSortOrder == SortOrder.NameAsc)
+        {
+            Sort(SortOrder.NameDesc);
+        }
+        else
+        {
+            Sort(SortOrder.NameAsc);
+        }
+    }
+
+    private void SortByGrade()
+    {
+        if (currentSortOrder == SortOrder.GradeAsc)
+        {
+            Sort(SortOrder.GradeDesc);
+        }
+        else
+        {
+            Sort(SortOrder.GradeAsc);
+        }
+    }
+
+    private void SortByHireFee()
+    {
+        if (currentSortOrder == SortOrder.HireFeeAsc)
+        {
+            Sort(SortOrder.HireFeeDesc);
+        }
+        else
+        {
+            Sort(SortOrder.HireFeeAsc);
+        }
+    }
+
+    private void SortByUpkeepCost()
+    {
+        if (currentSortOrder == SortOrder.UpkeepCostAsc)
+        {
+            Sort(SortOrder.UpkeepCostDesc);
+        }
+        else
+        {
+            Sort(SortOrder.UpkeepCostAsc);
+        }
+    }
+
+    private void SortBySource()
+    {
+        if (currentSortOrder == SortOrder.SourceAsc)
+        {
+            Sort(SortOrder.SourceDesc);
+        }
+        else
+        {
+            Sort(SortOrder.SourceAsc);
+        }
+    }
+
+    private void FilterByWarband(int warbandId)
+    {
+        currentWarbandFilteringId = warbandId;
+        Filter();
+        Sort(currentSortOrder);
+    }
+
+    private void FilterByMinGrade(int gradeId)
+    {
+        currentMinGradeFilteringId = gradeId;
+        Filter();
+        Sort(currentSortOrder);
+    }
+
+    private void FilterByMaxGrade(int gradeId)
+    {
+        currentMaxGradeFilteringId = gradeId;
+        Filter();
+        Sort(currentSortOrder);
+    }
+
+    private void Filter()
+    {
+        currentHiredSwords = allHiredSwords.Where(hs =>
+            (currentWarbandFilteringId == 0 || hs.CompatibleWarbands.Any(cw => cw.Id == currentWarbandFilteringId)) &&
+                hs.Grade.Id >= currentMinGradeFilteringId &&
+                (currentMaxGradeFilteringId == 0 || hs.Grade.Id <= currentMaxGradeFilteringId)).ToList();
+    }
+
+    private void Sort(SortOrder sortOrder)
+    {
+        switch (sortOrder)
+        {
+            case SortOrder.NameAsc:
+                currentHiredSwords = currentHiredSwords.OrderBy(hs => hs.Name).ToList();
+                break;
+            case SortOrder.NameDesc:
+                currentHiredSwords = currentHiredSwords.OrderByDescending(hs => hs.Name).ToList();
+                break;
+            case SortOrder.GradeAsc:
+                currentHiredSwords = currentHiredSwords.OrderBy(hs => hs.Grade.Name).ToList();
+                break;
+            case SortOrder.GradeDesc:
+                currentHiredSwords = currentHiredSwords.OrderByDescending(hs => hs.Grade.Name).ToList();
+                break;
+            case SortOrder.HireFeeAsc:
+                currentHiredSwords = currentHiredSwords.OrderBy(hs => hs.HireFee).ToList();
+                break;
+            case SortOrder.HireFeeDesc:
+                currentHiredSwords = currentHiredSwords.OrderByDescending(hs => hs.HireFee).ToList();
+                break;
+            case SortOrder.UpkeepCostAsc:
+                currentHiredSwords = currentHiredSwords.OrderBy(hs => hs.UpkeepCost).ToList();
+                break;
+            case SortOrder.UpkeepCostDesc:
+                currentHiredSwords = currentHiredSwords.OrderByDescending(hs => hs.UpkeepCost).ToList();
+                break;
+            case SortOrder.SourceAsc:
+                currentHiredSwords = currentHiredSwords.OrderBy(hs => hs.Source.Key).ToList();
+                break;
+            case SortOrder.SourceDesc:
+                currentHiredSwords = currentHiredSwords.OrderByDescending(hs => hs.Source.Key).ToList();
+                break;
+        }
+        currentSortOrder = sortOrder;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (allHiredSwords == null)
+        {
+            allHiredSwords = _hiredSwordService.GetAll();
+            currentHiredSwords = allHiredSwords;
+            currentWarbandFilteringId = 0;
+            currentMinGradeFilteringId = 0;
+            currentMaxGradeFilteringId = 0;
+        }
+
+        if (warbandValueStore == null)
+        {
+            warbandValueStore = _warbandService.GetWarbandValueStore();
+        }
+
+        if (gradeValueStore == null)
+        {
+            gradeValueStore = _gradeService.GetAll().Select(g => new Tuple<int, string>(g.Id, g.Name)).ToList();
+        }
+    }
 }

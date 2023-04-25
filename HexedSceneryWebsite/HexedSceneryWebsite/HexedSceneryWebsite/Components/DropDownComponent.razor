@@ -1,0 +1,56 @@
+﻿@if (ValueStore == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <div class="select-box">
+        <label for="@Label">@Label</label>
+        <select name="@Label" class="form-select" @onchange="OnValueChanged">
+            <option value="0" selected>@DefaultText</option>
+
+            @foreach (var value in ValueStore)
+            {
+                <option value="@value.Item1">@value.Item2</option>
+            }
+        </select>
+    </div>
+}
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    private Task OnValueChanged(ChangeEventArgs e)
+    {
+        if (e.Value != null)
+        {
+            if (int.TryParse(e.Value.ToString(), out int id))
+            {
+                SelectedId = id;
+                return ValueChanged.InvokeAsync(SelectedId);
+            }
+        }
+
+        return null;
+    }
+
+    [Parameter]
+    public List<Tuple<int, string>> ValueStore { get; set; }
+
+    [Parameter]
+    public string DefaultText { get; set; }
+
+    [Parameter]
+    public string Label { get; set; }
+
+    [Parameter]
+    public int SelectedId { get; set; }
+
+    [Parameter]
+    public EventCallback<int> ValueChanged { get; set; }
+}

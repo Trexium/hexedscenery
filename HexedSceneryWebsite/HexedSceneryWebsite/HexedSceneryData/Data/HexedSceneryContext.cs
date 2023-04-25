@@ -36,6 +36,8 @@ public partial class HexedSceneryContext : DbContext
 
     public virtual DbSet<HiredSwordSkill> HiredSwordSkills { get; set; }
 
+    public virtual DbSet<HiredSwordSkillType> HiredSwordSkillTypes { get; set; }
+
     public virtual DbSet<HiredSwordSpecialRule> HiredSwordSpecialRules { get; set; }
 
     public virtual DbSet<Monster> Monsters { get; set; }
@@ -128,6 +130,7 @@ public partial class HexedSceneryContext : DbContext
             entity.Property(e => e.CompatabilityDescription).HasMaxLength(500);
             entity.Property(e => e.HireFeeDescription).HasMaxLength(500);
             entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.Rating).HasMaxLength(255);
             entity.Property(e => e.UpkeepCostDescription).HasMaxLength(500);
 
             entity.HasOne(d => d.Grade).WithMany(p => p.HiredSwords)
@@ -204,6 +207,21 @@ public partial class HexedSceneryContext : DbContext
             entity.HasOne(d => d.Skill).WithMany(p => p.HiredSwordSkills)
                 .HasForeignKey(d => d.SkillId)
                 .HasConstraintName("FK__HiredSwor__Skill__719CDDE7");
+        });
+
+        modelBuilder.Entity<HiredSwordSkillType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__HiredSwo__3214EC074EB94700");
+
+            entity.ToTable("HiredSwordSkillType");
+
+            entity.HasOne(d => d.HiredSword).WithMany(p => p.HiredSwordSkillTypes)
+                .HasForeignKey(d => d.HiredSwordId)
+                .HasConstraintName("FK__HiredSwor__Hired__0B5CAFEA");
+
+            entity.HasOne(d => d.SkillType).WithMany(p => p.HiredSwordSkillTypes)
+                .HasForeignKey(d => d.SkillTypeId)
+                .HasConstraintName("FK__HiredSwor__Skill__0C50D423");
         });
 
         modelBuilder.Entity<HiredSwordSpecialRule>(entity =>

@@ -18,7 +18,9 @@ builder.Services.AddDbContext<HexedSceneryData.Data.HexedSceneryContext>(options
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddTransient<IRandomHappeningsService, RandomHappeningsService>();
-
+builder.Services.AddTransient<IHiredSwordService, HiredSwordService>();
+builder.Services.AddTransient<IWarbandService, WarbandService>();
+builder.Services.AddTransient<IGradeService, GradeService>();
 
 var app = builder.Build();
 
