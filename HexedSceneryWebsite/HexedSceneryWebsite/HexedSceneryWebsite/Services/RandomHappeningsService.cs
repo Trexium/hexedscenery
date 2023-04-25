@@ -8,8 +8,8 @@ namespace HexedSceneryWebsite.Services
 {
     public interface IRandomHappeningsService
     {
-        Common.Encounter GetEncounter(int resultNumber);
-        Common.Encounter GetRandomEncounter();
+        Task<Common.Encounter> GetEncounter(int resultNumber);
+        Task<Common.Encounter> GetRandomEncounter();
     }
 
     public class RandomHappeningsService : IRandomHappeningsService
@@ -22,7 +22,7 @@ namespace HexedSceneryWebsite.Services
             _mapper = mapper;
         }
 
-        public Common.Encounter GetEncounter(int resultNumber)
+        public async Task<Common.Encounter> GetEncounter(int resultNumber)
         {
             var encounter = _context.Encounters
                 .Include(m => m.Monster)
@@ -38,23 +38,23 @@ namespace HexedSceneryWebsite.Services
                     .ThenInclude(m => m.DiceResults)
                 .Include(m => m.Monster)
                     .ThenInclude(m => m.Profile)
-                .FirstOrDefault(e => e.ResultNumber == resultNumber);
+                .FirstOrDefaultAsync(e => e.ResultNumber == resultNumber);
             if (encounter != null)
             {
-                return _mapper.Map<Common.Encounter>(encounter);
+                return _mapper.Map<Common.Encounter>(await encounter);
             }
 
             return null;
         }
 
-        public Encounter GetRandomEncounter()
+        public async Task<Encounter> GetRandomEncounter()
         {
             var randomGenerator = new Random();
             var firstNumber = randomGenerator.Next(1, 6);
             var secondNumber = randomGenerator.Next(1, 6);
             var encounterNumber = (firstNumber * 10) + secondNumber;
 
-            return GetEncounter(encounterNumber);
+            return await GetEncounter(encounterNumber);
         }
     }
 }
