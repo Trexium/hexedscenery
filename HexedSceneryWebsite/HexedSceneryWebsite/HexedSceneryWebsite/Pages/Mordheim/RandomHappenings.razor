@@ -32,18 +32,10 @@
         <br />
         Or
         <br />
-        <span @onclick="@GenerateResultSubmit" class="btn">
-            <svg width="277" height="62">
-                <defs>
-                    <linearGradient id="grad1">
-                        <stop offset="0%" stop-color="#fffef0" />
-                        <stop offset="100%" stop-color="#666666" />
-                    </linearGradient>
-                </defs>
-                <rect x="5" y="5" rx="25" fill="none" stroke="url(#grad1)" width="266" height="50"></rect>
-            </svg>
-            <span>Randomize</span>
-        </span>
+        <div @onclick="@GenerateResultSubmit" class="randomize-btn">
+            <span>Shuffle</span>
+            <img src="images/dice.svg"
+        </div>
     </div>
 
     @if (encounter != null)

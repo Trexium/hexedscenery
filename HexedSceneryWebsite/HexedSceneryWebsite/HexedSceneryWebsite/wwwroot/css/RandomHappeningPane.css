@@ -1,3 +1,28 @@
 ﻿div.random-happening-pane {
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+div.random-happening-pane div.randomize-btn {
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 20px;
+  padding: 0.55em;
+  padding-left: 1.75em;
+  padding-right: 1.75em;
+  outline: none;
+  border-radius: 55px 15px 225px 15px/15px 125px 15px 55px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #969696;
+}
+div.random-happening-pane div.randomize-btn:hover {
+  cursor: pointer;
+}
+div.random-happening-pane div.randomize-btn img {
+  margin-left: 0.5em;
+  width: 1.8em;
+  height: 1.8em;
 }
