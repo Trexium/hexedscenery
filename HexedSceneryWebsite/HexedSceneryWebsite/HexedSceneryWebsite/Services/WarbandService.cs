@@ -4,7 +4,7 @@ namespace HexedSceneryWebsite.Services
 {
     public interface IWarbandService
     {
-        List<Tuple<int, string>> GetWarbandValueStore();
+        Task<List<Tuple<int, string>>> GetWarbandValueStore();
     }
 
     public class WarbandService : IWarbandService
@@ -16,7 +16,7 @@ namespace HexedSceneryWebsite.Services
             _context = context;
         }
 
-        public List<Tuple<int, string>> GetWarbandValueStore()
+        public async Task<List<Tuple<int, string>>> GetWarbandValueStore()
         {
             var warbands = _context.Warbands.Select(w => new Tuple<int, string>(w.Id, w.Name)).ToList();
             return warbands;

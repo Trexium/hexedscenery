@@ -9,5 +9,9 @@ public partial class Warband
 
     public string Name { get; set; } = null!;
 
+    public int? RaceId { get; set; }
+
     public virtual ICollection<HiredSwordCompatibleWarband> HiredSwordCompatibleWarbands { get; } = new List<HiredSwordCompatibleWarband>();
+
+    public virtual Race? Race { get; set; }
 }

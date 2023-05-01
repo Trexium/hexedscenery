@@ -37,6 +37,10 @@ div.hired-swords-page table.hired-swords-table tbody tr {
 div.hired-swords-page table.hired-swords-table tbody tr td {
   padding-right: 15px;
 }
+div.hired-swords-page table.hired-swords-table tbody tr td.name:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
 div.hired-swords-page div.no-result {
   padding: 50px;
   width: 100%;

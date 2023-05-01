@@ -2,11 +2,13 @@
 @using HexedSceneryCommon.Mordheim;
 @using HexedSceneryWebsite.Components;
 @using HexedSceneryWebsite.Enums;
+@using Microsoft.AspNetCore.Http.Extensions;
 @inject Services.IHiredSwordService _hiredSwordService;
 @inject Services.IWarbandService _warbandService;
 @inject Services.IGradeService _gradeService;
+@inject NavigationManager _navigationManager;
 
-<PageTitle>Hexed Scenery - Hired Swords</PageTitle>
+<PageTitle>Hired Swords</PageTitle>
 
 <div class="background-paper">
     <svg>
@@ -17,21 +19,27 @@
     </svg>
 </div>
 <div class="mordheim-page">
-
-    @*<h2>A group of hired swords are traveling apace to help thou  'i  thy dire needs. But alas hath yet to arrive. </h2>
-    <p>- Town crier</p>
-    *@
     <h2>Hired Swords</h2>
     <div class="hired-swords-page">
+
 
         <div class="hired-sword-table-filter form-1-box wow fadeInUp">
             <fieldset class="filter">
                 <legend>Filter</legend>
-                <div class="flex-container">
-                    <DropDownComponent DefaultText="All warbands" Label="Warband: " ValueStore="warbandValueStore" ValueChanged="FilterByWarband" />
-                    <DropDownComponent DefaultText="Choose grade" Label="Min Grade: " ValueStore="gradeValueStore" ValueChanged="FilterByMinGrade" />
-                    <DropDownComponent DefaultText="Choose grade" Label="Max Grade: " ValueStore="gradeValueStore" ValueChanged="FilterByMaxGrade" />
-                </div>
+                @if (warbandValueStore == null || gradeValueStore == null)
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status" />
+                    </div>
+                }
+                else
+                {
+                    <div class="flex-container">
+                        <DropDownComponent DefaultText="All warbands" Label="Warband: " ValueStore="warbandValueStore" ValueChanged="FilterByWarband" />
+                        <DropDownComponent DefaultText="Choose grade" Label="Min Grade: " ValueStore="gradeValueStore" ValueChanged="FilterByMinGrade" />
+                        <DropDownComponent DefaultText="Choose grade" Label="Max Grade: " ValueStore="gradeValueStore" ValueChanged="FilterByMaxGrade" />
+                    </div>
+                }
             </fieldset>
         </div>
 
@@ -96,31 +104,39 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var hiredSword in currentHiredSwords)
+                @if (currentHiredSwords == null)
                 {
-                    <tr>
-                        <td>@hiredSword.Name</td>
-                        <td>@hiredSword.HireFee gc</td>
-                        <td>@hiredSword.UpkeepCost gc</td>
-                        <td>@hiredSword.Grade.Name</td>
-                        <td data-toggle="tooltip" data-placement="top" title="@hiredSword.Source.Name">
-                            @if (!string.IsNullOrEmpty(hiredSword.Source.PdfUrl))
-                            {
+                    <span>Loading...</span>
+                }
+                else
+                {
+                    @foreach (var hiredSword in currentHiredSwords)
+                    {
+                        <tr>
+                            @*<td class="name" @onclick=@(() => _navigationManager.NavigateTo($"/mordheim/hiredswords/{hiredSword.Id}"))>@hiredSword.Name</td>*@
+                            <td>@hiredSword.Name</td>
+                            <td>@hiredSword.HireFee gc</td>
+                            <td>@hiredSword.UpkeepCost gc</td>
+                            <td>@hiredSword.Grade.Name</td>
+                            <td data-toggle="tooltip" data-placement="top" title="@hiredSword.Source.Name">
+                                @if (!string.IsNullOrEmpty(hiredSword.Source.PdfUrl))
+                                {
 
-                                <a target="_blank" href="@hiredSword.Source.PdfUrl">@hiredSword.Source.Key</a>
+                                    <a target="_blank" href="@hiredSword.Source.PdfUrl">@hiredSword.Source.Key</a>
 
-                            }
-                            else
-                            {
-                                @hiredSword.Source.Key
-                            }
-                        </td>
+                                }
+                                else
+                                {
+                                    @hiredSword.Source.Key
+                                }
+                            </td>
 
-                    </tr>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
-        @if (!currentHiredSwords.Any())
+        @if (currentHiredSwords != null && !currentHiredSwords.Any())
         {
             <div class="no-result">No result...</div>
         }
@@ -270,21 +286,25 @@
     {
         if (allHiredSwords == null)
         {
-            allHiredSwords = _hiredSwordService.GetAll();
+            allHiredSwords = await _hiredSwordService.GetAll();
             currentHiredSwords = allHiredSwords;
             currentWarbandFilteringId = 0;
             currentMinGradeFilteringId = 0;
             currentMaxGradeFilteringId = 0;
+            StateHasChanged();
         }
 
         if (warbandValueStore == null)
         {
-            warbandValueStore = _warbandService.GetWarbandValueStore();
+            warbandValueStore = await _warbandService.GetWarbandValueStore();
+            StateHasChanged();
         }
 
         if (gradeValueStore == null)
         {
-            gradeValueStore = _gradeService.GetAll().Select(g => new Tuple<int, string>(g.Id, g.Name)).ToList();
+            gradeValueStore = (await _gradeService.GetAll()).Select(g => new Tuple<int, string>(g.Id, g.Name)).ToList();
+            StateHasChanged();
         }
+
     }
 }

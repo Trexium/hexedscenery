@@ -52,6 +52,11 @@ div.hired-swords-page {
 
                 td {
                     padding-right: 15px;
+
+                    &.name:hover {
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
                 }
             }
         }
