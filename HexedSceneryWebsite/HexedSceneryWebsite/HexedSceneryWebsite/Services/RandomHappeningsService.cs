@@ -8,8 +8,8 @@ namespace HexedSceneryWebsite.Services
 {
     public interface IRandomHappeningsService
     {
-        Task<Common.Encounter> GetEncounter(int resultNumber);
-        Task<Common.Encounter> GetRandomEncounter();
+        Task<Common.Encounter> GetEncounter(int resultNumber, int encounterType);
+        Task<Common.Encounter> GetRandomEncounter(int encounterType);
     }
 
     public class RandomHappeningsService : IRandomHappeningsService
@@ -22,7 +22,7 @@ namespace HexedSceneryWebsite.Services
             _mapper = mapper;
         }
 
-        public async Task<Common.Encounter> GetEncounter(int resultNumber)
+        public async Task<Common.Encounter> GetEncounter(int resultNumber, int encounterType)
         {
             var encounter = _context.Encounters
                 .Include(m => m.Monster)
@@ -38,7 +38,7 @@ namespace HexedSceneryWebsite.Services
                     .ThenInclude(m => m.DiceResults)
                 .Include(m => m.Monster)
                     .ThenInclude(m => m.Profile)
-                .FirstOrDefaultAsync(e => e.ResultNumber == resultNumber);
+                .FirstOrDefaultAsync(e => e.ResultNumber == resultNumber && e.EncounterTypeId == encounterType);
             if (encounter != null)
             {
                 return _mapper.Map<Common.Encounter>(await encounter);
@@ -47,14 +47,26 @@ namespace HexedSceneryWebsite.Services
             return null;
         }
 
-        public async Task<Encounter> GetRandomEncounter()
+        public async Task<Encounter> GetRandomEncounter(int encounterType)
         {
             var randomGenerator = new Random();
-            var firstNumber = randomGenerator.Next(1, 6);
-            var secondNumber = randomGenerator.Next(1, 6);
-            var encounterNumber = (firstNumber * 10) + secondNumber;
+            int encounterNumber = 0;
 
-            return await GetEncounter(encounterNumber);
+            switch (encounterType)
+            {
+                case 1:
+                    var firstNumber = randomGenerator.Next(1, 6);
+                    var secondNumber = randomGenerator.Next(1, 6);
+                    encounterNumber = (firstNumber * 10) + secondNumber;
+                    break;
+                case 2:
+                    encounterNumber = randomGenerator.Next(1, 6) + randomGenerator.Next(1, 6) + randomGenerator.Next(1, 6);
+                    break;
+            }
+            
+            
+
+            return await GetEncounter(encounterNumber, encounterType);
         }
     }
 }

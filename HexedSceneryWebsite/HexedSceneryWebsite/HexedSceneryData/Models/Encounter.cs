@@ -19,7 +19,11 @@ public partial class Encounter
 
     public int? DiceChartId { get; set; }
 
+    public int EncounterTypeId { get; set; }
+
     public virtual DiceChart? DiceChart { get; set; }
+
+    public virtual EncounterType EncounterType { get; set; } = null!;
 
     public virtual Monster? Monster { get; set; }
 }

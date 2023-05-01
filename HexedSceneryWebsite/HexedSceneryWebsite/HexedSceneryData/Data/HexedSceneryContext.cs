@@ -22,6 +22,8 @@ public partial class HexedSceneryContext : DbContext
 
     public virtual DbSet<Encounter> Encounters { get; set; }
 
+    public virtual DbSet<EncounterType> EncounterTypes { get; set; }
+
     public virtual DbSet<Equipment> Equipment { get; set; }
 
     public virtual DbSet<Grade> Grades { get; set; }
@@ -49,6 +51,8 @@ public partial class HexedSceneryContext : DbContext
     public virtual DbSet<MonsterSpecialRule> MonsterSpecialRules { get; set; }
 
     public virtual DbSet<Profile> Profiles { get; set; }
+
+    public virtual DbSet<Race> Races { get; set; }
 
     public virtual DbSet<Skill> Skills { get; set; }
 
@@ -99,9 +103,23 @@ public partial class HexedSceneryContext : DbContext
                 .HasForeignKey(d => d.DiceChartId)
                 .HasConstraintName("FK__Encounter__DiceC__0880433F");
 
+            entity.HasOne(d => d.EncounterType).WithMany(p => p.Encounters)
+                .HasForeignKey(d => d.EncounterTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Encounter__Encou__1E6F845E");
+
             entity.HasOne(d => d.Monster).WithMany(p => p.Encounters)
                 .HasForeignKey(d => d.MonsterId)
                 .HasConstraintName("FK__Encounter__Monst__078C1F06");
+        });
+
+        modelBuilder.Entity<EncounterType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Encounte__3214EC07440F7589");
+
+            entity.ToTable("EncounterType");
+
+            entity.Property(e => e.Name).HasMaxLength(255);
         });
 
         modelBuilder.Entity<Equipment>(entity =>
@@ -321,6 +339,15 @@ public partial class HexedSceneryContext : DbContext
             entity.Property(e => e.Wounds).HasMaxLength(25);
         });
 
+        modelBuilder.Entity<Race>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Race__3214EC074146DC4A");
+
+            entity.ToTable("Race");
+
+            entity.Property(e => e.Name).HasMaxLength(25);
+        });
+
         modelBuilder.Entity<Skill>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Skill__3214EC078285D64C");
@@ -372,6 +399,10 @@ public partial class HexedSceneryContext : DbContext
             entity.ToTable("Warband");
 
             entity.Property(e => e.Name).HasMaxLength(255);
+
+            entity.HasOne(d => d.Race).WithMany(p => p.Warbands)
+                .HasForeignKey(d => d.RaceId)
+                .HasConstraintName("FK__Warband__RaceId__1B9317B3");
         });
 
         OnModelCreatingPartial(modelBuilder);

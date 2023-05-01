@@ -1,5 +1,5 @@
 ﻿@using Components
-@page "/mordheim/randomhappenings"
+@page "/mordheim/randomhappenings/{encounterType:int}"
 @using HexedSceneryCommon.Mordheim;
 @inject Services.IRandomHappeningsService _randomHappeningsService
 
@@ -15,9 +15,18 @@
 </div>
 <div class="mordheim-page">
     <div class="random-happening-pane">
-        <h2>Random Happenings</h2>
+        
+        @if (EncounterType == 1)
+        {
+            <h2>Random Happenings</h2>
+            <label for="resultNumber">Roll a D66 and enter the result:</label>
+        }
+        else if (EncounterType == 2)
+        {
+            <h2>Subplots</h2>
+            <label for="resultNumber">Roll 3D6 and enter the result:</label>
+        }
 
-        <label for="resultNumber">Roll a D66 and enter the result:</label>
         <br />
         <input id="resultNumber" @oninput="FindEncounter" />
         <br />
@@ -119,6 +128,9 @@
 </div>
 
 @code {
+    [Parameter]
+    public int EncounterType { get; set; }
+
     string resultNumberString = string.Empty;
 
     Encounter encounter;
@@ -132,7 +144,7 @@
         {
             if (int.TryParse(resultNumberString, out int resultNumber))
             {
-                encounter = await _randomHappeningsService.GetEncounter(resultNumber);
+                encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType);
             }
             else
             {
@@ -147,7 +159,7 @@
         {
             if (int.TryParse(args.Value.ToString(), out int resultNumber))
             {
-                encounter = await _randomHappeningsService.GetEncounter(resultNumber);
+                encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType);
             }
             else
             {
@@ -158,7 +170,7 @@
 
     private async void GenerateResultSubmit()
     {
-        encounter = await _randomHappeningsService.GetRandomEncounter();
+        encounter = await _randomHappeningsService.GetRandomEncounter(EncounterType);
         StateHasChanged();
     }
 

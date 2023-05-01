@@ -113,7 +113,8 @@
                     @foreach (var hiredSword in currentHiredSwords)
                     {
                         <tr>
-                            <td class="name" @onclick=@(() => _navigationManager.NavigateTo($"/mordheim/hiredswords/{hiredSword.Id}"))>@hiredSword.Name</td>
+                            @*<td class="name" @onclick=@(() => _navigationManager.NavigateTo($"/mordheim/hiredswords/{hiredSword.Id}"))>@hiredSword.Name</td>*@
+                            <td>@hiredSword.Name</td>
                             <td>@hiredSword.HireFee gc</td>
                             <td>@hiredSword.UpkeepCost gc</td>
                             <td>@hiredSword.Grade.Name</td>
