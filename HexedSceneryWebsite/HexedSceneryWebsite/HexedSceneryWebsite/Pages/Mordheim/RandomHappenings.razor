@@ -155,11 +155,12 @@
 
     private async void FindEncounter(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
-        if (args.Value != null && !string.IsNullOrEmpty(args.Value.ToString()))
+       if (args.Value != null && !string.IsNullOrEmpty(args.Value.ToString()))
         {
             if (int.TryParse(args.Value.ToString(), out int resultNumber))
             {
                 encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType);
+                StateHasChanged();
             }
             else
             {

@@ -24,7 +24,7 @@ namespace HexedSceneryWebsite.Services
 
         public async Task<Common.Encounter> GetEncounter(int resultNumber, int encounterType)
         {
-            var encounter = _context.Encounters
+            var encounter = await _context.Encounters
                 .Include(m => m.Monster)
                     .ThenInclude(m => m.MonsterSpecialRules)
                         .ThenInclude(m => m.SpecialRule)
@@ -39,9 +39,9 @@ namespace HexedSceneryWebsite.Services
                 .Include(m => m.Monster)
                     .ThenInclude(m => m.Profile)
                 .FirstOrDefaultAsync(e => e.ResultNumber == resultNumber && e.EncounterTypeId == encounterType);
-            if (encounter != null)
+           if (encounter != null)
             {
-                return _mapper.Map<Common.Encounter>(await encounter);
+                return _mapper.Map<Common.Encounter>(encounter);
             }
 
             return null;
