@@ -54,17 +54,22 @@ namespace HexedSceneryWebsite.Services
 
             switch (encounterType)
             {
-                case 1:
-                    var firstNumber = randomGenerator.Next(1, 6);
-                    var secondNumber = randomGenerator.Next(1, 6);
-                    encounterNumber = (firstNumber * 10) + secondNumber;
+                case 1: // Random happening
+                    encounterNumber = (randomGenerator.Next(1, 6) * 10) + randomGenerator.Next(1, 6);
                     break;
-                case 2:
+                case 2: // Subplots
                     encounterNumber = randomGenerator.Next(1, 6) + randomGenerator.Next(1, 6) + randomGenerator.Next(1, 6);
                     break;
+                case 3: // Power of the stones
+                    encounterNumber = randomGenerator.Next(1, 6) + randomGenerator.Next(1, 6);
+                    break;
+                case 4: // Using stones
+                    encounterNumber = randomGenerator.Next(1, 6);
+                    break;
+                case 5: // Random mutations table
+                    encounterNumber = (randomGenerator.Next(1, 6) * 10) + randomGenerator.Next(1, 6);
+                    break;
             }
-            
-            
 
             return await GetEncounter(encounterNumber, encounterType);
         }
