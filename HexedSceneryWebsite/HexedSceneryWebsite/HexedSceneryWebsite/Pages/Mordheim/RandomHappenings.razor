@@ -1,7 +1,10 @@
 ﻿@using Components
 @page "/mordheim/randomhappenings/{encounterType:int}"
 @using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
 @inject Services.IRandomHappeningsService _randomHappeningsService
+@inject Services.IUserService _userService;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
 
 
 <PageTitle>@title</PageTitle>
@@ -29,11 +32,59 @@
             <img src="images/dice.svg"
         </div>
     </div>
+    <br />
+    <div class="encounter">
+        @if (prevEncounters != null)
+        {
+            <div class="previous-encounters container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-lg-5 col-9">
+                                <div class="row">
+                                    <div class="previous-encounters-title col-lg-2 col-3">
+                                        Result
+                                    </div>
+                                    <div class="previous-encounters-title col-lg-10 col-9">
+                                        @title
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @foreach (var prevEncounter in prevEncounters)
+                        {
+                            @if (prevEncounter != null)
+                            {
+                                <div class="previous-encounters-list">
+                                    <div class="row">
+                                        <div @onclick="() => GoToPreviousEncounter(prevEncounter)" class="previous-encounters-list-item col-lg-5 col-9">
+                                            <div class="row">
+                                                <div class="col-lg-2 col-3">
+                                                    @prevEncounter.ResultNumber
+                                                </div>
+                                                <div class="col-lg-10 col-9">
+                                                    @prevEncounter.Name
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="previous-encounters-list-item-trash col-lg-2 col-1">
+                                            <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+        }
 
-    @if (encounter != null)
-    {
-        <br />
-        <div class="encounter">
+
+        @if (encounter != null)
+        {
+
             <h3>@encounter.ResultNumber @encounter.Name</h3>
             <p>@((MarkupString)encounter.Description)</p>
 
@@ -106,14 +157,14 @@
             {
                 <p>@((MarkupString)encounter.BottomText)</p>
             }
-        </div>
-    }
-    @if (!string.IsNullOrEmpty(description))
-    {
-        <h2>Description</h2>
-        <p>@((MarkupString)description)</p>
-    }
 
+        }
+        @if (!string.IsNullOrEmpty(description))
+        {
+            <h2>Description</h2>
+            <p>@((MarkupString)description)</p>
+        }
+    </div>
 </div>
 
 @code {
@@ -122,7 +173,12 @@
 
     string resultNumberString = string.Empty;
 
+    UserInfo userInfo;
+    List<Encounter> prevEncounters;
+    string encounterStoreKey;
+
     Encounter encounter;
+
     string title;
     string diceRollText;
     string description;
@@ -130,19 +186,16 @@
     [CascadingParameter(Name = "ErrorComponent")]
     protected IErrorComponent ErrorComponent { get; set; }
 
-    private async void ManualResultSubmit()
+    private async void GoToPreviousEncounter(Encounter prevEncounter)
     {
-        if (!string.IsNullOrEmpty(resultNumberString))
-        {
-            if (int.TryParse(resultNumberString, out int resultNumber))
-            {
-                encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType);
-            }
-            else
-            {
-                ErrorComponent.ShowError("Invalid dice result.", $"{resultNumberString} is not a valid D66 result.");
-            }
-        }
+        encounter = prevEncounter;
+        StateHasChanged();
+    }
+
+    private async void DeletePreviousEncounter(int prevEncounterIndex)
+    {
+        prevEncounters.RemoveAt(prevEncounterIndex);
+        StateHasChanged();
     }
 
     private async void FindEncounter(Microsoft.AspNetCore.Components.ChangeEventArgs args)
@@ -152,6 +205,13 @@
             if (int.TryParse(args.Value.ToString(), out int resultNumber))
             {
                 encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType);
+
+                if (encounter != null)
+                {
+                    await _userStoredEncountersService.StoreEncounter(encounterStoreKey, encounter);
+                    prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+                }
+
                 StateHasChanged();
             }
             else
@@ -164,13 +224,28 @@
     private async void GenerateResultSubmit()
     {
         encounter = await _randomHappeningsService.GetRandomEncounter(EncounterType);
+
+        if (encounter != null)
+        {
+            await _userStoredEncountersService.StoreEncounter(encounterStoreKey, encounter);
+            prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+        }
+
         StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
     }
 
     protected override async Task OnParametersSetAsync()
     {
+        encounterStoreKey = $"{userInfo.IpAddress}_{EncounterType}";
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
         description = null;
         encounter = null;
+        
         switch (EncounterType)
         {
             case 1:

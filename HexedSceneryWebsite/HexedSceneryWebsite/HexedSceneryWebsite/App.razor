@@ -1,4 +1,5 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@using HexedSceneryCommon.User;
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -10,3 +11,14 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+@*@code {
+    [Parameter]
+    public UserInfo UserInfo { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var test = UserInfo;
+        var test2 = "";
+    }
+}*@
