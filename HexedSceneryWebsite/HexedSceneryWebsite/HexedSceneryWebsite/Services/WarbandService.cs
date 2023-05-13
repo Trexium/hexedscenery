@@ -19,7 +19,7 @@ namespace HexedSceneryWebsite.Services
         public async Task<List<Tuple<int, string>>> GetWarbandValueStore()
         {
             var warbands = _context.Warbands.Select(w => new Tuple<int, string>(w.Id, w.Name)).ToList();
-            return warbands;
+            return warbands.OrderBy(w => w.Item2).ToList();
         }
     }
 }
