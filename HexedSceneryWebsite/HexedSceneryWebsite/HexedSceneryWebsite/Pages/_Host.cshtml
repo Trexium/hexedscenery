@@ -1,5 +1,7 @@
 ﻿@page "/"
+@using HexedSceneryCommon.User;
 @using Microsoft.AspNetCore.Components.Web
+@using System.Net;
 @namespace HexedSceneryWebsite.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
@@ -23,7 +25,7 @@
     <link href="css/DropDown.css" rel="stylesheet" />
     <link href="HexedSceneryWebsite.styles.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="hexedscenerylogo.jpg" />
-    
+
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
@@ -44,3 +46,13 @@
     <script src="scripts/justselect.js"></script>
 </body>
 </html>
+
+@*@{
+    var ip = HttpContext.Connection?.RemoteIpAddress.ToString();
+    if (ip == "::1")
+    {
+        ip =
+        Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString();
+    }
+    var userInfo = new UserInfo { IpAddress = ip, UserAgent = HttpContext.Request.Headers["User-Agent"] };
+}*@
