@@ -1,18 +1,19 @@
-﻿div.navbar {
+﻿div.mordheim-navbar {
+  box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
+  background: #fffef0;
   font-family: Schoensperger;
 }
-div.navbar span.menu-title {
+div.mordheim-navbar a.navbar-brand {
   color: white;
   font-size: x-large;
   font-family: CaslonAntique;
 }
 
-div.nav-scrollable nav div.nav-item .nav-link {
-  font-family: Schoensperger;
-  font-size: larger;
-}
-
-div.mordheim {
+div.mordheim-nav-menu {
   box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
   background: #fffef0;
+}
+div.mordheim-nav-menu nav div.nav-item .nav-link {
+  font-family: Schoensperger;
+  font-size: larger;
 }

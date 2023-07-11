@@ -30,6 +30,7 @@ builder.Services.AddTransient<IWarbandService, WarbandService>();
 builder.Services.AddTransient<IGradeService, GradeService>();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IUserStoredEncountersService, UserStoredEncountersService>();
+builder.Services.AddSingleton<IImageService, ImageService>();
 
 var app = builder.Build();
 

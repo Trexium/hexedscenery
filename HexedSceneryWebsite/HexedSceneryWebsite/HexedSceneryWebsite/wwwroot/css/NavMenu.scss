@@ -1,0 +1,30 @@
+﻿
+
+
+
+
+div.main-navmenu {
+    box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
+    background: #fffef0 !important;
+    font-family: CaslonAntique;
+
+    div.main-navbar.navbar {
+        a.navbar-brand {
+            color: #AA4E41;
+            font-size: x-large;
+            font-family: CaslonAntique;
+        }
+    }
+
+    div.nav-scrollable {
+        nav {
+            div.nav-item {
+                .nav-link {
+                    font-family: CaslonAntique;
+                    font-size: larger;
+                    color: rgb(102, 102, 102);
+                }
+            }
+        }
+    }
+}

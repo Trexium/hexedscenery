@@ -42,5 +42,13 @@
   {
     "outputFile": "wwwroot/css/DropDown.css",
     "inputFile": "wwwroot/css/DropDown.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/ImageGallery.css",
+    "inputFile": "wwwroot/css/ImageGallery.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/NavMenu.css",
+    "inputFile": "wwwroot/css/NavMenu.scss"
   }
 ]
