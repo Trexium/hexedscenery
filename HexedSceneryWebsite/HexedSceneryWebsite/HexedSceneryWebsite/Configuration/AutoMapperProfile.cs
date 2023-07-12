@@ -1,7 +1,9 @@
 ﻿
 using AutoMapper;
+using HexedSceneryWebsite.Shared;
 using Common = HexedSceneryCommon.Mordheim;
 using DataModels = HexedSceneryData.Models;
+using Main = HexedSceneryCommon.Main;
 
 namespace HexedSceneryWebsite.Configuration
 {
@@ -9,12 +11,23 @@ namespace HexedSceneryWebsite.Configuration
     {
         public AutoMapperProfile()
         {
+
             MapCommon();
+            MapMain();
             MapEncounter();
             MapWarband();
             MapHiredSword();
         }
 
+        private void MapMain()
+        {
+            CreateMap<DataModels.Image, Main.Image>()
+                .ForMember(m => m.ImagePath, opt => opt.MapFrom(s => s.ImagePath))
+                .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name))
+                .ForMember(m => m.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(m => m.Priority, opt => opt.MapFrom(s => s.Priority))
+                .ForMember(m => m.Description, opt => opt.MapFrom(s => s.Description));
+        }
         private void MapCommon()
         {
             CreateMap<DataModels.DiceResult, Common.DiceResult>()
@@ -137,5 +150,7 @@ namespace HexedSceneryWebsite.Configuration
                     opt.MapFrom(s => s.HiredSwordSkills.Select(m => m.Skill));
                 });
         }
+
+        
     }
 }

@@ -42,6 +42,12 @@ public partial class HexedSceneryContext : DbContext
 
     public virtual DbSet<HiredSwordSpecialRule> HiredSwordSpecialRules { get; set; }
 
+    public virtual DbSet<Image> Images { get; set; }
+
+    public virtual DbSet<ImageCategory> ImageCategories { get; set; }
+
+    public virtual DbSet<ImageImageCategory> ImageImageCategories { get; set; }
+
     public virtual DbSet<Monster> Monsters { get; set; }
 
     public virtual DbSet<MonsterAdditionalProfile> MonsterAdditionalProfiles { get; set; }
@@ -63,6 +69,7 @@ public partial class HexedSceneryContext : DbContext
     public virtual DbSet<SpecialRule> SpecialRules { get; set; }
 
     public virtual DbSet<Warband> Warbands { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -255,6 +262,42 @@ public partial class HexedSceneryContext : DbContext
             entity.HasOne(d => d.SpecialRule).WithMany(p => p.HiredSwordSpecialRules)
                 .HasForeignKey(d => d.SpecialRuleId)
                 .HasConstraintName("FK__HiredSwor__Speci__6DCC4D03");
+        });
+
+        modelBuilder.Entity<Image>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Image__3214EC0780E8B11D");
+
+            entity.ToTable("Image");
+
+            entity.Property(e => e.ImagePath).HasMaxLength(500);
+            entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<ImageCategory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ImageCat__3214EC07C70FDE34");
+
+            entity.ToTable("ImageCategory");
+
+            entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<ImageImageCategory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ImageIma__3214EC0700554996");
+
+            entity.ToTable("ImageImageCategory");
+
+            entity.HasOne(d => d.ImageCategoryNavigation).WithMany(p => p.ImageImageCategories)
+                .HasForeignKey(d => d.ImageCategory)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ImageImag__Image__336AA144");
+
+            entity.HasOne(d => d.Image).WithMany(p => p.ImageImageCategories)
+                .HasForeignKey(d => d.ImageId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ImageImag__Image__32767D0B");
         });
 
         modelBuilder.Entity<Monster>(entity =>

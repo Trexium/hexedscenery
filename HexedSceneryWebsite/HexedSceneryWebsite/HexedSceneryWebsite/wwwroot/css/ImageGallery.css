@@ -2,6 +2,7 @@
   padding-left: 20px;
   padding-top: 20px;
   padding-right: 30px;
+  background-color: white;
 }
 div.image-gallery div, div.image-gallery img {
   margin: 0;
@@ -37,6 +38,7 @@ div.image-gallery .container .item .overlay {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px;
 }
 div.image-gallery .container .item:hover .overlay {
   transform: scale(1);
@@ -48,34 +50,73 @@ div.image-gallery .container .item img {
   vertical-align: middle;
   border-radius: 5px;
 }
-div.image-gallery .container .modal-background {
-  position: fixed;
+div.image-gallery .container .modal-overlay {
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 5;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding-top: 2%;
+  --gutter: 14px;
+  --modal-color: #fffef0;
+  --soft-color: #fafafa;
 }
-div.image-gallery .container .image-modal {
-  z-index: 10;
+div.image-gallery .container .modal-overlay .image-modal {
+  z-index: 2001;
+  width: 95vw;
+  max-width: 600px;
+  height: auto;
+  position: relative;
+  overflow: hidden;
   border-radius: 10px;
-  background-color: white;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 3px 5px black, 0 0 25px #8a4d0f inset;
+  background-color: var(--modal-color);
 }
-div.image-gallery .container .image-modal .modal-header {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
+div.image-gallery .container .modal-overlay .image-modal .modal-header {
+  min-height: 60px;
+  height: 60px;
+  display: grid;
+  padding-left: var(--gutter);
+  align-items: center;
+  grid-template-columns: auto 60px;
+  font-family: CaslonAntique;
+  color: #AA4E41;
+  font-weight: bold;
 }
-div.image-gallery .container .image-modal .modal-header .close-button {
-  float: right;
+div.image-gallery .container .modal-overlay .image-modal .modal-header h5 {
+  margin: 0;
+  text-align: left;
 }
-div.image-gallery .container .image-modal .modal-content img {
+div.image-gallery .container .modal-overlay .image-modal .modal-header .close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-size: 20px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+div.image-gallery .container .modal-overlay .image-modal .modal-header .close-button:hover {
+  opacity: 1;
+}
+div.image-gallery .container .modal-overlay .image-modal .modal-content {
+  flex: 1;
+  text-align: left;
+  overflow: auto;
+  padding: var(--gutter);
+  background: rgba(0, 0, 0, 0);
+}
+div.image-gallery .container .modal-overlay .image-modal .modal-content img {
   width: 100%;
   vertical-align: middle;
 }
-div.image-gallery .container .image-modal .modal-content .modal-description {
+div.image-gallery .container .modal-overlay .image-modal .modal-content .modal-description {
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 3px;

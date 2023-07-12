@@ -1,28 +1,32 @@
 ﻿@using HexedSceneryCommon.Main;
 
+@if (showModal)
+{
+    <div class="modal-overlay">
+        <div class="image-modal">
+            <div class="modal-header">
+                <h5>@ImageDetails.Name</h5>
+                <div class="close-button" @onclick="ModalClose">
+                    <span class="oi oi-x" aria-hidden="true"></span>
+                </div>
+            </div>
+            <img src="@ImageDetails.ImagePath" alt="@ImageDetails.Name" />
+            <div class="modal-content">
+                
+                <p class="modal-description">@((MarkupString)ImageDetails.Description)</p>
+            </div>
+        </div>
+    </div>
+
+
+}
+
 <div class="item" @onclick="@ModalShow">
     <img class="" src="@ImageDetails.ImagePath" alt="@ImageDetails.Name" />
     <div class="overlay">
         <span><b>@ImageDetails.Name</b> <br />@((MarkupString)ImageDetails.Description)</span>
     </div>
 </div>
-@if (showModal)
-{
-    <div class="modal-background"></div>
-    <div class="image-modal">
-        <div class="modal-header">
-            <h5>@ImageDetails.Name</h5>
-            <div class="close-button" @onclick="ModalClose">
-                <span class="oi oi-x" aria-hidden="true"></span>
-            </div>
-        </div>
-        <div class="modal-content">
-            <img src="@ImageDetails.ImagePath" alt="@ImageDetails.Name" />
-            <p class="modal-description">@((MarkupString)ImageDetails.Description)</p>
-        </div>
-    </div>
-
-}
 
 
 
