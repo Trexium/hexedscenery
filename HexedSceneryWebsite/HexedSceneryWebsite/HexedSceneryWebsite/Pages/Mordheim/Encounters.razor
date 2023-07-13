@@ -1,5 +1,5 @@
 ﻿@using Components
-@page "/mordheim/randomhappenings/{encounterType:int}"
+@page "/mordheim/encounters/{encounterType:int?}"
 @using HexedSceneryCommon.Mordheim;
 @using HexedSceneryCommon.User;
 @inject Services.IEncounterService _randomHappeningsService
@@ -19,8 +19,16 @@
     </svg>
 </div>
 <div class="mordheim-page">
-    <div class="random-happening-pane">
-        <h2>@title</h2>
+    <div class="encounters-pane">
+        @*<h2>@title</h2>*@
+        <div class="encounter-type-selection">
+            <div class="@(EncounterType == 1 ? "selected" : "")" @onclick="() => EncounterType = 1">
+                Random happenings
+            </div>
+            <div class="@(EncounterType == 2 ? "selected" : "")" @onclick="() => EncounterType = 2">
+                Subplots
+            </div>
+        </div>
         <label for="resultNumber">@diceRollText</label>
         <br />
         <input id="resultNumber" @oninput="FindEncounter" />
@@ -169,7 +177,7 @@
 
 @code {
     [Parameter]
-    public int EncounterType { get; set; }
+    public int? EncounterType { get; set; }
 
     string resultNumberString = string.Empty;
 
@@ -200,11 +208,15 @@
 
     private async void FindEncounter(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
+        if (!EncounterType.HasValue)
+        {
+            ErrorComponent.ShowError("Encounter type missing.", "You most choose an encounter type.");
+        }
         if (args.Value != null && !string.IsNullOrEmpty(args.Value.ToString()))
         {
             if (int.TryParse(args.Value.ToString(), out int resultNumber))
             {
-                encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType);
+                encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType.Value);
 
                 if (encounter != null)
                 {
@@ -223,7 +235,11 @@
 
     private async void GenerateResultSubmit()
     {
-        encounter = await _randomHappeningsService.GetRandomEncounter(EncounterType);
+        if (!EncounterType.HasValue)
+        {
+            ErrorComponent.ShowError("Encounter type missing.", "You most choose an encounter type.");
+        }
+        encounter = await _randomHappeningsService.GetRandomEncounter(EncounterType.Value);
 
         if (encounter != null)
         {
@@ -241,25 +257,27 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        encounterStoreKey = $"{userInfo.IpAddress}_{EncounterType}";
+        encounterStoreKey = $"{userInfo.IpAddress}";
         prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
         description = null;
         encounter = null;
-        
-        switch (EncounterType)
+
+        if (EncounterType.HasValue)
         {
-            case 1:
-                title = "Random Happenings";
-                diceRollText = "Roll a D66 and enter the result:";
-                break;
-            case 2:
-                title = "Subplots";
-                diceRollText = "Roll 3D6 and enter the result:";
-                break;
-            case 3:
-                title = "Power of the Stones";
-                diceRollText = "Roll 2D6 and enter the result:";
-                description = @"The value of the wyrdstone shards is not
+            switch (EncounterType)
+            {
+                case 1:
+                    title = "Random Happenings";
+                    diceRollText = "Roll a D66 and enter the result:";
+                    break;
+                case 2:
+                    title = "Subplots";
+                    diceRollText = "Roll 3D6 and enter the result:";
+                    break;
+                case 3:
+                    title = "Power of the Stones";
+                    diceRollText = "Roll 2D6 and enter the result:";
+                    description = @"The value of the wyrdstone shards is not
                                 simply the coin that nobles and
                                 merchants are willing to pay for them. It is a
                                 well-known fact that the stones are rich in
@@ -338,11 +356,11 @@
                                 services for free; for each stone evaluated, the
                                 warband must pay 20 gold crowns. When the
                                 stone is evaluated, roll 2D6 on the chart.";
-                break;
-            case 4:
-                title = "Using Stones";
-                diceRollText = "Roll a D6 and enter the result:";
-                description = @"Stones may only be used by heroes, just like
+                    break;
+                case 4:
+                    title = "Using Stones";
+                    diceRollText = "Roll a D6 and enter the result:";
+                    description = @"Stones may only be used by heroes, just like
                                 other equipment. No hero may ever carry
                                 more than one stone at a time (the combined
                                 Chaotic magic would instantly turn them into
@@ -359,11 +377,11 @@
                                 or 12. Roll a D6 on the following chart over
                                 the page to see what has happened to affected
                                 models.";
-                break;
-            case 5:
-                title = "Random Mutations Table";
-                diceRollText = "Roll a D66 and enter the result:";
-                description = @"Mordheim is a city under the sway of Chaos,
+                    break;
+                case 5:
+                    title = "Random Mutations Table";
+                    diceRollText = "Roll a D66 and enter the result:";
+                    description = @"Mordheim is a city under the sway of Chaos,
                                 and with Chaos comes mutation and change.
                                 There are numerous ways by which a warrior
                                 can be afflicted with mutation, and there are
@@ -402,8 +420,9 @@
                                 with * is immediately drummed out of the
                                 warband by his suspicious peers. Remove the
                                 hero from the roster, his equipment is lost.";
-                break;
+                    break;
 
+            }
         }
     }
 }

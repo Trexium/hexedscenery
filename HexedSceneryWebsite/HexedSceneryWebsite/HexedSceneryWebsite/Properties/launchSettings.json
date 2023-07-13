@@ -22,7 +22,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:37395/mordheim",
+      "launchUrl": "http://localhost:37395/mordheim/encounters",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
