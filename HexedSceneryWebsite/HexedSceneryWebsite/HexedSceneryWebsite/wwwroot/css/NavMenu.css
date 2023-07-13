@@ -13,3 +13,15 @@ div.main-navmenu div.nav-scrollable nav div.nav-item .nav-link {
   font-size: larger;
   color: rgb(102, 102, 102);
 }
+div.main-navmenu div.nav-scrollable nav div.nav-item .nav-link img {
+  padding-right: 10px;
+}
+div.main-navmenu div.nav-scrollable nav div.nav-item a {
+  text-decoration: none;
+  color: rgb(102, 102, 102);
+  font-family: CaslonAntique;
+  font-size: larger;
+}
+div.main-navmenu div.nav-scrollable nav div.nav-item a img.instagram-icon {
+  width: 32px;
+}
