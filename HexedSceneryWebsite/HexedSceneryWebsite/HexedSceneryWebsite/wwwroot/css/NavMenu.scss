@@ -23,6 +23,21 @@ div.main-navmenu {
                     font-family: CaslonAntique;
                     font-size: larger;
                     color: rgb(102, 102, 102);
+
+                    img {
+                        padding-right: 10px;
+                    }
+                }
+
+                a {
+                    text-decoration: none;
+                    color: rgb(102, 102, 102);
+                    font-family: CaslonAntique;
+                    font-size: larger;
+
+                    img.instagram-icon {
+                        width: 32px;
+                    }
                 }
             }
         }
