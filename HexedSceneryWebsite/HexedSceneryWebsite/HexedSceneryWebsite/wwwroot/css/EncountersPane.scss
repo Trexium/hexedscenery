@@ -10,12 +10,10 @@
         justify-content: center;
         flex-direction: row;
         gap: 15px;
-        padding-bottom: 20px; 
+        padding-bottom: 20px;
         padding-top: 20px;
 
         div {
-            /*padding-top: 10px;
-            padding-bottom: 10px;*/
             padding: 5px;
             border-radius: 55px 15px 225px 15px/15px 125px 15px 55px;
             border-width: 2px;
@@ -32,6 +30,8 @@
             }
         }
     }
+
+
 
     div.randomize-btn {
         margin-left: 2px;
@@ -50,6 +50,11 @@
             cursor: pointer;
         }
 
+        &.disabled {
+            &:hover {
+                cursor: not-allowed;
+            }
+        }
 
         img {
             margin-left: 0.5em;

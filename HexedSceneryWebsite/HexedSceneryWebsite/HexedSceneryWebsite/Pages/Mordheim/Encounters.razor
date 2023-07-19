@@ -20,7 +20,6 @@
 </div>
 <div class="mordheim-page">
     <div class="encounters-pane">
-        @*<h2>@title</h2>*@
         <div class="encounter-type-selection">
             <div class="@(EncounterType == 1 ? "selected" : "")" @onclick="() => EncounterType = 1">
                 Random happenings
@@ -29,16 +28,29 @@
                 Subplots
             </div>
         </div>
-        <label for="resultNumber">@diceRollText</label>
+        @*<label for="resultNumber">@diceRollText</label>
         <br />
-        <input id="resultNumber" @oninput="FindEncounter" />
+        <input id="resultNumber" @oninput="FindEncounter" disabled="@(!EncounterType.HasValue)" />
         <br />
         Or
         <br />
-        <div @onclick="@GenerateResultSubmit" class="randomize-btn">
+        <div @onclick="@GenerateResultSubmit" class="randomize-btn @(EncounterType.HasValue ? "" : "disabled")">
             <span>Shuffle</span>
             <img src="images/dice.svg"
-        </div>
+        </div>*@
+        @if(EncounterType == 1)
+        {
+            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="1" LabelText="Roll a D66 and enter the result:" CacheKey="@encounterStoreKey" />
+        }
+        else if (EncounterType == 2)
+        {
+            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="2" LabelText="Roll 3D6 and enter the result:" CacheKey="@encounterStoreKey" />
+        }
+        else
+        {
+            <HexedSceneryWebsite.Components.EncounterSelector LabelText="Choose a type of encounter" CacheKey="@encounterStoreKey" />
+        }
+
     </div>
     <br />
     <div class="encounter">
@@ -235,11 +247,15 @@
 
     private async void GenerateResultSubmit()
     {
-        if (!EncounterType.HasValue)
+        if (EncounterType.HasValue)
         {
-            ErrorComponent.ShowError("Encounter type missing.", "You most choose an encounter type.");
+            encounter = await _randomHappeningsService.GetRandomEncounter(EncounterType.Value);
         }
-        encounter = await _randomHappeningsService.GetRandomEncounter(EncounterType.Value);
+        //else
+        //{
+        //    ErrorComponent.ShowError("Encounter type missing.", "You must choose an encounter type.");
+        //}
+        
 
         if (encounter != null)
         {

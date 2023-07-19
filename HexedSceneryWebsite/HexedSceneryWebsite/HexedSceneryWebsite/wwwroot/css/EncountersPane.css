@@ -14,8 +14,6 @@ div.encounters-pane div.encounter-type-selection {
   padding-top: 20px;
 }
 div.encounters-pane div.encounter-type-selection div {
-  /*padding-top: 10px;
-  padding-bottom: 10px;*/
   padding: 5px;
   border-radius: 55px 15px 225px 15px/15px 125px 15px 55px;
   border-width: 2px;
@@ -44,6 +42,9 @@ div.encounters-pane div.randomize-btn {
 }
 div.encounters-pane div.randomize-btn:hover {
   cursor: pointer;
+}
+div.encounters-pane div.randomize-btn.disabled:hover {
+  cursor: not-allowed;
 }
 div.encounters-pane div.randomize-btn img {
   margin-left: 0.5em;
