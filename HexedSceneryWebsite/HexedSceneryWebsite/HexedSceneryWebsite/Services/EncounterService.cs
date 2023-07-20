@@ -6,17 +6,17 @@ using Common = HexedSceneryCommon.Mordheim;
 
 namespace HexedSceneryWebsite.Services
 {
-    public interface IRandomHappeningsService
+    public interface IEncounterService
     {
         Task<Common.Encounter> GetEncounter(int resultNumber, int encounterType);
         Task<Common.Encounter> GetRandomEncounter(int encounterType);
     }
 
-    public class RandomHappeningsService : IRandomHappeningsService
+    public class EncounterService : IEncounterService
     {
         private readonly HexedSceneryContext _context;
         private readonly IMapper _mapper;
-        public RandomHappeningsService(HexedSceneryContext context, IMapper mapper)
+        public EncounterService(HexedSceneryContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

@@ -1,0 +1,67 @@
+﻿div.encounters-pane {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    div.encounter-type-selection {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        gap: 15px;
+        padding-bottom: 20px;
+        padding-top: 20px;
+        font-family: 'Schoensperger';
+        font-size: x-large;
+
+        div {
+            padding: 5px;
+            border-radius: 55px 15px 225px 15px/15px 125px 15px 55px;
+            border-width: 2px;
+            border-style: solid;
+            border-color: transparent;
+
+            &.selection-item:hover {
+                cursor: pointer;
+                border-color: #969696;
+            }
+
+            &.selection-item.selected {
+                border-color: #969696;
+            }
+        }
+    }
+
+
+
+    div.randomize-btn {
+        margin-left: 2px;
+        margin-right: 2px;
+        margin-bottom: 20px;
+        padding: 0.55em;
+        padding-left: 1.75em;
+        padding-right: 1.75em;
+        outline: none;
+        border-radius: 55px 15px 225px 15px/15px 125px 15px 55px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #969696;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &.disabled {
+            &:hover {
+                cursor: not-allowed;
+            }
+        }
+
+        img {
+            margin-left: 0.5em;
+            width: 1.8em;
+            height: 1.8em;
+        }
+    }
+}

@@ -50,5 +50,9 @@
   {
     "outputFile": "wwwroot/css/NavMenu.css",
     "inputFile": "wwwroot/css/NavMenu.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/EncountersPane.css",
+    "inputFile": "wwwroot/css/EncountersPane.scss"
   }
 ]

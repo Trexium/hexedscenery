@@ -24,7 +24,7 @@ builder.Services.AddDbContext<HexedSceneryData.Data.HexedSceneryContext>(options
         options.UseSqlServer(builder.Configuration.GetConnectionString("HexedScenery")));
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddTransient<IRandomHappeningsService, RandomHappeningsService>();
+builder.Services.AddTransient<IEncounterService, EncounterService>();
 builder.Services.AddTransient<IHiredSwordService, HiredSwordService>();
 builder.Services.AddTransient<IWarbandService, WarbandService>();
 builder.Services.AddTransient<IGradeService, GradeService>();
