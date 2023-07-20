@@ -28,6 +28,9 @@
     [Parameter]
     public string CacheKey { get; set; }
 
+    [Parameter]
+    public EventCallback<Encounter> OnEncounterSelected { get; set; }
+
     [CascadingParameter(Name = "ErrorComponent")]
     protected IErrorComponent ErrorComponent { get; set; }
 
@@ -40,11 +43,12 @@
         {
             if (int.TryParse(args.Value.ToString(), out int resultNumber))
             {
-                Encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType.Value);
+                var encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType.Value);
 
-                if (Encounter != null)
+                if (encounter != null && OnEncounterSelected.HasDelegate)
                 {
-                    await _userStoredEncountersService.StoreEncounter(CacheKey, Encounter);
+                    //await _userStoredEncountersService.StoreEncounter(CacheKey, Encounter);
+                    await OnEncounterSelected.InvokeAsync(encounter);
                 }
 
                 StateHasChanged();
@@ -60,11 +64,12 @@
     {
         if (EncounterType.HasValue)
         {
-            Encounter = await _randomHappeningsService.GetRandomEncounter(EncounterType.Value);
+            var encounter = await _randomHappeningsService.GetRandomEncounter(EncounterType.Value);
 
-            if (Encounter != null)
+            if (encounter != null && OnEncounterSelected.HasDelegate)
             {
-                await _userStoredEncountersService.StoreEncounter(CacheKey, Encounter);
+                //await _userStoredEncountersService.StoreEncounter(CacheKey, Encounter);
+                await OnEncounterSelected.InvokeAsync(encounter);
             }
         }
         
