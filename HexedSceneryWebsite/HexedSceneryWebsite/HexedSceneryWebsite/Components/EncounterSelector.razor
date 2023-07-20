@@ -47,7 +47,6 @@
 
                 if (encounter != null && OnEncounterSelected.HasDelegate)
                 {
-                    //await _userStoredEncountersService.StoreEncounter(CacheKey, Encounter);
                     await OnEncounterSelected.InvokeAsync(encounter);
                 }
 
@@ -68,7 +67,6 @@
 
             if (encounter != null && OnEncounterSelected.HasDelegate)
             {
-                //await _userStoredEncountersService.StoreEncounter(CacheKey, Encounter);
                 await OnEncounterSelected.InvokeAsync(encounter);
             }
         }
