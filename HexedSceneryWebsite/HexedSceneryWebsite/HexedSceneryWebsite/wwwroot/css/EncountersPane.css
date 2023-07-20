@@ -22,11 +22,11 @@ div.encounters-pane div.encounter-type-selection div {
   border-style: solid;
   border-color: transparent;
 }
-div.encounters-pane div.encounter-type-selection div:hover {
+div.encounters-pane div.encounter-type-selection div.selection-item:hover {
   cursor: pointer;
   border-color: #969696;
 }
-div.encounters-pane div.encounter-type-selection div.selected {
+div.encounters-pane div.encounter-type-selection div.selection-item.selected {
   border-color: #969696;
 }
 div.encounters-pane div.randomize-btn {

@@ -22,12 +22,12 @@
             border-style: solid;
             border-color: transparent;
 
-            &:hover {
+            &.selection-item:hover {
                 cursor: pointer;
                 border-color: #969696;
             }
 
-            &.selected {
+            &.selection-item.selected {
                 border-color: #969696;
             }
         }
