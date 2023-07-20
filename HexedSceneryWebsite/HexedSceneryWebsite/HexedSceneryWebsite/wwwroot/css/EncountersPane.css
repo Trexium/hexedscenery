@@ -12,6 +12,8 @@ div.encounters-pane div.encounter-type-selection {
   gap: 15px;
   padding-bottom: 20px;
   padding-top: 20px;
+  font-family: "Schoensperger";
+  font-size: x-large;
 }
 div.encounters-pane div.encounter-type-selection div {
   padding: 5px;
