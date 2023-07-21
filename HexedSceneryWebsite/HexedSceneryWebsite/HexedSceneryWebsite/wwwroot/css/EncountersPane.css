@@ -22,6 +22,9 @@ div.encounters-pane div.encounter-type-selection div {
   border-style: solid;
   border-color: transparent;
 }
+div.encounters-pane div.encounter-type-selection div.divider {
+  border-left: solid 1px black;
+}
 div.encounters-pane div.encounter-type-selection div.selection-item:hover {
   cursor: pointer;
   border-color: #969696;

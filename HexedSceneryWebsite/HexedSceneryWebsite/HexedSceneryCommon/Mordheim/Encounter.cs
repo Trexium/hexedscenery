@@ -12,5 +12,6 @@ namespace HexedSceneryCommon.Mordheim
         public string BottomText { get; set; }
         public DiceChart DiceChart { get; set; }
         public Monster Monster { get; set; }
+        public int EncounterTypeId { get; set; }
     }
 }

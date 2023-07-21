@@ -22,6 +22,10 @@
             border-style: solid;
             border-color: transparent;
 
+            &.divider {
+                border-left: solid 1px black;
+            }
+
             &.selection-item:hover {
                 cursor: pointer;
                 border-color: #969696;
