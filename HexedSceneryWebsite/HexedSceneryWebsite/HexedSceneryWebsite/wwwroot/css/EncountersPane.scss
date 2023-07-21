@@ -14,6 +14,12 @@
         padding-top: 20px;
         font-family: 'Schoensperger';
         font-size: x-large;
+        display: flex;
+        flex-direction: row;
+
+        @media (max-width: 800px) {
+            flex-direction: column;
+        }
 
         div {
             padding: 5px;
