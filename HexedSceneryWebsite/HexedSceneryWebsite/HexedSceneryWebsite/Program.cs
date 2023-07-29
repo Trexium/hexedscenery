@@ -31,6 +31,8 @@ builder.Services.AddTransient<IGradeService, GradeService>();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IUserStoredEncountersService, UserStoredEncountersService>();
 builder.Services.AddTransient<IImageService, ImageService>();
+builder.Services.AddTransient<IDiceRollService, DiceRollService>();
+builder.Services.AddSingleton<IResourceService, ResourceService>();
 
 var app = builder.Build();
 

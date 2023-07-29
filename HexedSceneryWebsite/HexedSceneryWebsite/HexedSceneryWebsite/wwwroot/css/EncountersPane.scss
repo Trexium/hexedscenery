@@ -14,6 +14,12 @@
         padding-top: 20px;
         font-family: 'Schoensperger';
         font-size: x-large;
+        display: flex;
+        flex-direction: row;
+
+        /*@media (max-width: 800px) {
+            flex-direction: column;
+        }*/
 
         div {
             padding: 5px;
@@ -22,6 +28,10 @@
             border-style: solid;
             border-color: transparent;
 
+            &.divider {
+                border-left: solid 1px black;
+            }
+
             &.selection-item:hover {
                 cursor: pointer;
                 border-color: #969696;
@@ -29,6 +39,10 @@
 
             &.selection-item.selected {
                 border-color: #969696;
+            }
+
+            img.crit-icon {
+                width: 2rem;
             }
         }
     }

@@ -16,10 +16,12 @@ namespace HexedSceneryWebsite.Services
     {
         private readonly HexedSceneryContext _context;
         private readonly IMapper _mapper;
-        public EncounterService(HexedSceneryContext context, IMapper mapper)
+        private readonly IDiceRollService _diceRollService;
+        public EncounterService(HexedSceneryContext context, IMapper mapper, IDiceRollService diceRollService)
         {
             _context = context;
             _mapper = mapper;
+            _diceRollService = diceRollService;
         }
 
         public async Task<Common.Encounter> GetEncounter(int resultNumber, int encounterType)
@@ -50,7 +52,7 @@ namespace HexedSceneryWebsite.Services
             {
 
             }
-            
+
 
             return null;
         }
@@ -63,19 +65,32 @@ namespace HexedSceneryWebsite.Services
             switch (encounterType)
             {
                 case 1: // Random happening
-                    encounterNumber = (randomGenerator.Next(1, 6) * 10) + randomGenerator.Next(1, 6);
+                    encounterNumber = _diceRollService.RollD66();
                     break;
                 case 2: // Subplots
-                    encounterNumber = randomGenerator.Next(1, 6) + randomGenerator.Next(1, 6) + randomGenerator.Next(1, 6);
+                    encounterNumber = _diceRollService.RollD6(3);
                     break;
                 case 3: // Power of the stones
-                    encounterNumber = randomGenerator.Next(1, 6) + randomGenerator.Next(1, 6);
+                    encounterNumber = _diceRollService.RollD6(2);
                     break;
                 case 4: // Using stones
-                    encounterNumber = randomGenerator.Next(1, 6);
+                    encounterNumber = _diceRollService.RollD6();
                     break;
                 case 5: // Random mutations table
-                    encounterNumber = (randomGenerator.Next(1, 6) * 10) + randomGenerator.Next(1, 6);
+                    encounterNumber = _diceRollService.RollD66();
+                    break;
+                case 6: // Misfires
+                    encounterNumber = _diceRollService.RollD6();
+                    break;
+                case 7: // Rewards of the Shadowlord
+                    encounterNumber = _diceRollService.RollD6(2);
+                    break;
+                case 8: // Crit_MissileWeapons
+                case 9: // Crit_BludgeonWeapons
+                case 10: // Crit_BladedWeapons
+                case 11: // Crit_UnarmedCombat
+                case 12: // Crit_ThrustingWeapons
+                    encounterNumber = _diceRollService.RollD6();
                     break;
             }
 

@@ -100,7 +100,9 @@ namespace HexedSceneryWebsite.Configuration
                 .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name))
                 .ForMember(m => m.ResultNumber, opt => opt.MapFrom(s => s.ResultNumber))
                 .ForMember(m => m.DiceChart, opt => opt.MapFrom(s => s.DiceChart))
-                .ForMember(m => m.Monster, opt => opt.MapFrom(s => s.Monster));
+                .ForMember(m => m.Monster, opt => opt.MapFrom(s => s.Monster))
+                .ForMember(m => m.EncounterTypeId, opt => opt.MapFrom(s => s.EncounterTypeId));
+
         }
 
         private void MapWarband()

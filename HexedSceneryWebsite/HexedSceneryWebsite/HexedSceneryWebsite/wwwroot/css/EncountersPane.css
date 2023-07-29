@@ -14,6 +14,11 @@ div.encounters-pane div.encounter-type-selection {
   padding-top: 20px;
   font-family: "Schoensperger";
   font-size: x-large;
+  display: flex;
+  flex-direction: row;
+  /*@media (max-width: 800px) {
+      flex-direction: column;
+  }*/
 }
 div.encounters-pane div.encounter-type-selection div {
   padding: 5px;
@@ -22,12 +27,18 @@ div.encounters-pane div.encounter-type-selection div {
   border-style: solid;
   border-color: transparent;
 }
+div.encounters-pane div.encounter-type-selection div.divider {
+  border-left: solid 1px black;
+}
 div.encounters-pane div.encounter-type-selection div.selection-item:hover {
   cursor: pointer;
   border-color: #969696;
 }
 div.encounters-pane div.encounter-type-selection div.selection-item.selected {
   border-color: #969696;
+}
+div.encounters-pane div.encounter-type-selection div img.crit-icon {
+  width: 2rem;
 }
 div.encounters-pane div.randomize-btn {
   margin-left: 2px;
