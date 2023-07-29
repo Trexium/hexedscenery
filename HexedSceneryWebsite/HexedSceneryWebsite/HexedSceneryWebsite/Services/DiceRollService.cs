@@ -17,7 +17,7 @@
 
             for (int i = 0; i < numberOfDice; i++)
             {
-                result += randomGenerator.Next(1, 6);
+                result += randomGenerator.Next(1, 7);
             }
 
             return result;
@@ -26,7 +26,7 @@
         public int RollD66()
         {
             var randomGenerator = new Random();
-            return (randomGenerator.Next(1, 6) * 10) + randomGenerator.Next(1, 6);
+            return (randomGenerator.Next(1, 7) * 10) + randomGenerator.Next(1, 7);
         }
     }
 }
