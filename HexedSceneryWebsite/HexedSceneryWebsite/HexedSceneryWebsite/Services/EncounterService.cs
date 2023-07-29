@@ -92,6 +92,13 @@ namespace HexedSceneryWebsite.Services
                 case 12: // Crit_ThrustingWeapons
                     encounterNumber = _diceRollService.RollD6();
                     break;
+                case 13: // Stupidity
+                    encounterNumber = _diceRollService.RollD6();
+                    break;
+                case 14: // Animosity
+                    encounterNumber = _diceRollService.RollD6();
+                    break;
+
             }
 
             return await GetEncounter(encounterNumber, encounterType);

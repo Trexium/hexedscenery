@@ -17,9 +17,11 @@
         display: flex;
         flex-direction: row;
 
-        /*@media (max-width: 800px) {
-            flex-direction: column;
-        }*/
+        &:not(.only-row) {
+            @media (max-width: 800px) {
+                flex-direction: column;
+            }
+        }
 
         div {
             padding: 5px;

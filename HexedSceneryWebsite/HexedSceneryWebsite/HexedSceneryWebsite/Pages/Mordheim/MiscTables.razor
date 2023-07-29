@@ -1,13 +1,12 @@
 ﻿@using Components
-@page "/mordheim/criticalhits/"
+@page "/mordheim/misctables/"
 @using HexedSceneryCommon.Mordheim;
 @using HexedSceneryCommon.User;
 @inject Services.IUserService _userService;
 @inject Services.IUserStoredEncountersService _userStoredEncountersService;
 @inject Services.IResourceService _resourceService;
 
-<PageTitle>Critical Hits</PageTitle>
-
+<PageTitle>Misc. Combat Tables</PageTitle>
 
 <div class="background-paper">
     <svg>
@@ -20,32 +19,19 @@
 <div class="mordheim-page">
     <div class="encounters-pane">
         <div class="encounter-type-selection">
-            <h1>Critical Hits</h1>
+            <h1>Misc. Combat Tables</h1>
         </div>
-        <div class="encounter-type-selection only-row">
-            <div class="selection-item @(encounterType == 8 ? "selected" : "")" @onclick="() => encounterType = 8">
-                @*Missile weapons*@
-                <img class="crit-icon" src="@GetIconPath(8)" />
+        <div class="encounter-type-selection">
+            <div class="selection-item @(encounterType == 6 ? "selected" : "")" @onclick="() => encounterType = 6">
+                Blackpowder Misfires
             </div>
             <div class="divider hidden-mobile"></div>
-            <div class="selection-item @(encounterType == 9 ? "selected" : "")" @onclick="() => encounterType = 9">
-                @*Bludgeon weapons*@
-                <img class="crit-icon" src="@GetIconPath(9)" />
+            <div class="selection-item @(encounterType == 13 ? "selected" : "")" @onclick="() => encounterType = 13">
+                Stupidity
             </div>
             <div class="divider hidden-mobile"></div>
-            <div class="selection-item @(encounterType == 10 ? "selected" : "")" @onclick="() => encounterType = 10">
-                @*Bladed weapons*@
-                <img class="crit-icon" src="@GetIconPath(10)" />
-            </div>
-            <div class="divider hidden-mobile"></div>
-            <div class="selection-item @(encounterType == 11 ? "selected" : "")" @onclick="() => encounterType = 11">
-                @*Unarmed combat*@
-                <img class="crit-icon" src="@GetIconPath(11)" />
-            </div>
-            <div class="divider hidden-mobile"></div>
-            <div class="selection-item @(encounterType == 12 ? "selected" : "")" @onclick="() => encounterType = 12">
-                @*Thrusting weapons*@
-                <img class="crit-icon" src="@GetIconPath(12)" />
+            <div class="selection-item @(encounterType == 14 ? "selected" : "")" @onclick="() => encounterType = 14">
+                Animosity
             </div>
         </div>
         @if (encounterType.HasValue)
@@ -75,8 +61,8 @@
                                     <div class="previous-encounters-title col-lg-2 col-3">
                                         Result
                                     </div>
-                                    <div class="previous-encounters-title col-lg-2 col-2">
-                                        @*Weapon*@
+                                    <div class="previous-encounters-title col-lg-4 col-4">
+                                        Table
                                     </div>
                                     <div class="previous-encounters-title col-lg-6 col-5">
                                         Effect
@@ -95,9 +81,8 @@
                                                 <div class="col-lg-2 col-3">
                                                     @prevEncounter.ResultNumber
                                                 </div>
-                                                <div class="col-lg-2 col-2">
-                                                    @*@_resourceService.GetEncounterType(prevEncounter.EncounterTypeId)*@
-                                                    <img class="crit-icon" src="@GetIconPath(prevEncounter.EncounterTypeId)" />
+                                                <div class="col-lg-4 col-4">
+                                                    @_resourceService.GetEncounterType(prevEncounter.EncounterTypeId)
                                                 </div>
                                                 <div class="col-lg-6 col-5">
                                                     @prevEncounter.Name
@@ -119,9 +104,10 @@
         }
 
 
-        
+
     </div>
 </div>
+
 
 @code {
     private int? encounterType { get; set; }
@@ -133,31 +119,6 @@
 
     [CascadingParameter(Name = "ErrorComponent")]
     protected IErrorComponent ErrorComponent { get; set; }
-
-    private string GetIconPath(int encounterType)
-    {
-        string path = string.Empty;
-        switch (encounterType)
-        {
-            case 8:
-                path = "crossbow.svg";
-                break;
-            case 9:
-                path = "wood-club.svg";
-                break;
-            case 10:
-                path = "stiletto.svg";
-                break;
-            case 11:
-                path = "mailed-fist.svg";
-                break;
-            case 12:
-                path = "barbed-spear.svg";
-                break;
-
-        }
-        return $"/images/icons/{path}";
-    }
 
     private async void GoToPreviousEncounter(Encounter prevEncounter)
     {
@@ -187,7 +148,7 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        encounterStoreKey = $"criticalhits_{userInfo.IpAddress}";
+        encounterStoreKey = $"misctables{userInfo.IpAddress}";
         prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
         currentEncounter = null;
     }

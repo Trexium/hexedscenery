@@ -56,6 +56,12 @@
                 case 12:
                     result = "Thrusting";
                     break;
+                case 13:
+                    result = "Stupidity";
+                    break;
+                case 14:
+                    result = "Animosity";
+                    break;
 
             }
 

@@ -16,9 +16,11 @@ div.encounters-pane div.encounter-type-selection {
   font-size: x-large;
   display: flex;
   flex-direction: row;
-  /*@media (max-width: 800px) {
-      flex-direction: column;
-  }*/
+}
+@media (max-width: 800px) {
+  div.encounters-pane div.encounter-type-selection:not(.only-row) {
+    flex-direction: column;
+  }
 }
 div.encounters-pane div.encounter-type-selection div {
   padding: 5px;
