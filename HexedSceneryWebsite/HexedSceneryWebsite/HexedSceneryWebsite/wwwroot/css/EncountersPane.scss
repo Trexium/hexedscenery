@@ -17,9 +17,9 @@
         display: flex;
         flex-direction: row;
 
-        @media (max-width: 800px) {
+        /*@media (max-width: 800px) {
             flex-direction: column;
-        }
+        }*/
 
         div {
             padding: 5px;
@@ -39,6 +39,10 @@
 
             &.selection-item.selected {
                 border-color: #969696;
+            }
+
+            img.crit-icon {
+                width: 2rem;
             }
         }
     }

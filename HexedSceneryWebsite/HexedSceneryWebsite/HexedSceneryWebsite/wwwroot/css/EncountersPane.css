@@ -16,11 +16,9 @@ div.encounters-pane div.encounter-type-selection {
   font-size: x-large;
   display: flex;
   flex-direction: row;
-}
-@media (max-width: 800px) {
-  div.encounters-pane div.encounter-type-selection {
-    flex-direction: column;
-  }
+  /*@media (max-width: 800px) {
+      flex-direction: column;
+  }*/
 }
 div.encounters-pane div.encounter-type-selection div {
   padding: 5px;
@@ -38,6 +36,9 @@ div.encounters-pane div.encounter-type-selection div.selection-item:hover {
 }
 div.encounters-pane div.encounter-type-selection div.selection-item.selected {
   border-color: #969696;
+}
+div.encounters-pane div.encounter-type-selection div img.crit-icon {
+  width: 2rem;
 }
 div.encounters-pane div.randomize-btn {
   margin-left: 2px;

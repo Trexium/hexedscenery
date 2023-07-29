@@ -1,5 +1,13 @@
 ﻿namespace HexedSceneryWebsite.Services
 {
+    public enum Icon
+    {
+        CritMissileWeapons,
+        CritBludgeonWeapons,
+        CritBladedWeapons,
+        CritUnarmedCombat,
+        CritThrustingWeapons
+    }
     public interface IResourceService
     {
         string GetEncounterType(int encounterTypeId);

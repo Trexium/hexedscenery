@@ -16,6 +16,10 @@ div.encounter {
             border-style: solid;
             border-color: transparent;
 
+            img.crit-icon {
+                width: 1.5rem;
+            }
+
             &:hover {
                 cursor: pointer;
                 border-color: #969696;
