@@ -59,65 +59,44 @@
     </div>
     <br />
     <div class="encounter">
-        @if (currentEncounter != null)
-        {
-            <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
-            <p>@((MarkupString)currentEncounter.Description)</p>
-        }
+        <div class="current-encounter">
+            @if (currentEncounter != null)
+            {
+                <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
+                <p>@((MarkupString)currentEncounter.Description)</p>
+            }
+        </div>
+        <div class="previous-encounters">
         @if (prevEncounters != null)
         {
-            <div class="previous-encounters container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-lg-5 col-9">
-                                <div class="row">
-                                    <div class="previous-encounters-title col-lg-2 col-3">
-                                        Result
-                                    </div>
-                                    <div class="previous-encounters-title col-lg-2 col-2">
-                                        @*Weapon*@
-                                    </div>
-                                    <div class="previous-encounters-title col-lg-6 col-5">
-                                        Effect
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @foreach (var prevEncounter in prevEncounters)
-                        {
-                            @if (prevEncounter != null)
-                            {
-                                <div class="previous-encounters-list">
-                                    <div class="row">
-                                        <div @onclick="() => GoToPreviousEncounter(prevEncounter)" class="previous-encounters-list-item col-lg-5 col-9">
-                                            <div class="row">
-                                                <div class="col-lg-2 col-3">
-                                                    @prevEncounter.ResultNumber
-                                                </div>
-                                                <div class="col-lg-2 col-2">
-                                                    @*@_resourceService.GetEncounterType(prevEncounter.EncounterTypeId)*@
-                                                    <img class="crit-icon" src="@GetIconPath(prevEncounter.EncounterTypeId)" />
-                                                </div>
-                                                <div class="col-lg-6 col-5">
-                                                    @prevEncounter.Name
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="previous-encounters-list-item-trash col-lg-2 col-1">
-                                            <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
+                <div class="previous-encounters-header">
+                    <div class="smaller-column">Result</div>
+                    <div class="smaller-column"></div>
+                    <div>Effect</div>
+                    <div class="smaller-column"></div>
                 </div>
-            </div>
-            <br />
-            <br />
-        }
 
+                @foreach (var prevEncounter in prevEncounters)
+                {
+                    <div class="previous-encounters-row-data" @onclick="() => GoToPreviousEncounter(prevEncounter)">
+                        <div class="smaller-column">
+                            @prevEncounter.ResultNumber
+                        </div>
+                        <div>
+                            <img class="crit-icon" src="@GetIconPath(prevEncounter.EncounterTypeId)" />
+                        </div>
+                        <div>
+                            @prevEncounter.Name
+                        </div>
+                        <div class="smaller-column">
+                            <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
+                        </div>
+                    </div>
+                }
+                <br />
+                <br />
+        }
+        </div>
 
         
     </div>
