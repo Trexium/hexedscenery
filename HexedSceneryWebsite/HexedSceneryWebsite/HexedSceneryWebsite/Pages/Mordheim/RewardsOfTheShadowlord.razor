@@ -1,0 +1,57 @@
+﻿@using Components
+@page "/mordheim/rewardsoftheshadowlord"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IUserService _userService;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+@inject Services.IResourceService _resourceService;
+
+<PageTitle>Rewards of the Shadowlord</PageTitle>
+
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <div class="encounters-pane">
+        <h2>Rewards of the Shadowlord</h2>
+        <HexedSceneryWebsite.Components.EncounterSelector EncounterType="7" LabelText="Roll 2D6 and enter the result:" CacheKey="@encounterStoreKey" OnEncounterSelected="encountersComponent.NewEncounter" />
+    </div>
+    <br />
+    @* <HexedSceneryWebsite.Components.EncountersComponent /> *@
+    encountersComponent
+
+</div>
+
+@code {
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private List<Encounter> prevEncounters;
+    private string encounterStoreKey;
+    private Encounter currentEncounter;
+
+    private HexedSceneryWebsite.Components.EncountersComponent encountersComponent;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+        encountersComponent = new EncountersComponent();
+        encountersComponent.EncounterType = 7;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"rewardsoftheshadowlord_{userInfo.IpAddress}";
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+        currentEncounter = null;
+    }
+}
