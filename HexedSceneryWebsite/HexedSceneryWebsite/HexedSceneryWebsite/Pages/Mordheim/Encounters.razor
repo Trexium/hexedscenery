@@ -29,147 +29,128 @@
                 Subplots
             </div>
         </div>
-        @if(EncounterType == 1)
+        @if (EncounterType == 1)
         {
-            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="1" LabelText="Roll a D66 and enter the result:" CacheKey="@encounterStoreKey" OnEncounterSelected="@NewEncounter" />
+            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="1" LabelText="Roll a D66 and enter the result:" OnEncounterSelected="@NewEncounter" />
         }
         else if (EncounterType == 2)
         {
-            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="2" LabelText="Roll 3D6 and enter the result:" CacheKey="@encounterStoreKey" OnEncounterSelected="@NewEncounter" />
+            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="2" LabelText="Roll 3D6 and enter the result:" OnEncounterSelected="@NewEncounter" />
         }
         else
         {
-            <HexedSceneryWebsite.Components.EncounterSelector LabelText="Choose a type of encounter" CacheKey="@encounterStoreKey" />
+            <HexedSceneryWebsite.Components.EncounterSelector LabelText="Choose a type of encounter" />
         }
 
     </div>
     <br />
     <div class="encounter">
-        @if (prevEncounters != null)
-        {
-            <div class="previous-encounters container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-lg-5 col-9">
-                                <div class="row">
-                                    <div class="previous-encounters-title col-lg-2 col-3">
-                                        Result
-                                    </div>
-                                    <div class="previous-encounters-title col-lg-10 col-9">
-                                        Encounter
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @foreach (var prevEncounter in prevEncounters)
-                        {
-                            @if (prevEncounter != null)
-                            {
-                                <div class="previous-encounters-list">
-                                    <div class="row">
-                                        <div @onclick="() => GoToPreviousEncounter(prevEncounter)" class="previous-encounters-list-item col-lg-5 col-9">
-                                            <div class="row">
-                                                <div class="col-lg-2 col-3">
-                                                    @prevEncounter.ResultNumber
-                                                </div>
-                                                <div class="col-lg-10 col-9">
-                                                    @prevEncounter.Name
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="previous-encounters-list-item-trash col-lg-2 col-1">
-                                            <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-            <br />
-            <br />
-        }
-
-
-        @if (currentEncounter != null)
-        {
-
-            <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
-            <p>@((MarkupString)currentEncounter.Description)</p>
-
-            @if (currentEncounter.DiceChart != null)
+        <div class="current-encounter">
+            @if (currentEncounter != null)
             {
-                <table class="dice-chart-table">
-                    <thead>
-                        <tr>
-                            <th class="first-column">@currentEncounter.DiceChart.Dice</th>
-                            <th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var result in currentEncounter.DiceChart.DiceResults)
-                        {
-                            <tr>
-                                <td>@result.ResultNumber</td>
-                                <td>@((MarkupString)result.Description)</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-            @if (currentEncounter.Monster != null)
-            {
-                @if (currentEncounter.Monster.Profile != null)
+
+                <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
+                <p>@((MarkupString)currentEncounter.Description)</p>
+
+                @if (currentEncounter.DiceChart != null)
                 {
-                    <span class="first-column">@currentEncounter.Monster.Name</span>
-                    <table class="profile-table">
+                    <table class="dice-chart-table">
                         <thead>
                             <tr>
-                                <th class="first-column">Profile</th>
-                                <th>M</th>
-                                <th>WS</th>
-                                <th>BS</th>
-                                <th>S</th>
-                                <th>T</th>
-                                <th>W</th>
-                                <th>I</th>
-                                <th>A</th>
-                                <th>Ld</th>
+                                <th class="first-column">@currentEncounter.DiceChart.Dice</th>
+                                <th>Result</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="first-column">@currentEncounter.Monster.Name</td>
-                                <td>@currentEncounter.Monster.Profile.Movement</td>
-                                <td>@currentEncounter.Monster.Profile.WeaponSkill</td>
-                                <td>@currentEncounter.Monster.Profile.BallisticSkill</td>
-                                <td>@currentEncounter.Monster.Profile.Strength</td>
-                                <td>@currentEncounter.Monster.Profile.Toughness</td>
-                                <td>@currentEncounter.Monster.Profile.Wounds</td>
-                                <td>@currentEncounter.Monster.Profile.Initiative</td>
-                                <td>@currentEncounter.Monster.Profile.Attacks</td>
-                                <td>@currentEncounter.Monster.Profile.Leadership</td>
-                            </tr>
+                            @foreach (var result in currentEncounter.DiceChart.DiceResults)
+                            {
+                                <tr>
+                                    <td>@result.ResultNumber</td>
+                                    <td>@((MarkupString)result.Description)</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 }
-
-                @if (currentEncounter.Monster.Skills != null)
+                @if (currentEncounter.Monster != null)
                 {
-                    foreach (var skill in currentEncounter.Monster.Skills)
+                    @if (currentEncounter.Monster.Profile != null)
                     {
-                        <p class="skill"><b>@skill.Name:</b> @((MarkupString)skill.Description)</p>
+                        <span class="first-column">@currentEncounter.Monster.Name</span>
+                        <table class="profile-table">
+                            <thead>
+                                <tr>
+                                    <th class="first-column">Profile</th>
+                                    <th>M</th>
+                                    <th>WS</th>
+                                    <th>BS</th>
+                                    <th>S</th>
+                                    <th>T</th>
+                                    <th>W</th>
+                                    <th>I</th>
+                                    <th>A</th>
+                                    <th>Ld</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="first-column">@currentEncounter.Monster.Name</td>
+                                    <td>@currentEncounter.Monster.Profile.Movement</td>
+                                    <td>@currentEncounter.Monster.Profile.WeaponSkill</td>
+                                    <td>@currentEncounter.Monster.Profile.BallisticSkill</td>
+                                    <td>@currentEncounter.Monster.Profile.Strength</td>
+                                    <td>@currentEncounter.Monster.Profile.Toughness</td>
+                                    <td>@currentEncounter.Monster.Profile.Wounds</td>
+                                    <td>@currentEncounter.Monster.Profile.Initiative</td>
+                                    <td>@currentEncounter.Monster.Profile.Attacks</td>
+                                    <td>@currentEncounter.Monster.Profile.Leadership</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                    @if (currentEncounter.Monster.Skills != null)
+                    {
+                        foreach (var skill in currentEncounter.Monster.Skills)
+                        {
+                            <p class="skill"><b>@skill.Name:</b> @((MarkupString)skill.Description)</p>
+                        }
                     }
                 }
-            }
-            @if (!string.IsNullOrEmpty(currentEncounter.BottomText))
-            {
-                <p>@((MarkupString)currentEncounter.BottomText)</p>
-            }
+                @if (!string.IsNullOrEmpty(currentEncounter.BottomText))
+                {
+                    <p>@((MarkupString)currentEncounter.BottomText)</p>
+                }
 
-        }
+            }
+        </div>
+        <div class="previous-encounters">
+            @if (prevEncounters != null && prevEncounters.Any())
+            {
+                <div class="previous-encounters-header">
+                    <div class="smaller-column">Result</div>
+                    <div>Encounter</div>
+                    <div class="smaller-column"></div>
+                </div>
+
+                @foreach (var prevEncounter in prevEncounters)
+                {
+                    <div class="previous-encounters-row-data" @onclick="() => GoToPreviousEncounter(prevEncounter)">
+                        <div class="smaller-column">
+                            @prevEncounter.ResultNumber
+                        </div>
+                        <div>
+                            @prevEncounter.Name
+                        </div>
+                        <div class="smaller-column">
+                            <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
+                        </div>
+                    </div>
+                }
+                <br />
+                <br />
+            }
+        </div>
     </div>
 </div>
 

@@ -50,86 +50,28 @@
         </div>
         @if (encounterType.HasValue)
         {
-            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="@encounterType.Value" LabelText="Roll a D6 and enter the result:" CacheKey="@encounterStoreKey" OnEncounterSelected="@NewEncounter" />
+            <HexedSceneryWebsite.Components.EncountersComponent 
+                EncounterType="@encounterType"
+                Title="Critical Hits"
+                SelectorLabel="Roll a D6 and enter the result:"
+                EncounterStoreKey="@encounterStoreKey" />
         }
         else
         {
-            <HexedSceneryWebsite.Components.EncounterSelector LabelText="Choose weapon type" CacheKey="@encounterStoreKey" />
+            <HexedSceneryWebsite.Components.EncountersComponent 
+                Title="Critical Hits"
+                SelectorLabel="Choose weapon type"
+                EncounterStoreKey="@encounterStoreKey" />
         }
     </div>
     <br />
-    <div class="encounter">
-        @if (currentEncounter != null)
-        {
-            <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
-            <p>@((MarkupString)currentEncounter.Description)</p>
-        }
-        @if (prevEncounters != null)
-        {
-            <div class="previous-encounters container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-lg-5 col-9">
-                                <div class="row">
-                                    <div class="previous-encounters-title col-lg-2 col-3">
-                                        Result
-                                    </div>
-                                    <div class="previous-encounters-title col-lg-2 col-2">
-                                        @*Weapon*@
-                                    </div>
-                                    <div class="previous-encounters-title col-lg-6 col-5">
-                                        Effect
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @foreach (var prevEncounter in prevEncounters)
-                        {
-                            @if (prevEncounter != null)
-                            {
-                                <div class="previous-encounters-list">
-                                    <div class="row">
-                                        <div @onclick="() => GoToPreviousEncounter(prevEncounter)" class="previous-encounters-list-item col-lg-5 col-9">
-                                            <div class="row">
-                                                <div class="col-lg-2 col-3">
-                                                    @prevEncounter.ResultNumber
-                                                </div>
-                                                <div class="col-lg-2 col-2">
-                                                    @*@_resourceService.GetEncounterType(prevEncounter.EncounterTypeId)*@
-                                                    <img class="crit-icon" src="@GetIconPath(prevEncounter.EncounterTypeId)" />
-                                                </div>
-                                                <div class="col-lg-6 col-5">
-                                                    @prevEncounter.Name
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="previous-encounters-list-item-trash col-lg-2 col-1">
-                                            <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-            <br />
-            <br />
-        }
-
-
-        
-    </div>
 </div>
 
 @code {
     private int? encounterType { get; set; }
     private string resultNumberString = string.Empty;
     private UserInfo userInfo;
-    private List<Encounter> prevEncounters;
     private string encounterStoreKey;
-    private Encounter currentEncounter;
 
     [CascadingParameter(Name = "ErrorComponent")]
     protected IErrorComponent ErrorComponent { get; set; }
@@ -159,27 +101,6 @@
         return $"/images/icons/{path}";
     }
 
-    private async void GoToPreviousEncounter(Encounter prevEncounter)
-    {
-        currentEncounter = prevEncounter;
-        StateHasChanged();
-    }
-
-    private async void DeletePreviousEncounter(int prevEncounterIndex)
-    {
-        prevEncounters.RemoveAt(prevEncounterIndex);
-        StateHasChanged();
-    }
-
-    private async void NewEncounter(Encounter encounter)
-    {
-        await _userStoredEncountersService.StoreEncounter(encounterStoreKey, encounter);
-        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
-        currentEncounter = encounter;
-        StateHasChanged();
-
-    }
-
     protected override async Task OnInitializedAsync()
     {
         userInfo = await _userService.GetUserInfo();
@@ -188,7 +109,5 @@
     protected override async Task OnParametersSetAsync()
     {
         encounterStoreKey = $"criticalhits_{userInfo.IpAddress}";
-        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
-        currentEncounter = null;
     }
 }

@@ -18,213 +18,68 @@
     </svg>
 </div>
 <div class="mordheim-page">
-    <div class="encounters-pane">
-        <h2>Random Mutations</h2>
-        <HexedSceneryWebsite.Components.EncounterSelector EncounterType="5" LabelText="Roll a D66 and enter the result:" CacheKey="@encounterStoreKey" OnEncounterSelected="@NewEncounter" />
+    <div class="mordheim-page">
+        <HexedSceneryWebsite.Components.EncountersComponent 
+            EncounterType="5"
+            Title="Random Mutations"
+            SelectorLabel="Roll a D66 and enter the result:"
+            EncounterStoreKey="@encounterStoreKey"
+            Column3Header="Mutation"
+            HideColumn2=true/>
     </div>
-    <br />
-    <div class="encounter">
-        @if (prevEncounters != null)
-        {
-            <div class="previous-encounters container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-lg-5 col-9">
-                                <div class="row">
-                                    <div class="previous-encounters-title col-lg-2 col-3">
-                                        Result
-                                    </div>
-                                    <div class="previous-encounters-title col-lg-10 col-9">
-                                        Mutation
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @foreach (var prevEncounter in prevEncounters)
-                        {
-                            @if (prevEncounter != null)
-                            {
-                                <div class="previous-encounters-list">
-                                    <div class="row">
-                                        <div @onclick="() => GoToPreviousEncounter(prevEncounter)" class="previous-encounters-list-item col-lg-5 col-9">
-                                            <div class="row">
-                                                <div class="col-lg-2 col-3">
-                                                    @prevEncounter.ResultNumber
-                                                </div>
-                                                <div class="col-lg-10 col-9">
-                                                    @prevEncounter.Name
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="previous-encounters-list-item-trash col-lg-2 col-1">
-                                            <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-            </div>
-            <br />
-            <br />
-        }
-
-
-        @if (currentEncounter != null)
-        {
-
-            <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
-            <p>@((MarkupString)currentEncounter.Description)</p>
-
-            @if (currentEncounter.DiceChart != null)
-            {
-                <table class="dice-chart-table">
-                    <thead>
-                        <tr>
-                            <th class="first-column">@currentEncounter.DiceChart.Dice</th>
-                            <th>Result</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var result in currentEncounter.DiceChart.DiceResults)
-                        {
-                            <tr>
-                                <td>@result.ResultNumber</td>
-                                <td>@((MarkupString)result.Description)</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-            @if (currentEncounter.Monster != null)
-            {
-                @if (currentEncounter.Monster.Profile != null)
-                {
-                    <span class="first-column">@currentEncounter.Monster.Name</span>
-                    <table class="profile-table">
-                        <thead>
-                            <tr>
-                                <th class="first-column">Profile</th>
-                                <th>M</th>
-                                <th>WS</th>
-                                <th>BS</th>
-                                <th>S</th>
-                                <th>T</th>
-                                <th>W</th>
-                                <th>I</th>
-                                <th>A</th>
-                                <th>Ld</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="first-column">@currentEncounter.Monster.Name</td>
-                                <td>@currentEncounter.Monster.Profile.Movement</td>
-                                <td>@currentEncounter.Monster.Profile.WeaponSkill</td>
-                                <td>@currentEncounter.Monster.Profile.BallisticSkill</td>
-                                <td>@currentEncounter.Monster.Profile.Strength</td>
-                                <td>@currentEncounter.Monster.Profile.Toughness</td>
-                                <td>@currentEncounter.Monster.Profile.Wounds</td>
-                                <td>@currentEncounter.Monster.Profile.Initiative</td>
-                                <td>@currentEncounter.Monster.Profile.Attacks</td>
-                                <td>@currentEncounter.Monster.Profile.Leadership</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                }
-
-                @if (currentEncounter.Monster.Skills != null)
-                {
-                    foreach (var skill in currentEncounter.Monster.Skills)
-                    {
-                        <p class="skill"><b>@skill.Name:</b> @((MarkupString)skill.Description)</p>
-                    }
-                }
-            }
-            @if (!string.IsNullOrEmpty(currentEncounter.BottomText))
-            {
-                <p>@((MarkupString)currentEncounter.BottomText)</p>
-            }
-
-        }
-
-        <h2>Description</h2>
-        <p>
-            Mordheim is a city under the sway of Chaos,
-            and with Chaos comes mutation and change.
-            There are numerous ways by which a warrior
-            can be afflicted with mutation, and there are
-            some who actually seek out mutation as a
-            'reward’ of the Chaos Powers. While mutations
-            are not always harmful, and indeed can often
-            be helpful, they are a mark of Chaos, and as
-            such those who bear them are feared,
-            shunned and persecuted throughout the
-            Empire.<br /><br />
-            The following is a table used to generate the
-            colourful, exotic, and sometimes debilitating
-            mutations that will be visited upon certain
-            warriors at certain times (i.e. as a result of
-            exposure to Wyrdstone, for example). The
-            table may also prove useful to Gamemasters
-            who want to quickly generate some
-            interesting mutants for a special scenario. The
-            table uses a D66 roll, just like the Heroes
-            Serious Injuries table in the rulebook. If the
-            mutant rolls a mutation that it already
-            possesses, re-roll it until a new mutation is
-            generated.<br /><br />
-            Note: The great danger of mutation is that it
-            will ultimately overwhelm the victim with the
-            corrupting power of Chaos, reducing them to
-            a monstrous and mindless Chaos Spawn. To
-            represent this danger, if a warrior ever has a
-            characteristic reduced to zero as the result of
-            a mutation, they immediately degenerate into
-            a loathsome Chaos Spawn (see the full rules
-            for Chaos Spawn above).<br /><br />
-            Any member of a human, mercenary warband
-            (this includes both Ostlanders and
-            Averlanders) that receives a mutation marked
-            with * is immediately drummed out of the
-            warband by his suspicious peers. Remove the
-            hero from the roster, his equipment is lost.
-        </p>
-    </div>
+    
+    <h2>Description</h2>
+    <p>
+        Mordheim is a city under the sway of Chaos,
+        and with Chaos comes mutation and change.
+        There are numerous ways by which a warrior
+        can be afflicted with mutation, and there are
+        some who actually seek out mutation as a
+        'reward’ of the Chaos Powers. While mutations
+        are not always harmful, and indeed can often
+        be helpful, they are a mark of Chaos, and as
+        such those who bear them are feared,
+        shunned and persecuted throughout the
+        Empire.<br /><br />
+        The following is a table used to generate the
+        colourful, exotic, and sometimes debilitating
+        mutations that will be visited upon certain
+        warriors at certain times (i.e. as a result of
+        exposure to Wyrdstone, for example). The
+        table may also prove useful to Gamemasters
+        who want to quickly generate some
+        interesting mutants for a special scenario. The
+        table uses a D66 roll, just like the Heroes
+        Serious Injuries table in the rulebook. If the
+        mutant rolls a mutation that it already
+        possesses, re-roll it until a new mutation is
+        generated.<br /><br />
+        Note: The great danger of mutation is that it
+        will ultimately overwhelm the victim with the
+        corrupting power of Chaos, reducing them to
+        a monstrous and mindless Chaos Spawn. To
+        represent this danger, if a warrior ever has a
+        characteristic reduced to zero as the result of
+        a mutation, they immediately degenerate into
+        a loathsome Chaos Spawn (see the full rules
+        for Chaos Spawn above).<br /><br />
+        Any member of a human, mercenary warband
+        (this includes both Ostlanders and
+        Averlanders) that receives a mutation marked
+        with * is immediately drummed out of the
+        warband by his suspicious peers. Remove the
+        hero from the roster, his equipment is lost.
+    </p>
 </div>
 
 @code {
     private string resultNumberString = string.Empty;
     private UserInfo userInfo;
-    private List<Encounter> prevEncounters;
     private string encounterStoreKey;
-    private Encounter currentEncounter;
 
     [CascadingParameter(Name = "ErrorComponent")]
     protected IErrorComponent ErrorComponent { get; set; }
 
-    private async void GoToPreviousEncounter(Encounter prevEncounter)
-    {
-        currentEncounter = prevEncounter;
-        StateHasChanged();
-    }
-
-    private async void DeletePreviousEncounter(int prevEncounterIndex)
-    {
-        prevEncounters.RemoveAt(prevEncounterIndex);
-        StateHasChanged();
-    }
-
-    private async void NewEncounter(Encounter encounter)
-    {
-        await _userStoredEncountersService.StoreEncounter(encounterStoreKey, encounter);
-        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
-        currentEncounter = encounter;
-        StateHasChanged();
-
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -234,7 +89,5 @@
     protected override async Task OnParametersSetAsync()
     {
         encounterStoreKey = $"randommutations_{userInfo.IpAddress}";
-        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
-        currentEncounter = null;
     }
 }

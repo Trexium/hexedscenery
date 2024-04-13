@@ -1,9 +1,7 @@
 ﻿@using Components
 @using HexedSceneryCommon.Mordheim;
 @using HexedSceneryCommon.User;
-@inject Services.IEncounterService _randomHappeningsService
-@inject Services.IUserService _userService;
-@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+@inject Services.IEncounterService _randomHappeningsService;
 
 <div>
     <label for="resultNumber">@LabelText</label>
@@ -24,9 +22,6 @@
 
     [Parameter]
     public string LabelText { get; set; }
-
-    [Parameter]
-    public string CacheKey { get; set; }
 
     [Parameter]
     public EventCallback<Encounter> OnEncounterSelected { get; set; }
