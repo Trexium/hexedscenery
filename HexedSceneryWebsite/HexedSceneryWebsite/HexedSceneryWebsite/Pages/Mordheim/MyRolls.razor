@@ -1,10 +1,10 @@
 ﻿@using Components
-@page "/mordheim/rewardsoftheshadowlord"
+@page "/mordheim/myrolls"
 @using HexedSceneryCommon.Mordheim;
 @using HexedSceneryCommon.User;
 @inject Services.IUserService _userService;
 
-<PageTitle>Rewards of the Shadowlord</PageTitle>
+<PageTitle>My Rolls</PageTitle>
 
 
 <div class="background-paper">
@@ -17,11 +17,9 @@
 </div>
 <div class="mordheim-page">
     <HexedSceneryWebsite.Components.EncountersComponent 
-        EncounterType="7" 
-        Title="Rewards of the Shadowlord" 
-        SelectorLabel="Roll 2D6 and enter the result:"
+        Title="My Rolls"
         EncounterStoreKey="@encounterStoreKey"
-        HideColumn2=true />
+        HideSelector=true />
 </div>
 
 @code {
@@ -41,6 +39,6 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        encounterStoreKey = $"rewardsoftheshadowlord_{userInfo.IpAddress}";
+        encounterStoreKey = $"{userInfo.IpAddress}";
     }
 }

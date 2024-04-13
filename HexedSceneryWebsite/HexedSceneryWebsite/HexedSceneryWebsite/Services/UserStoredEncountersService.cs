@@ -25,6 +25,10 @@ namespace HexedSceneryWebsite.Services
             if (_userEncounters.ContainsKey(key))
             {
                 return _userEncounters[key];
+            } 
+            else if (!key.Contains('_'))
+            {
+                return _userEncounters.Where(m => m.Key.Contains(key)).SelectMany(m => m.Value).ToList();
             }
             else
             {

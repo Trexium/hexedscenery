@@ -6,7 +6,10 @@
 
 <div class="encounters-pane">
     <h2>@Title</h2>
-    <HexedSceneryWebsite.Components.EncounterSelector EncounterType="@EncounterType" LabelText="@SelectorLabel" OnEncounterSelected="NewEncounter" />
+    @if (!HideSelector)
+    {
+        <HexedSceneryWebsite.Components.EncounterSelector EncounterType="@EncounterType" LabelText="@SelectorLabel" OnEncounterSelected="NewEncounter" />
+    }
 </div>
 <div class="encounter">
     <div class="current-encounter">
@@ -34,6 +37,51 @@
                     </tbody>
                 </table>
             }
+            @if (currentEncounter.Monster != null)
+            {
+                @if (currentEncounter.Monster.Profile != null)
+                {
+                    <span class="first-column">@currentEncounter.Monster.Name</span>
+                    <table class="profile-table">
+                        <thead>
+                            <tr>
+                                <th class="first-column">Profile</th>
+                                <th>M</th>
+                                <th>WS</th>
+                                <th>BS</th>
+                                <th>S</th>
+                                <th>T</th>
+                                <th>W</th>
+                                <th>I</th>
+                                <th>A</th>
+                                <th>Ld</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="first-column">@currentEncounter.Monster.Name</td>
+                                <td>@currentEncounter.Monster.Profile.Movement</td>
+                                <td>@currentEncounter.Monster.Profile.WeaponSkill</td>
+                                <td>@currentEncounter.Monster.Profile.BallisticSkill</td>
+                                <td>@currentEncounter.Monster.Profile.Strength</td>
+                                <td>@currentEncounter.Monster.Profile.Toughness</td>
+                                <td>@currentEncounter.Monster.Profile.Wounds</td>
+                                <td>@currentEncounter.Monster.Profile.Initiative</td>
+                                <td>@currentEncounter.Monster.Profile.Attacks</td>
+                                <td>@currentEncounter.Monster.Profile.Leadership</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+
+                @if (currentEncounter.Monster.Skills != null)
+                {
+                    foreach (var skill in currentEncounter.Monster.Skills)
+                    {
+                        <p class="skill"><b>@skill.Name:</b> @((MarkupString)skill.Description)</p>
+                    }
+                }
+            }
             @if (!string.IsNullOrEmpty(currentEncounter.BottomText))
             {
                 <p>@((MarkupString)currentEncounter.BottomText)</p>
@@ -44,24 +92,42 @@
         @if (prevEncounters != null && prevEncounters.Any())
         {
             <div class="previous-encounters-header">
-                <div class="smaller-column">Result</div>
-                <div>Table</div>
-                <div>Effect</div>
+                @if (!HideColumn1)
+                {
+                    <div class="smaller-column">@Column1Header</div>
+                }
+                @if (!HideColumn2)
+                {
+                    <div>@Column2Header</div>
+                }
+                @if (!HideColumn3)
+                {
+                    <div>@Column3Header</div>
+                }
                 <div class="smaller-column"></div>
             </div>
 
             @foreach (var prevEncounter in prevEncounters)
             {
                 <div class="previous-encounters-row-data" @onclick="() => GoToPreviousEncounter(prevEncounter)">
-                    <div class="smaller-column">
-                        @prevEncounter.ResultNumber
-                    </div>
-                    <div>
-                        @_resourceService.GetEncounterType(prevEncounter.EncounterTypeId)
-                    </div>
-                    <div>
-                        @prevEncounter.Name
-                    </div>
+                    @if (!HideColumn1)
+                    {
+                        <div class="smaller-column">
+                            @prevEncounter.ResultNumber
+                        </div>
+                    }
+                    @if (!HideColumn2)
+                    {
+                        <div>
+                            @_resourceService.GetEncounterType(prevEncounter.EncounterTypeId)
+                        </div>
+                    }
+                    @if (!HideColumn3)
+                    {
+                        <div>
+                            @prevEncounter.Name
+                        </div>
+                    }
                     <div class="smaller-column">
                         <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
                     </div>
@@ -79,7 +145,7 @@
     private Encounter currentEncounter;
 
     [Parameter]
-    public int EncounterType { get; set; }
+    public int? EncounterType { get; set; }
 
     [Parameter]
     public string Title { get; set; }
@@ -89,6 +155,27 @@
 
     [Parameter]
     public string EncounterStoreKey { get; set; }
+
+    [Parameter]
+    public string Column1Header { get; set; }
+
+    [Parameter]
+    public string Column2Header { get; set; }
+
+    [Parameter]
+    public string Column3Header { get; set; }
+
+    [Parameter]
+    public bool HideColumn1 { get; set; }
+
+    [Parameter]
+    public bool HideColumn2 { get; set; }
+
+    [Parameter]
+    public bool HideColumn3 { get; set; }
+
+    [Parameter]
+    public bool HideSelector { get; set; }
 
     private async void GoToPreviousEncounter(Encounter prevEncounter)
     {
@@ -113,12 +200,25 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
+
     }
 
     protected override async Task OnParametersSetAsync()
     {
         prevEncounters = await _userStoredEncountersService.GetUserEncounters(EncounterStoreKey);
         currentEncounter = null;
+
+        if (string.IsNullOrEmpty(Column1Header))
+        {
+            Column1Header = "Result";
+        }
+        if (string.IsNullOrEmpty(Column2Header))
+        {
+            Column2Header = "Table";
+        }
+        if (string.IsNullOrEmpty(Column3Header))
+        {
+            Column3Header = "Effect";
+        }
     }
 }
