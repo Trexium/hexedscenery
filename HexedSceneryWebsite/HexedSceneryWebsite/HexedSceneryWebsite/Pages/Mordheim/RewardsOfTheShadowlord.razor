@@ -18,24 +18,20 @@
     </svg>
 </div>
 <div class="mordheim-page">
-    <div class="encounters-pane">
-        <h2>Rewards of the Shadowlord</h2>
-        <HexedSceneryWebsite.Components.EncounterSelector EncounterType="7" LabelText="Roll 2D6 and enter the result:" CacheKey="@encounterStoreKey" OnEncounterSelected="encountersComponent.NewEncounter" />
-    </div>
-    <br />
-    @* <HexedSceneryWebsite.Components.EncountersComponent /> *@
-    encountersComponent
-
+    <HexedSceneryWebsite.Components.EncountersComponent 
+        EncounterType="7" 
+        Title="Rewards of the Shadowlord" 
+        SelectorLabel="Roll 2D6 and enter the result:"
+        EncounterStoreKey="@encounterStoreKey" />
 </div>
 
 @code {
     private string resultNumberString = string.Empty;
     private UserInfo userInfo;
-    private List<Encounter> prevEncounters;
+    // private List<Encounter> prevEncounters;
     private string encounterStoreKey;
-    private Encounter currentEncounter;
+    // private Encounter currentEncounter;
 
-    private HexedSceneryWebsite.Components.EncountersComponent encountersComponent;
 
     [CascadingParameter(Name = "ErrorComponent")]
     protected IErrorComponent ErrorComponent { get; set; }
@@ -44,14 +40,12 @@
     protected override async Task OnInitializedAsync()
     {
         userInfo = await _userService.GetUserInfo();
-        encountersComponent = new EncountersComponent();
-        encountersComponent.EncounterType = 7;
     }
 
     protected override async Task OnParametersSetAsync()
     {
         encounterStoreKey = $"rewardsoftheshadowlord_{userInfo.IpAddress}";
-        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
-        currentEncounter = null;
+        // prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+        // currentEncounter = null;
     }
 }

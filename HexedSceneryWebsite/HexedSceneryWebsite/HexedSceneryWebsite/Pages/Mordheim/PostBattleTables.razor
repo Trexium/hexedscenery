@@ -36,11 +36,11 @@
         </div>
         @if (encounterType.HasValue && (encounterType.Value == 7 || encounterType.Value == 3))
         {
-            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="@encounterType.Value" LabelText="Roll 2D6 and enter the result:" CacheKey="@encounterStoreKey" OnEncounterSelected="@NewEncounter" />
+            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="@encounterType.Value" LabelText="Roll 2D6 and enter the result:" OnEncounterSelected="@NewEncounter" />
         }
         else
         {
-            <HexedSceneryWebsite.Components.EncounterSelector LabelText="Choose a table" CacheKey="@encounterStoreKey" />
+            <HexedSceneryWebsite.Components.EncounterSelector LabelText="Choose a table" />
         }
     </div>
     <br />

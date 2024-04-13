@@ -31,15 +31,15 @@
         </div>
         @if (EncounterType == 1)
         {
-            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="1" LabelText="Roll a D66 and enter the result:" CacheKey="@encounterStoreKey" OnEncounterSelected="@NewEncounter" />
+            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="1" LabelText="Roll a D66 and enter the result:" OnEncounterSelected="@NewEncounter" />
         }
         else if (EncounterType == 2)
         {
-            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="2" LabelText="Roll 3D6 and enter the result:" CacheKey="@encounterStoreKey" OnEncounterSelected="@NewEncounter" />
+            <HexedSceneryWebsite.Components.EncounterSelector EncounterType="2" LabelText="Roll 3D6 and enter the result:" OnEncounterSelected="@NewEncounter" />
         }
         else
         {
-            <HexedSceneryWebsite.Components.EncounterSelector LabelText="Choose a type of encounter" CacheKey="@encounterStoreKey" />
+            <HexedSceneryWebsite.Components.EncounterSelector LabelText="Choose a type of encounter" />
         }
 
     </div>

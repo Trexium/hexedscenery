@@ -1,10 +1,13 @@
 ﻿@using Components
 @using HexedSceneryCommon.Mordheim;
 @using HexedSceneryCommon.User;
-@inject Services.IUserService _userService;
 @inject Services.IUserStoredEncountersService _userStoredEncountersService;
 @inject Services.IResourceService _resourceService;
 
+<div class="encounters-pane">
+    <h2>@Title</h2>
+    <HexedSceneryWebsite.Components.EncounterSelector EncounterType="@EncounterType" LabelText="@SelectorLabel" OnEncounterSelected="NewEncounter" />
+</div>
 <div class="encounter">
     <div class="current-encounter">
         @if (currentEncounter != null)
@@ -74,10 +77,18 @@
     private List<Encounter> prevEncounters;
     private string encounterStoreKey;
     private Encounter currentEncounter;
-    private UserInfo userInfo;
 
     [Parameter]
     public int EncounterType { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string SelectorLabel { get; set; }
+
+    [Parameter]
+    public string EncounterStoreKey { get; set; }
 
     private async void GoToPreviousEncounter(Encounter prevEncounter)
     {
@@ -93,8 +104,8 @@
 
     public async void NewEncounter(Encounter encounter)
     {
-        await _userStoredEncountersService.StoreEncounter(encounterStoreKey, encounter);
-        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+        await _userStoredEncountersService.StoreEncounter(EncounterStoreKey, encounter);
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(EncounterStoreKey);
         currentEncounter = encounter;
         StateHasChanged();
 
@@ -102,13 +113,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        userInfo = await _userService.GetUserInfo();
+        
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        encounterStoreKey = $"rewardsoftheshadowlord_{userInfo.IpAddress}";
-        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(EncounterStoreKey);
         currentEncounter = null;
     }
 }
