@@ -6,6 +6,9 @@
 
 <div class="encounters-pane">
     <h2>@Title</h2>
+    <div class="description">
+        @((MarkupString)IntroText)
+    </div>
     @if (!HideSelector)
     {
         <HexedSceneryWebsite.Components.EncounterSelector EncounterType="@EncounterType" LabelText="@SelectorLabel" OnEncounterSelected="NewEncounter" />
@@ -176,6 +179,9 @@
 
     [Parameter]
     public bool HideSelector { get; set; }
+
+    [Parameter]
+    public string IntroText { get; set; }
 
     private async void GoToPreviousEncounter(Encounter prevEncounter)
     {

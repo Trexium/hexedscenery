@@ -98,7 +98,9 @@ namespace HexedSceneryWebsite.Services
                 case 14: // Animosity
                     encounterNumber = _diceRollService.RollD6();
                     break;
-
+                case 15:
+                    encounterNumber = _diceRollService.RollD6(2);
+                    break;
             }
 
             return await GetEncounter(encounterNumber, encounterType);
