@@ -37,6 +37,10 @@ div.background-paper {
   filter: url(#wavy2);
 }
 
+/*div.description {
+    max-width: 90%;
+}
+*/
 @media (max-width: 800px) {
   .hidden-mobile {
     display: none;
