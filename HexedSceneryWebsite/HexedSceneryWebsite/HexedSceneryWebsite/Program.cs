@@ -33,6 +33,7 @@ builder.Services.AddSingleton<IUserStoredEncountersService, UserStoredEncounters
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddTransient<IDiceRollService, DiceRollService>();
 builder.Services.AddTransient<IResourceService, ResourceService>();
+builder.Services.AddTransient<IMonsterService, MonsterService>();
 
 var app = builder.Build();
 

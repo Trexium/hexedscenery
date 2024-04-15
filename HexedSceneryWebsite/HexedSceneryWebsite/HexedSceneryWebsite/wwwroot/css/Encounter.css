@@ -14,6 +14,12 @@
 div.encounter div.current-encounter {
   flex: 1;
 }
+div.encounter div.current-encounter div.special-rule {
+  width: 90%;
+}
+div.encounter div.current-encounter div.special-rule h5 {
+  font-family: "Schoensperger";
+}
 div.encounter div.previous-encounters {
   flex: 1;
 }

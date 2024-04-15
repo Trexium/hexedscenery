@@ -9,6 +9,7 @@
     <div class="description">
         @((MarkupString)IntroText)
     </div>
+    
     @if (!HideSelector)
     {
         <HexedSceneryWebsite.Components.EncounterSelector EncounterType="@EncounterType" LabelText="@SelectorLabel" OnEncounterSelected="NewEncounter" />
@@ -82,6 +83,18 @@
                     foreach (var skill in currentEncounter.Monster.Skills)
                     {
                         <p class="skill"><b>@skill.Name:</b> @((MarkupString)skill.Description)</p>
+                    }
+                }
+                @if (currentEncounter.Monster.SpecialRules != null)
+                {
+                    foreach (var rule in currentEncounter.Monster.SpecialRules)
+                    {
+                        <div class="special-rule">
+                            <h5>@rule.Name</h5>
+                            <p>
+                                @rule.Description
+                            </p>
+                        </div>
                     }
                 }
             }

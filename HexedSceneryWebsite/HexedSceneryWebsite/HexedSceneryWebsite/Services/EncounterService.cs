@@ -105,6 +105,9 @@ namespace HexedSceneryWebsite.Services
                 case 17: // Sawbones_BrainSurgery
                     encounterNumber = _diceRollService.RollD6(2);
                     break;
+                case 18: // RabbleRousing
+                    encounterNumber = _diceRollService.RollD6(2);
+                    break;
             }
 
             return await GetEncounter(encounterNumber, encounterType);
