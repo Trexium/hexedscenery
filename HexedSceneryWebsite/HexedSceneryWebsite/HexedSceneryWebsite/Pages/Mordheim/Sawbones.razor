@@ -1,12 +1,12 @@
 ﻿@using Components
-@page "/mordheim/criticalhits/"
+@page "/mordheim/sawbones/"
 @using HexedSceneryCommon.Mordheim;
 @using HexedSceneryCommon.User;
 @inject Services.IUserService _userService;
 @inject Services.IUserStoredEncountersService _userStoredEncountersService;
 @inject Services.IResourceService _resourceService;
 
-<PageTitle>Critical Hits</PageTitle>
+<PageTitle>Sawbones</PageTitle>
 
 
 <div class="background-paper">
@@ -20,39 +20,25 @@
 <div class="mordheim-page">
     <div class="encounters-pane">
         <div class="encounter-type-selection">
-            <h1>Critical Hits</h1>
+            <h1>Sawbones</h1>
         </div>
         <div class="encounter-type-selection only-row">
-            <div class="selection-item @(encounterType == 8 ? "selected" : "")" @onclick="() => encounterType = 8">
-                @*Missile weapons*@
-                <img class="crit-icon" src="@GetIconPath(8)" />
+            <div class="selection-item @(encounterType == 16 ? "selected" : "")" @onclick="() => encounterType = 16">
+                @*Limb surgery*@
+                <img class="crit-icon" src="@GetIconPath(16)" />
             </div>
             <div class="divider hidden-mobile"></div>
-            <div class="selection-item @(encounterType == 9 ? "selected" : "")" @onclick="() => encounterType = 9">
-                @*Bludgeon weapons*@
-                <img class="crit-icon" src="@GetIconPath(9)" />
-            </div>
-            <div class="divider hidden-mobile"></div>
-            <div class="selection-item @(encounterType == 10 ? "selected" : "")" @onclick="() => encounterType = 10">
-                @*Bladed weapons*@
-                <img class="crit-icon" src="@GetIconPath(10)" />
-            </div>
-            <div class="divider hidden-mobile"></div>
-            <div class="selection-item @(encounterType == 11 ? "selected" : "")" @onclick="() => encounterType = 11">
-                @*Unarmed combat*@
-                <img class="crit-icon" src="@GetIconPath(11)" />
-            </div>
-            <div class="divider hidden-mobile"></div>
-            <div class="selection-item @(encounterType == 12 ? "selected" : "")" @onclick="() => encounterType = 12">
-                @*Thrusting weapons*@
-                <img class="crit-icon" src="@GetIconPath(12)" />
+            <div class="selection-item @(encounterType == 17 ? "selected" : "")" @onclick="() => encounterType = 17">
+                @*Brain surgery*@
+                <img class="crit-icon" src="@GetIconPath(17)" />
             </div>
         </div>
+    </div>
         @if (encounterType.HasValue)
         {
             <HexedSceneryWebsite.Components.EncountersComponent 
                 EncounterType="@encounterType"
-                SelectorLabel="Roll a D6 and enter the result:"
+                SelectorLabel="Roll 2D6 and enter the result:"
                 EncounterStoreKey="@encounterStoreKey" />
         }
         else
@@ -61,7 +47,7 @@
                 SelectorLabel="Choose weapon type"
                 EncounterStoreKey="@encounterStoreKey" />
         }
-    </div>
+    
     <br />
 </div>
 
@@ -79,20 +65,11 @@
         string path = string.Empty;
         switch (encounterType)
         {
-            case 8:
-                path = "crossbow.svg";
+            case 16:
+                path = "limb.svg";
                 break;
-            case 9:
-                path = "wood-club.svg";
-                break;
-            case 10:
-                path = "stiletto.svg";
-                break;
-            case 11:
-                path = "mailed-fist.svg";
-                break;
-            case 12:
-                path = "barbed-spear.svg";
+            case 17:
+                path = "brain.svg";
                 break;
 
         }
@@ -106,6 +83,6 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        encounterStoreKey = $"criticalhits_{userInfo.IpAddress}";
+        encounterStoreKey = $"sawbones_{userInfo.IpAddress}";
     }
 }

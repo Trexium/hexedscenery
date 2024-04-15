@@ -1,4 +1,6 @@
-﻿namespace HexedSceneryWebsite.Services
+﻿using HexedSceneryData.Data;
+
+namespace HexedSceneryWebsite.Services
 {
     public enum Icon
     {
@@ -14,8 +16,16 @@
     }
     public class ResourceService : IResourceService
     {
+        private readonly HexedSceneryContext _context;
+
+        public ResourceService(HexedSceneryContext context)
+        {
+            _context = context;
+        }
+
         public string GetEncounterType(int encounterTypeId)
         {
+            return _context.EncounterTypes.FirstOrDefault(m => m.Id == encounterTypeId)?.DisplayName;
             string result = null;
 
             switch (encounterTypeId)

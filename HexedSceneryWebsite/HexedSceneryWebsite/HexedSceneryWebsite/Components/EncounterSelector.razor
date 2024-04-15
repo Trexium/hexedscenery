@@ -3,12 +3,15 @@
 @using HexedSceneryCommon.User;
 @inject Services.IEncounterService _randomHappeningsService;
 
-<div>
+<div style="text-align: center;">
     <label for="resultNumber">@LabelText</label>
     <br />
     <input id="resultNumber" @oninput="FindEncounter" disabled="@(!EncounterType.HasValue)" />
     <br />
-    Or
+    @if (EncounterType.HasValue)
+    {
+        <span>Or</span>
+    }
     <br />
     <div @onclick="@GenerateResultSubmit" class="randomize-btn @(EncounterType.HasValue ? "" : "disabled")">
         <span>Shuffle</span>

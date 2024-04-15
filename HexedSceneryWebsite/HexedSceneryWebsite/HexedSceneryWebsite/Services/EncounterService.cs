@@ -98,7 +98,11 @@ namespace HexedSceneryWebsite.Services
                 case 14: // Animosity
                     encounterNumber = _diceRollService.RollD6();
                     break;
-                case 15:
+                case 15: // TheTownCryerOfMordheim
+                    encounterNumber = _diceRollService.RollD6(2);
+                    break;
+                case 16: // Sawbones_LimbSurgery
+                case 17: // Sawbones_BrainSurgery
                     encounterNumber = _diceRollService.RollD6(2);
                     break;
             }

@@ -1,4 +1,4 @@
-using HexedSceneryWebsite.Data;
+
 using HexedSceneryWebsite.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -32,7 +32,7 @@ builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IUserStoredEncountersService, UserStoredEncountersService>();
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddTransient<IDiceRollService, DiceRollService>();
-builder.Services.AddSingleton<IResourceService, ResourceService>();
+builder.Services.AddTransient<IResourceService, ResourceService>();
 
 var app = builder.Build();
 

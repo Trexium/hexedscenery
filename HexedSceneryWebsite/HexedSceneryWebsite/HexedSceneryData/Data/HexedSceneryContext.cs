@@ -70,7 +70,7 @@ public partial class HexedSceneryContext : DbContext
 
     public virtual DbSet<Warband> Warbands { get; set; }
 
-
+   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<DiceChart>(entity =>
@@ -126,6 +126,7 @@ public partial class HexedSceneryContext : DbContext
 
             entity.ToTable("EncounterType");
 
+            entity.Property(e => e.DisplayName).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
