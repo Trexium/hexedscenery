@@ -90,6 +90,7 @@ namespace HexedSceneryWebsite.Services
                 case 10: // Crit_BladedWeapons
                 case 11: // Crit_UnarmedCombat
                 case 12: // Crit_ThrustingWeapons
+                case 19: // Crit_FlexibleWeapons
                     encounterNumber = _diceRollService.RollD6();
                     break;
                 case 13: // Stupidity
