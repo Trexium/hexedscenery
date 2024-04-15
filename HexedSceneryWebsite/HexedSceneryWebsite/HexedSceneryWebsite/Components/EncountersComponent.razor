@@ -9,6 +9,7 @@
     <div class="description">
         @((MarkupString)IntroText)
     </div>
+    
     @if (!HideSelector)
     {
         <HexedSceneryWebsite.Components.EncounterSelector EncounterType="@EncounterType" LabelText="@SelectorLabel" OnEncounterSelected="NewEncounter" />
@@ -18,7 +19,9 @@
     <div class="current-encounter">
         @if (currentEncounter != null)
         {
-            <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
+            <h3>
+                @string.Format("{0} {1}", HideResultNumber ? string.Empty : currentEncounter.ResultNumber, currentEncounter.Name)
+            </h3>
             <p>@((MarkupString)currentEncounter.Description)</p>
             @if (currentEncounter.DiceChart != null)
             {
@@ -82,6 +85,18 @@
                     foreach (var skill in currentEncounter.Monster.Skills)
                     {
                         <p class="skill"><b>@skill.Name:</b> @((MarkupString)skill.Description)</p>
+                    }
+                }
+                @if (currentEncounter.Monster.SpecialRules != null)
+                {
+                    foreach (var rule in currentEncounter.Monster.SpecialRules)
+                    {
+                        <div class="special-rule">
+                            <h5>@rule.Name</h5>
+                            <p>
+                                @rule.Description
+                            </p>
+                        </div>
                     }
                 }
             }
@@ -184,6 +199,9 @@
 
     [Parameter]
     public bool HideSelector { get; set; }
+
+    [Parameter]
+    public bool HideResultNumber { get; set; }
 
     [Parameter]
     public string IntroText { get; set; }
