@@ -85,10 +85,15 @@
                     }
                 }
             }
+            
             @if (!string.IsNullOrEmpty(currentEncounter.BottomText))
             {
                 <p>@((MarkupString)currentEncounter.BottomText)</p>
             }
+        }
+        else if (prevEncounters != null && prevEncounters.Any())
+        {
+            <h3>No result selected</h3>
         }
     </div>
     <div class="previous-encounters">

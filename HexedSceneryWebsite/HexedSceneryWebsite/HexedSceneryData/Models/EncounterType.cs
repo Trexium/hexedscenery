@@ -9,5 +9,7 @@ public partial class EncounterType
 
     public string Name { get; set; } = null!;
 
+    public string? DisplayName { get; set; }
+
     public virtual ICollection<Encounter> Encounters { get; } = new List<Encounter>();
 }

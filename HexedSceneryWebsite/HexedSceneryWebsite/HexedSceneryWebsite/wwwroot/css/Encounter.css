@@ -4,6 +4,7 @@
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
+  width: 100%;
 }
 @media (max-width: 800px) {
   div.encounter {
@@ -14,7 +15,7 @@ div.encounter div.current-encounter {
   flex: 1;
 }
 div.encounter div.previous-encounters {
-  flex: 0.8 2;
+  flex: 1;
 }
 div.encounter div.previous-encounters div.previous-encounters-header {
   display: flex;
