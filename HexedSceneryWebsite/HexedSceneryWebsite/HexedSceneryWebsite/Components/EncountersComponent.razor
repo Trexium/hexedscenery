@@ -19,7 +19,9 @@
     <div class="current-encounter">
         @if (currentEncounter != null)
         {
-            <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
+            <h3>
+                @string.Format("{0} {1}", HideResultNumber ? string.Empty : currentEncounter.ResultNumber, currentEncounter.Name)
+            </h3>
             <p>@((MarkupString)currentEncounter.Description)</p>
             @if (currentEncounter.DiceChart != null)
             {
@@ -197,6 +199,9 @@
 
     [Parameter]
     public bool HideSelector { get; set; }
+
+    [Parameter]
+    public bool HideResultNumber { get; set; }
 
     [Parameter]
     public string IntroText { get; set; }

@@ -106,7 +106,7 @@ namespace HexedSceneryWebsite.Services
                     encounterNumber = _diceRollService.RollD6(2);
                     break;
                 case 18: // RabbleRousing
-                    encounterNumber = _diceRollService.RollD6(2);
+                    encounterNumber = _diceRollService.RollD6();
                     break;
             }
 
