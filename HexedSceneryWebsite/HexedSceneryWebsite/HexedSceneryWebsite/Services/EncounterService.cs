@@ -109,6 +109,9 @@ namespace HexedSceneryWebsite.Services
                 case 18: // RabbleRousing
                     encounterNumber = _diceRollService.RollD6();
                     break;
+                case 20: // SeriousInjuries
+                    encounterNumber = _diceRollService.RollD66();
+                    break;
             }
 
             return await GetEncounter(encounterNumber, encounterType);
