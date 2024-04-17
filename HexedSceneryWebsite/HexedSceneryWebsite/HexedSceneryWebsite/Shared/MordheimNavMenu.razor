@@ -11,12 +11,12 @@
 
 <div class="@NavMenuCssClass nav-scrollable mordheim-nav-menu" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
+        <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-        <div class="nav-item px-3">
+        <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim/myrolls">
                 <span class="oi oi-person" aria-hidden="true"></span> My Rolls
             </NavLink>
@@ -26,7 +26,7 @@
             <hr />
         </div>
         
-        <div class="nav-item px-3">
+        <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim/hiredswords">
                 <span class="oi oi-person" aria-hidden="true"></span> Hired swords
             </NavLink>
@@ -36,72 +36,90 @@
             Skirmish 
             <hr />
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/criticalhits">
-                <span class="oi oi-script" aria-hidden="true"></span> Critical Hits
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/blackpowdermisfires">
-                <span class="oi oi-script" aria-hidden="true"></span> Blackpowder Misfires
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/stupidity">
-                <span class="oi oi-script" aria-hidden="true"></span> Stupidity
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
+        <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim/animosity">
                 <span class="oi oi-script" aria-hidden="true"></span> Animosity
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/randomhappenings/">
-                <span class="oi oi-script" aria-hidden="true"></span> Random Happenings
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" style="color: #666666;" href="mordheim/blackpowdermisfires">
+                <span class="oi oi-script" aria-hidden="true"></span> Blackpowder Misfires
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/subplots/">
-                <span class="oi oi-script" aria-hidden="true"></span> Subplots
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" style="color: #666666;" href="mordheim/criticalhits">
+                <span class="oi oi-script" aria-hidden="true"></span> Critical Hits
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/thetowncryerofmordheim/">
-                <span class="oi oi-script" aria-hidden="true"></span> The Town Cryer of Mordheim
+
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" style="color: #666666;" @onclick="()=>showEncounterSubMenu = !showEncounterSubMenu" @onclick:stopPropagation="true">
+                @if (showEncounterSubMenu)
+                {
+                    <span class="oi oi-caret-bottom" aria-hidden="true"></span>
+                }
+                else
+                {
+                    <span class="oi oi-caret-right" aria-hidden="true"></span>
+                }
+                 Encounters
             </NavLink>
         </div>
+        @if (showEncounterSubMenu)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" style="color: #666666;" href="mordheim/randomhappenings/">
+                    <span class="oi oi-script" aria-hidden="true"></span> Random Happenings
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" style="color: #666666;" href="mordheim/subplots/">
+                    <span class="oi oi-script" aria-hidden="true"></span> Subplots
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" style="color: #666666;" href="mordheim/thetowncryerofmordheim/">
+                    <span class="oi oi-script" aria-hidden="true"></span> The Town Cryer of Mordheim
+                </NavLink>
+            </div>
+        }
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" style="color: #666666;" href="mordheim/stupidity">
+                <span class="oi oi-script" aria-hidden="true"></span> Stupidity
+            </NavLink>
+        </div>
+        
         
         <div class="nav-item px-3 category" style="font-size: large">
             Post-Battle Sequence
             <hr />
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/seriousinjuries">
-                <span class="oi oi-script" aria-hidden="true"></span> Serious Injuries
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/rewardsoftheshadowlord">
-                <span class="oi oi-script" aria-hidden="true"></span> Rewards of the Shadowlord
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
+        <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim/powerinthestones">
                 <span class="oi oi-script" aria-hidden="true"></span> Power in the Stones
             </NavLink>
         </div>
-        <div class="nav-item px-3">
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" style="color: #666666;" href="mordheim/rewardsoftheshadowlord">
+                <span class="oi oi-script" aria-hidden="true"></span> Rewards of the Shadowlord
+            </NavLink>
+        </div>
+        <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim/randommutations">
                 <span class="oi oi-script" aria-hidden="true"></span> Random Mutations
             </NavLink>
         </div>
-        <div class="nav-item px-3">
+        <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim/sawbones">
                 <span class="oi oi-script" aria-hidden="true"></span> Sawbones
             </NavLink>
         </div>
-        <div class="nav-item px-3">
+        <div class="nav-item px-0">
+            <NavLink class="nav-link" style="color: #666666;" href="mordheim/seriousinjuries">
+                <span class="oi oi-script" aria-hidden="true"></span> Serious Injuries
+            </NavLink>
+        </div>
+        <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim/rabblerousing">
                 <span class="oi oi-script" aria-hidden="true"></span> Witch Hunter Rabble Rousing
             </NavLink>
@@ -113,7 +131,11 @@
 @code {
     private bool collapseNavMenu = true;
 
+    private bool showEncounterSubMenu;
+
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    
 
     private void ToggleNavMenu()
     {
