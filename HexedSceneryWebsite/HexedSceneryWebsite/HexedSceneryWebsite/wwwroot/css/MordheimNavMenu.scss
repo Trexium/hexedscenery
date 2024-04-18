@@ -35,6 +35,21 @@ div.mordheim-nav-menu {
                 font-size: larger;
                 line-height: 2rem;
             }
+
+            .nav-link:hover {
+                cursor: pointer;
+            }
+        }
+
+        .transition-visible {
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            max-height: 500px;
+        }
+
+        .transition-visible.transition-collapsed {
+            max-height: 0;
+            transition: max-height 0.5s ease-out;
         }
     }
 }

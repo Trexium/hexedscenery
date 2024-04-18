@@ -26,3 +26,15 @@ div.mordheim-nav-menu nav div.nav-item .nav-link {
   font-size: larger;
   line-height: 2rem;
 }
+div.mordheim-nav-menu nav div.nav-item .nav-link:hover {
+  cursor: pointer;
+}
+div.mordheim-nav-menu nav .transition-visible {
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+  max-height: 500px;
+}
+div.mordheim-nav-menu nav .transition-visible.transition-collapsed {
+  max-height: 0;
+  transition: max-height 0.5s ease-out;
+}

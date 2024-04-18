@@ -52,8 +52,8 @@
             </NavLink>
         </div>
 
-        <div class="nav-item px-0">
-            <NavLink class="nav-link" style="color: #666666;" @onclick="()=>showEncounterSubMenu = !showEncounterSubMenu" @onclick:stopPropagation="true">
+        <div class="nav-item px-0" @onclick="ToggleEncounterSubMenu" @onclick:stopPropagation="true">
+            <span class="nav-link" style="color: #666666;">
                 @if (showEncounterSubMenu)
                 {
                     <span class="oi oi-caret-bottom" aria-hidden="true"></span>
@@ -61,12 +61,10 @@
                 else
                 {
                     <span class="oi oi-caret-right" aria-hidden="true"></span>
-                }
-                 Encounters
-            </NavLink>
+                }Encounters
+            </span>
         </div>
-        @if (showEncounterSubMenu)
-        {
+        <div class="transition-visible @subMenuCssClass">
             <div class="nav-item px-3">
                 <NavLink class="nav-link" style="color: #666666;" href="mordheim/randomhappenings/">
                     <span class="oi oi-script" aria-hidden="true"></span> Random Happenings
@@ -79,10 +77,10 @@
             </div>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" style="color: #666666;" href="mordheim/thetowncryerofmordheim/">
-                    <span class="oi oi-script" aria-hidden="true"></span> The Town Cryer of Mordheim
+                    <span class="oi oi-script" aria-hidden="true"></span> Town Cryer
                 </NavLink>
             </div>
-        }
+        </div>
         <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim/stupidity">
                 <span class="oi oi-script" aria-hidden="true"></span> Stupidity
@@ -121,7 +119,7 @@
         </div>
         <div class="nav-item px-0">
             <NavLink class="nav-link" style="color: #666666;" href="mordheim/rabblerousing">
-                <span class="oi oi-script" aria-hidden="true"></span> Witch Hunter Rabble Rousing
+                <span class="oi oi-script" aria-hidden="true"></span> Rabble Rousing
             </NavLink>
         </div>
     </nav>
@@ -131,11 +129,16 @@
 @code {
     private bool collapseNavMenu = true;
 
+    private string subMenuCssClass => showEncounterSubMenu ? "show" : "transition-collapsed";
+
     private bool showEncounterSubMenu;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    
+    private void ToggleEncounterSubMenu()
+    {
+        showEncounterSubMenu = !showEncounterSubMenu;
+    }
 
     private void ToggleNavMenu()
     {
