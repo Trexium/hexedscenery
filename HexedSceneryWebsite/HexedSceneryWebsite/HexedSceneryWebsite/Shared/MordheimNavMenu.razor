@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark mordheim-navbar">
+﻿@using HexedSceneryWebsite.Components
+<div class="top-row ps-3 navbar navbar-dark mordheim-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Hexed Scenery</a>
 
@@ -11,101 +12,25 @@
 
 <div class="@NavMenuCssClass nav-scrollable mordheim-nav-menu" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/myrolls">
-                <span class="oi oi-person" aria-hidden="true"></span> My Rolls
-            </NavLink>
-        </div>
+        <AdvancedNavMenuLinks NavLinkList="topList" />
+
         <div class="nav-item px-3 category" style="font-size: large">
             Preperation
             <hr />
         </div>
-        
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/hiredswords">
-                <span class="oi oi-person" aria-hidden="true"></span> Hired swords
-            </NavLink>
-        </div>
+        <AdvancedNavMenuLinks NavLinkList="preperationList" />
 
         <div class="nav-item px-3 category" style="font-size: large">
-            Skirmish 
+            Skirmish
             <hr />
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/criticalhits">
-                <span class="oi oi-script" aria-hidden="true"></span> Critical Hits
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/blackpowdermisfires">
-                <span class="oi oi-script" aria-hidden="true"></span> Blackpowder Misfires
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/stupidity">
-                <span class="oi oi-script" aria-hidden="true"></span> Stupidity
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/animosity">
-                <span class="oi oi-script" aria-hidden="true"></span> Animosity
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/randomhappenings/">
-                <span class="oi oi-script" aria-hidden="true"></span> Random Happenings
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/subplots/">
-                <span class="oi oi-script" aria-hidden="true"></span> Subplots
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/thetowncryerofmordheim/">
-                <span class="oi oi-script" aria-hidden="true"></span> The Town Cryer of Mordheim
-            </NavLink>
-        </div>
-        
+        <AdvancedNavMenuLinks NavLinkList="skirmishList" />
+
         <div class="nav-item px-3 category" style="font-size: large">
             Post-Battle Sequence
             <hr />
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/seriousinjuries">
-                <span class="oi oi-script" aria-hidden="true"></span> Serious Injuries
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/rewardsoftheshadowlord">
-                <span class="oi oi-script" aria-hidden="true"></span> Rewards of the Shadowlord
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/powerinthestones">
-                <span class="oi oi-script" aria-hidden="true"></span> Power in the Stones
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/randommutations">
-                <span class="oi oi-script" aria-hidden="true"></span> Random Mutations
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/sawbones">
-                <span class="oi oi-script" aria-hidden="true"></span> Sawbones
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" style="color: #666666;" href="mordheim/rabblerousing">
-                <span class="oi oi-script" aria-hidden="true"></span> Witch Hunter Rabble Rousing
-            </NavLink>
-        </div>
+        <AdvancedNavMenuLinks NavLinkList="postBattleList" />
     </nav>
 
 </div>
@@ -113,10 +38,138 @@
 @code {
     private bool collapseNavMenu = true;
 
+    private string subMenuCssClass => showEncounterSubMenu ? "show" : "transition-collapsed";
+
+    private bool showEncounterSubMenu;
+
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleEncounterSubMenu()
+    {
+        showEncounterSubMenu = !showEncounterSubMenu;
+    }
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    private List<NavLinkModel> topList = new List<NavLinkModel>
+    {
+        new NavLinkModel
+        {
+            DisplayName = "Home",
+            Url = "mordheim",
+            IconCssClass = "oi-home",
+            NavLinkMatch = NavLinkMatch.All
+        },
+        new NavLinkModel
+        {
+            DisplayName = "My Rolls",
+            Url = "mordheim/myrolls",
+            IconCssClass = "oi-person"
+        }
+    };
+
+    private List<NavLinkModel> preperationList = new List<NavLinkModel>
+    {
+        new NavLinkModel
+        {
+            DisplayName = "Hired swords",
+            Url = "mordheim/hiredswords",
+            IconCssClass = "oi-person"
+        }
+    };
+    private List<NavLinkModel> skirmishList = new List<NavLinkModel>
+    {
+        new NavLinkModel
+        {
+            DisplayName = "Animosity",
+            Url = "mordheim/animosity",
+            IconCssClass = "oi-script"
+        },
+        new NavLinkModel
+        {
+            DisplayName = "Blackpowder Misfires",
+            Url = "mordheim/blackpowdermisfires",
+            IconCssClass = "oi-script"
+        },
+        new NavLinkModel
+        {
+            DisplayName = "Critical Hits",
+            Url = "mordheim/criticalhits",
+            IconCssClass = "oi-script"
+        },
+        new NavLinkModel
+        {
+            DisplayName = "Encounters",
+            Children = new List<NavLinkModel>
+            {
+                new NavLinkModel
+                {
+                    DisplayName = "Random Happenings",
+                    Url = "mordheim/randomhappenings/",
+                    IconCssClass = "oi-script"
+                },
+                new NavLinkModel
+                {
+                    DisplayName = "Subplots",
+                    Url = "mordheim/subplots/",
+                    IconCssClass = "oi-script"
+                },
+                new NavLinkModel
+                {
+                    DisplayName = "Town Cryer",
+                    Url = "mordheim/thetowncryerofmordheim/",
+                    IconCssClass = "oi-script"
+                }
+            }
+        },
+        new NavLinkModel
+        {
+            DisplayName = "Stupidity",
+            Url = "mordheim/stupidity",
+            IconCssClass = "oi-script"
+        }
+    };
+
+    private List<NavLinkModel> postBattleList = new List<NavLinkModel>
+    {
+        new NavLinkModel
+        {
+            DisplayName = "Power in the Stones",
+            Url = "mordheim/powerinthestones",
+            IconCssClass = "oi-script"
+        },
+        new NavLinkModel
+        {
+            DisplayName = "Rewards of the Shadowlord",
+            Url = "mordheim/rewardsoftheshadowlord",
+            IconCssClass = "oi-script"
+        },
+        new NavLinkModel
+        {
+            DisplayName = "Random Mutations",
+            Url = "mordheim/randommutations",
+            IconCssClass = "oi-script"
+        },
+        new NavLinkModel
+        {
+            DisplayName = "Sawbones",
+            Url = "mordheim/sawbones",
+            IconCssClass = "oi-script"
+        },
+        new NavLinkModel
+        {
+            DisplayName = "Serious Injuries",
+            Url = "mordheim/seriousinjuries",
+            IconCssClass = "oi-script"
+        },
+        new NavLinkModel
+        {
+            DisplayName = "Rabble Rousing",
+            Url = "mordheim/rabblerousing",
+            IconCssClass = "oi-script"
+        }
+    };
 }
