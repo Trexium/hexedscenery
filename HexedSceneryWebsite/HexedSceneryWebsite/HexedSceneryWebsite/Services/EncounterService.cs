@@ -112,6 +112,9 @@ namespace HexedSceneryWebsite.Services
                 case 20: // SeriousInjuries
                     encounterNumber = _diceRollService.RollD66();
                     break;
+                case 21: // TreasuresOfTheUnderground
+                    encounterNumber= _diceRollService.RollD6();
+                    break;
             }
 
             return await GetEncounter(encounterNumber, encounterType);
