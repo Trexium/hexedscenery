@@ -45,6 +45,13 @@
             }
             @if (currentEncounter.Monster != null)
             {
+                @if (!string.IsNullOrEmpty(currentEncounter.Monster.Description))
+                {
+                    <h5>@currentEncounter.Monster.Name</h5>
+                    <p>
+                        @((MarkupString)currentEncounter.Monster.Description)
+                    </p>
+                }
                 @if (currentEncounter.Monster.Profile != null)
                 {
                     <span class="first-column">@currentEncounter.Monster.Name</span>
@@ -94,7 +101,7 @@
                         <div class="special-rule">
                             <h5>@rule.Name</h5>
                             <p>
-                                @rule.Description
+                                @((MarkupString)rule.Description)
                             </p>
                         </div>
                     }
