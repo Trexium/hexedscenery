@@ -10,4 +10,6 @@ public partial class Equipment
     public string Name { get; set; } = null!;
 
     public virtual ICollection<HiredSwordEquipment> HiredSwordEquipments { get; } = new List<HiredSwordEquipment>();
+
+    public virtual ICollection<MonsterEquipment> MonsterEquipments { get; } = new List<MonsterEquipment>();
 }

@@ -45,6 +45,13 @@
             }
             @if (currentEncounter.Monster != null)
             {
+                @if (!string.IsNullOrEmpty(currentEncounter.Monster.Description))
+                {
+                    <h5>@currentEncounter.Monster.Name</h5>
+                    <p>
+                        @((MarkupString)currentEncounter.Monster.Description)
+                    </p>
+                }
                 @if (currentEncounter.Monster.Profile != null)
                 {
                     <span class="first-column">@currentEncounter.Monster.Name</span>
@@ -80,6 +87,16 @@
                     </table>
                 }
 
+                @if (currentEncounter.Monster.Equipment != null)
+                {
+                    <p><b>Weapons/Armour: </b>
+                    @foreach (var equipment in currentEncounter.Monster.Equipment)
+                    {
+                        @((MarkupString)equipment.Name)
+                    }
+                    </p>
+                }
+
                 @if (currentEncounter.Monster.Skills != null)
                 {
                     foreach (var skill in currentEncounter.Monster.Skills)
@@ -94,7 +111,7 @@
                         <div class="special-rule">
                             <h5>@rule.Name</h5>
                             <p>
-                                @rule.Description
+                                @((MarkupString)rule.Description)
                             </p>
                         </div>
                     }

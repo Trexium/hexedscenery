@@ -17,6 +17,8 @@ public partial class Monster
 
     public virtual ICollection<MonsterAdditionalProfile> MonsterAdditionalProfiles { get; } = new List<MonsterAdditionalProfile>();
 
+    public virtual ICollection<MonsterEquipment> MonsterEquipments { get; } = new List<MonsterEquipment>();
+
     public virtual ICollection<MonsterSkill> MonsterSkills { get; } = new List<MonsterSkill>();
 
     public virtual ICollection<MonsterSpecialRule> MonsterSpecialRules { get; } = new List<MonsterSpecialRule>();

@@ -42,6 +42,9 @@ namespace HexedSceneryWebsite.Services
                     .ThenInclude(m => m.DiceResults)
                 .Include(m => m.Monster)
                     .ThenInclude(m => m.Profile)
+                .Include(m => m.Monster)
+                    .ThenInclude(m => m.MonsterEquipments)
+                        .ThenInclude(m => m.Equipment)
                 .FirstOrDefaultAsync(e => e.ResultNumber == resultNumber && e.EncounterTypeId == encounterType);
                 if (encounter != null)
                 {
@@ -111,6 +114,9 @@ namespace HexedSceneryWebsite.Services
                     break;
                 case 20: // SeriousInjuries
                     encounterNumber = _diceRollService.RollD66();
+                    break;
+                case 21: // TreasuresOfTheUnderground
+                    encounterNumber= _diceRollService.RollD6();
                     break;
             }
 

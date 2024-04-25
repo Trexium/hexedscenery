@@ -86,13 +86,19 @@ namespace HexedSceneryWebsite.Configuration
 
         private void MapEncounter()
         {
+
             CreateMap<DataModels.Monster, Common.Monster>()
                 .ForMember(m => m.Description, opt => opt.MapFrom(s => s.Description))
                 .ForMember(m => m.Name, opt => opt.MapFrom(s => s.Name))
                 .ForMember(m => m.Profile, opt => opt.MapFrom(s => s.Profile))
                 .ForMember(m => m.AdditionalProfiles, opt => opt.MapFrom(s => s.MonsterAdditionalProfiles.Select(m => m.Profile)))
                 .ForMember(m => m.SpecialRules, opt => opt.MapFrom(s => s.MonsterSpecialRules.Select(m => m.SpecialRule)))
-                .ForMember(m => m.Skills, opt => opt.MapFrom(s => s.MonsterSkills.Select(m => m.Skill)));
+                .ForMember(m => m.Skills, opt => opt.MapFrom(s => s.MonsterSkills.Select(m => m.Skill)))
+                .ForMember(m => m.Equipment, opt =>
+                {
+                    opt.PreCondition(s => s.MonsterEquipments != null && s.MonsterEquipments.Any());
+                    opt.MapFrom(s => s.MonsterEquipments.Select(m => m.Equipment));
+                });
 
             CreateMap<DataModels.Encounter, Common.Encounter>()
                 .ForMember(m => m.BottomText, opt => opt.MapFrom(s => s.BottomText))

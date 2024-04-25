@@ -52,6 +52,8 @@ public partial class HexedSceneryContext : DbContext
 
     public virtual DbSet<MonsterAdditionalProfile> MonsterAdditionalProfiles { get; set; }
 
+    public virtual DbSet<MonsterEquipment> MonsterEquipments { get; set; }
+
     public virtual DbSet<MonsterSkill> MonsterSkills { get; set; }
 
     public virtual DbSet<MonsterSpecialRule> MonsterSpecialRules { get; set; }
@@ -70,7 +72,7 @@ public partial class HexedSceneryContext : DbContext
 
     public virtual DbSet<Warband> Warbands { get; set; }
 
-   
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<DiceChart>(entity =>
@@ -329,6 +331,23 @@ public partial class HexedSceneryContext : DbContext
                 .HasForeignKey(d => d.ProfileId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__MonsterAd__Profi__7FEAFD3E");
+        });
+
+        modelBuilder.Entity<MonsterEquipment>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__MonsterE__3214EC072FCDA83D");
+
+            entity.ToTable("MonsterEquipment");
+
+            entity.HasOne(d => d.Equipment).WithMany(p => p.MonsterEquipments)
+                .HasForeignKey(d => d.EquipmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__MonsterEq__Equip__4589517F");
+
+            entity.HasOne(d => d.Monster).WithMany(p => p.MonsterEquipments)
+                .HasForeignKey(d => d.MonsterId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__MonsterEq__Monst__44952D46");
         });
 
         modelBuilder.Entity<MonsterSkill>(entity =>
