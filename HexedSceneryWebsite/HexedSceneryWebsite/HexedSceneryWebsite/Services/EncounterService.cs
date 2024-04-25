@@ -42,6 +42,9 @@ namespace HexedSceneryWebsite.Services
                     .ThenInclude(m => m.DiceResults)
                 .Include(m => m.Monster)
                     .ThenInclude(m => m.Profile)
+                .Include(m => m.Monster)
+                    .ThenInclude(m => m.MonsterEquipments)
+                        .ThenInclude(m => m.Equipment)
                 .FirstOrDefaultAsync(e => e.ResultNumber == resultNumber && e.EncounterTypeId == encounterType);
                 if (encounter != null)
                 {

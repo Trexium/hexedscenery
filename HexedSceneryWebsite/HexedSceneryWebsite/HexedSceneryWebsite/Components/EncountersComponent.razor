@@ -87,6 +87,16 @@
                     </table>
                 }
 
+                @if (currentEncounter.Monster.Equipment != null)
+                {
+                    <p><b>Weapons/Armour: </b>
+                    @foreach (var equipment in currentEncounter.Monster.Equipment)
+                    {
+                        @((MarkupString)equipment.Name)
+                    }
+                    </p>
+                }
+
                 @if (currentEncounter.Monster.Skills != null)
                 {
                     foreach (var skill in currentEncounter.Monster.Skills)

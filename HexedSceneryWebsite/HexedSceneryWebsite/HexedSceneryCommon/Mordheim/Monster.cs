@@ -12,5 +12,6 @@ namespace HexedSceneryCommon.Mordheim
         public List<Profile> AdditionalProfiles { get; set; }
         public List<Skill> Skills { get; set; }
         public List<SpecialRule> SpecialRules { get; set; }
+        public List<Equipment> Equipment { get; set; }
     }
 }

@@ -9,7 +9,9 @@ public partial class MonsterEquipment
 
     public int MonsterId { get; set; }
 
-    public string? Equipment { get; set; }
+    public int EquipmentId { get; set; }
+
+    public virtual Equipment Equipment { get; set; } = null!;
 
     public virtual Monster Monster { get; set; } = null!;
 }

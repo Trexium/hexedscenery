@@ -335,14 +335,19 @@ public partial class HexedSceneryContext : DbContext
 
         modelBuilder.Entity<MonsterEquipment>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__MonsterE__3214EC07A813606C");
+            entity.HasKey(e => e.Id).HasName("PK__MonsterE__3214EC072FCDA83D");
 
             entity.ToTable("MonsterEquipment");
+
+            entity.HasOne(d => d.Equipment).WithMany(p => p.MonsterEquipments)
+                .HasForeignKey(d => d.EquipmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__MonsterEq__Equip__4589517F");
 
             entity.HasOne(d => d.Monster).WithMany(p => p.MonsterEquipments)
                 .HasForeignKey(d => d.MonsterId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__MonsterEq__Monst__41B8C09B");
+                .HasConstraintName("FK__MonsterEq__Monst__44952D46");
         });
 
         modelBuilder.Entity<MonsterSkill>(entity =>
