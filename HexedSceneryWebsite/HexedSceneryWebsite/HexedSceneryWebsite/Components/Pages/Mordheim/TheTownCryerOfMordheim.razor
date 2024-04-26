@@ -1,0 +1,77 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@page "/mordheim/thetowncryerofmordheim"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IUserService _userService;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+@inject Services.IResourceService _resourceService;
+
+
+<PageTitle>The Town Cryer of Mordheim</PageTitle>
+
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <EncountersComponent EncounterType="15"
+        Title="The Town Cryer of Mordheim"
+        SelectorLabel="Roll 2D6 and enter the result:"
+        EncounterStoreKey="@encounterStoreKey"
+        Column3Header="Curse of the Cryer"
+        IntroText="The Town Cryer is a ghostly apperition that stalks the streets of Mordheim in the dead of night. He is a special encounter/character that can be used in any scenario if agreed by all players participating in the game."
+        HideColumn2=true />
+    <br />
+    <div class="row description">
+        <div class="col-lg-5">
+            <h2>Appears at will...</h2>
+            <p>
+                The apperition appears at will to taunt adventurers with its ghostly presence and prophecies.
+                Roll 2D6 at the start of each player's turn. If one or both of the dice matches the turn number, the Town Cryer manifests in all its antiglory!
+                He appears within 2D6" of a random Hero of the player's warband whose turn it is and will only disappear when banished (see below), moves off the table or after D6 turns.
+            </p>
+        </div>
+        <div class="col-lg-5">
+            <h2>The floating prophet...</h2>
+            <p>
+                The Town Cryer always moves immediately prior to the player whose turn in which it appeared.
+                It moves 2D6" in a random direction (detemined by a Scatter dice) unless a living creature is within 6" then it will move towards them.
+                The Town Cryer always moves the full amount and passes through all obstacles.
+                If it moves off the board it disappears. If the Town Cryer through a living creature, it 'chills' them.
+                The affected warrior(s) must pass a Leadership test or suffer -1 to their Strength and Leadership until the Town Cryer disappears or is banished.
+            </p>
+        </div>
+        <div class="col-lg-5">
+            <h2>A curse upon all your heads!</h2>
+            <p>
+                If a warrior is within 6" of the Town Cryer after it finishes moving, it issues a portentous warning that could spell their doom!
+                It always challanges the closest warrior. Roll 2D6 on the table to discover the nature of the Town Cryer's warning.
+            </p>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private string encounterStoreKey;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"thetowncryerofmordheim_{userInfo.IpAddress}";
+    }
+}

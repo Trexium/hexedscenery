@@ -13,9 +13,9 @@ public partial class Skill
 
     public int SkillTypeId { get; set; }
 
-    public virtual ICollection<HiredSwordSkill> HiredSwordSkills { get; } = new List<HiredSwordSkill>();
+    public virtual ICollection<HiredSwordSkill> HiredSwordSkills { get; set; } = new List<HiredSwordSkill>();
 
-    public virtual ICollection<MonsterSkill> MonsterSkills { get; } = new List<MonsterSkill>();
+    public virtual ICollection<MonsterSkill> MonsterSkills { get; set; } = new List<MonsterSkill>();
 
     public virtual SkillType SkillType { get; set; } = null!;
 }

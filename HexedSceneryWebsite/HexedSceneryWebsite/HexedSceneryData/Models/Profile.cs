@@ -27,11 +27,11 @@ public partial class Profile
 
     public string Leadership { get; set; } = null!;
 
-    public virtual ICollection<HiredSwordAdditionalProfile> HiredSwordAdditionalProfiles { get; } = new List<HiredSwordAdditionalProfile>();
+    public virtual ICollection<HiredSwordAdditionalProfile> HiredSwordAdditionalProfiles { get; set; } = new List<HiredSwordAdditionalProfile>();
 
-    public virtual ICollection<HiredSword> HiredSwords { get; } = new List<HiredSword>();
+    public virtual ICollection<HiredSword> HiredSwords { get; set; } = new List<HiredSword>();
 
-    public virtual ICollection<MonsterAdditionalProfile> MonsterAdditionalProfiles { get; } = new List<MonsterAdditionalProfile>();
+    public virtual ICollection<MonsterAdditionalProfile> MonsterAdditionalProfiles { get; set; } = new List<MonsterAdditionalProfile>();
 
-    public virtual ICollection<Monster> Monsters { get; } = new List<Monster>();
+    public virtual ICollection<Monster> Monsters { get; set; } = new List<Monster>();
 }

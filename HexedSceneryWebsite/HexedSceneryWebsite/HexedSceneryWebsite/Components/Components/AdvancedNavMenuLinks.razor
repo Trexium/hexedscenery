@@ -1,0 +1,49 @@
+﻿@using HexedSceneryWebsite.Components.Components
+
+@foreach(var navLink in NavLinkList) {
+    if (navLink.Children == null || !navLink.Children.Any())
+    {
+        <div class="nav-item px-0">
+            @if (navLink.NavLinkMatch.HasValue)
+            {
+                <NavLink class="nav-link" style="color:#666666" href="@navLink.Url" Match="navLink.NavLinkMatch.Value">
+                    <span class="oi @navLink.IconCssClass" aria-hidden="true"></span> @navLink.DisplayName
+                </NavLink>
+            }
+            else
+            {
+                <NavLink class="nav-link" style="color:#666666" href="@navLink.Url">
+                    <span class="oi @navLink.IconCssClass" aria-hidden="true"></span> @navLink.DisplayName
+                </NavLink>
+            }
+            
+        </div>
+    }
+    else
+    {
+        <div class="nav-item px-0" @onclick="() => navLink.IsChildrenVisible = !navLink.IsChildrenVisible" @onclick:stopPropagation="true">
+            <span class="nav-link" style="color: #666666;">
+                @if (navLink.IsChildrenVisible)
+                {
+                    <span class="oi oi-caret-bottom" aria-hidden="true"></span>
+                }
+                else
+                {
+                    <span class="oi oi-caret-right" aria-hidden="true"></span>
+                } 
+                &nbsp;@navLink.DisplayName
+            </span>
+        </div>
+        <div class="px-3 transition-visible @navLink.SubMenuCssClass">
+            <AdvancedNavMenuLinks NavLinkList="navLink.Children" />
+        </div>
+    }
+}
+
+@code {
+    [Parameter]
+    public List<NavLinkModel> NavLinkList { get; set; }
+}
+
+
+

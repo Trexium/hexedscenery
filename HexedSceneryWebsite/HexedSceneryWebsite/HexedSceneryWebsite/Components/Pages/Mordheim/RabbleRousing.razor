@@ -1,0 +1,142 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@page "/mordheim/rabblerousing"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IUserService _userService;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+@inject Services.IResourceService _resourceService;
+
+
+<PageTitle>Witch Hunter Rabble Rousing</PageTitle>
+
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <EncountersComponent EncounterType="18"
+        Title="Witch Hunter Rabble Rousing"
+        SelectorLabel="Roll 2D6 and enter the result:"
+        EncounterStoreKey="@encounterStoreKey"
+        HideColumn2=true 
+        HideResultNumber=true />
+    <br />
+    <div class="row description">
+        <div class="col-lg-5">
+            <h2>The Witch Hunters & the mob</h2>
+            <p>
+                While most often the members of the Order of
+                Witch Hunters prefer to operate alone or in small
+                groups leading a few trusted followers, in these
+                troubled times of strife and when anticipating an
+                especially hard battle lies ahead, the Witch
+                Hunters are sometimes willing to bring forth the
+                full weight of their edict from the Grand
+                Theogonist to summon the faithful to fight for
+                cause of the Witch Hunters and obey them
+                without a question. Living in the squalor of the
+                many settlements around Mordheim there are
+                many zealous worshippers of Sigmar who can be
+                easily roused with fiery words to follow the Witch
+                Hunter Warbands into the very city of Mordheim
+                where few would normally dare to venture.
+            </p>
+        </div>
+        <div class="col-lg-5">
+            <h2>The Rules</h2>
+            <p>
+                After any game, but before collecting any
+                Wyrdstone, doing any exploration or looking for
+                any rare items, the player
+                can decide to send one or
+                more of his Heroes to look
+                for rabble to rouse with
+                one of their exhorting
+                speeches to denounce
+                heretics.
+                Witch Hunter player may
+                send up to three of the
+                heroes of the Warband to
+                preach to the zealous
+                followers of the Cult of
+                Sigmar in order to inspire
+                them to follow the witch
+                hunters into battle. The
+                player must decide how
+                many heroes he sends to
+                rouse the mob before
+                rolling any dice.
+                Up to 6 Models can be
+                acquired through Rabble
+                Rousing. If more than 6
+                are acquired, the player
+                may choose which ones
+                are brought to the next
+                battle.
+                The Rabble does not count
+                towards the maximum size
+                of the Warband, though it
+                does count towards the
+                Warband rating and it
+                counts against the Rout
+                tests.
+                The rabble disperses after
+                the battle, and gains no
+                experience and takes no
+                part in exploration or
+                towards the total cost of
+                the upkeep of the
+                Warband.
+
+                You may form same types of rabble into
+                Henchmen groups if you wish, or move them
+                individually.
+                For each Witch Hunter hero looking rouse the
+                rabble, roll one D6 and consult the following chart.
+
+                Those who have sinned against the tenets of the
+                Cult of Sigmar often suffer intense religious guilt
+                and anguish. For such men and women (once they
+                confess their sins to the Church), the Temple
+                offers a way to salvation: paying penance. Often
+                this involves self-flagellation, pilgrimage or prayer,
+                but the most extreme form is the Trial by Fire,
+                where the Penitents must publicly set themselves
+                on fire: If he or she survives the flames, it means
+                all of the Penitent’s sins are absolved. If the
+                Penitent dies, he or she goes to meet the
+                judgement of Sigmar in the next life. Penitents
+                wear hoods or rags to hide their faces in order to
+                show their remorse, and shame and they are easily
+                swayed by the fiery sermons of the Witch Hunters
+                and readily accompany them to face the enemies
+                of Sigmar in order to absolve their sins.
+            </p>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private string encounterStoreKey;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"rabblerousing_{userInfo.IpAddress}";
+    }
+}

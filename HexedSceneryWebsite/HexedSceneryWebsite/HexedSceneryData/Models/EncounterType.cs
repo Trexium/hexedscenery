@@ -11,5 +11,5 @@ public partial class EncounterType
 
     public string? DisplayName { get; set; }
 
-    public virtual ICollection<Encounter> Encounters { get; } = new List<Encounter>();
+    public virtual ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
 }

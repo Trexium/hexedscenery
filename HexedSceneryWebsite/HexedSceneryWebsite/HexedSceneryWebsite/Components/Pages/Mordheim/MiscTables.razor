@@ -1,0 +1,136 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@page "/mordheim/misctables/"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IUserService _userService;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+@inject Services.IResourceService _resourceService;
+
+<PageTitle>Misc. Combat Tables</PageTitle>
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <div class="encounters-pane">
+        <div class="encounter-type-selection">
+            <h1>Misc. Combat Tables</h1>
+        </div>
+        <div class="encounter-type-selection">
+            <div class="selection-item @(encounterType == 6 ? "selected" : "")" @onclick="() => encounterType = 6">
+                Blackpowder Misfires
+            </div>
+            <div class="divider hidden-mobile"></div>
+            <div class="selection-item @(encounterType == 13 ? "selected" : "")" @onclick="() => encounterType = 13">
+                Stupidity
+            </div>
+            <div class="divider hidden-mobile"></div>
+            <div class="selection-item @(encounterType == 14 ? "selected" : "")" @onclick="() => encounterType = 14">
+                Animosity
+            </div>
+        </div>
+        @if (encounterType.HasValue)
+        {
+            <EncounterSelector EncounterType="@encounterType.Value" LabelText="Roll a D6 and enter the result:" OnEncounterSelected="@NewEncounter" />
+        }
+        else
+        {
+            <EncounterSelector LabelText="Choose a table" />
+        }
+    </div>
+    <br />
+    <div class="encounter">
+        <div class="current-encounter">
+            @if (currentEncounter != null)
+            {
+                <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
+                <p>@((MarkupString)currentEncounter.Description)</p>
+            }
+        </div>
+        <div class="previous-encounters">
+            @if (prevEncounters != null && prevEncounters.Any())
+            {
+                <div class="previous-encounters-header">
+                    <div class="smaller-column">Result</div>
+                    <div>Table</div>
+                    <div>Effect</div>
+                    <div class="smaller-column"></div>
+                </div>
+
+                @foreach (var prevEncounter in prevEncounters)
+                {
+                    <div class="previous-encounters-row-data" @onclick="() => GoToPreviousEncounter(prevEncounter)">
+                        <div class="smaller-column">
+                            @prevEncounter.ResultNumber
+                        </div>
+                        <div>
+                            @_resourceService.GetEncounterType(prevEncounter.EncounterTypeId)
+                        </div>
+                        <div>
+                            @prevEncounter.Name
+                        </div>
+                        <div class="smaller-column">
+                            <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
+                        </div>
+                    </div>
+                }
+
+                <br />
+                <br />
+            }
+        </div>
+
+
+    </div>
+</div>
+
+
+@code {
+    private int? encounterType { get; set; }
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private List<Encounter> prevEncounters;
+    private string encounterStoreKey;
+    private Encounter currentEncounter;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+    private async void GoToPreviousEncounter(Encounter prevEncounter)
+    {
+        currentEncounter = prevEncounter;
+        StateHasChanged();
+    }
+
+    private async void DeletePreviousEncounter(int prevEncounterIndex)
+    {
+        prevEncounters.RemoveAt(prevEncounterIndex);
+        StateHasChanged();
+    }
+
+    private async void NewEncounter(Encounter encounter)
+    {
+        await _userStoredEncountersService.StoreEncounter(encounterStoreKey, encounter);
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+        currentEncounter = encounter;
+        StateHasChanged();
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"misctables{userInfo.IpAddress}";
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+        currentEncounter = null;
+    }
+}

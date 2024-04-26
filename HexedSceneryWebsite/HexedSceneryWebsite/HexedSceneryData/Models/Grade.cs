@@ -11,5 +11,5 @@ public partial class Grade
 
     public string Description { get; set; } = null!;
 
-    public virtual ICollection<HiredSword> HiredSwords { get; } = new List<HiredSword>();
+    public virtual ICollection<HiredSword> HiredSwords { get; set; } = new List<HiredSword>();
 }

@@ -1,0 +1,270 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+@inject Services.IResourceService _resourceService;
+
+<div class="encounters-pane">
+    <h2>@Title</h2>
+    <div class="description">
+        @((MarkupString)IntroText)
+    </div>
+    
+    @if (!HideSelector)
+    {
+        <EncounterSelector EncounterType="@EncounterType" LabelText="@SelectorLabel" OnEncounterSelected="NewEncounter" />
+    }
+</div>
+<div class="encounter">
+    <div class="current-encounter">
+        @if (currentEncounter != null)
+        {
+            <h3>
+                @string.Format("{0} {1}", HideResultNumber ? string.Empty : currentEncounter.ResultNumber, currentEncounter.Name)
+            </h3>
+            <p>@((MarkupString)currentEncounter.Description)</p>
+            @if (currentEncounter.DiceChart != null)
+            {
+                <table class="dice-chart-table">
+                    <thead>
+                        <tr>
+                            <th class="first-column">@currentEncounter.DiceChart.Dice</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in currentEncounter.DiceChart.DiceResults)
+                        {
+                            <tr>
+                                <td>@result.ResultNumber</td>
+                                <td>@((MarkupString)result.Description)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            @if (currentEncounter.Monster != null)
+            {
+                @if (!string.IsNullOrEmpty(currentEncounter.Monster.Description))
+                {
+                    <h5>@currentEncounter.Monster.Name</h5>
+                    <p>
+                        @((MarkupString)currentEncounter.Monster.Description)
+                    </p>
+                }
+                @if (currentEncounter.Monster.Profile != null)
+                {
+                    <span class="first-column">@currentEncounter.Monster.Name</span>
+                    <table class="profile-table">
+                        <thead>
+                            <tr>
+                                <th class="first-column">Profile</th>
+                                <th>M</th>
+                                <th>WS</th>
+                                <th>BS</th>
+                                <th>S</th>
+                                <th>T</th>
+                                <th>W</th>
+                                <th>I</th>
+                                <th>A</th>
+                                <th>Ld</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="first-column">@currentEncounter.Monster.Name</td>
+                                <td>@currentEncounter.Monster.Profile.Movement</td>
+                                <td>@currentEncounter.Monster.Profile.WeaponSkill</td>
+                                <td>@currentEncounter.Monster.Profile.BallisticSkill</td>
+                                <td>@currentEncounter.Monster.Profile.Strength</td>
+                                <td>@currentEncounter.Monster.Profile.Toughness</td>
+                                <td>@currentEncounter.Monster.Profile.Wounds</td>
+                                <td>@currentEncounter.Monster.Profile.Initiative</td>
+                                <td>@currentEncounter.Monster.Profile.Attacks</td>
+                                <td>@currentEncounter.Monster.Profile.Leadership</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+
+                @if (currentEncounter.Monster.Equipment != null)
+                {
+                    <p><b>Weapons/Armour: </b>
+                    @foreach (var equipment in currentEncounter.Monster.Equipment)
+                    {
+                        @((MarkupString)equipment.Name)
+                    }
+                    </p>
+                }
+
+                @if (currentEncounter.Monster.Skills != null)
+                {
+                    foreach (var skill in currentEncounter.Monster.Skills)
+                    {
+                        <p class="skill"><b>@skill.Name:</b> @((MarkupString)skill.Description)</p>
+                    }
+                }
+                @if (currentEncounter.Monster.SpecialRules != null)
+                {
+                    foreach (var rule in currentEncounter.Monster.SpecialRules)
+                    {
+                        <div class="special-rule">
+                            <h5>@rule.Name</h5>
+                            <p>
+                                @((MarkupString)rule.Description)
+                            </p>
+                        </div>
+                    }
+                }
+            }
+            
+            @if (!string.IsNullOrEmpty(currentEncounter.BottomText))
+            {
+                <p>@((MarkupString)currentEncounter.BottomText)</p>
+            }
+        }
+        else if (prevEncounters != null && prevEncounters.Any())
+        {
+            <h3>No result selected</h3>
+        }
+    </div>
+    <div class="previous-encounters">
+        @if (prevEncounters != null && prevEncounters.Any())
+        {
+            <div class="previous-encounters-header">
+                @if (!HideColumn1)
+                {
+                    <div class="smaller-column">@Column1Header</div>
+                }
+                @if (!HideColumn2)
+                {
+                    <div>@Column2Header</div>
+                }
+                @if (!HideColumn3)
+                {
+                    <div>@Column3Header</div>
+                }
+                <div class="smaller-column"></div>
+            </div>
+
+            @foreach (var prevEncounter in prevEncounters)
+            {
+                <div class="previous-encounters-row-data" @onclick="() => GoToPreviousEncounter(prevEncounter)">
+                    @if (!HideColumn1)
+                    {
+                        <div class="smaller-column">
+                            @prevEncounter.ResultNumber
+                        </div>
+                    }
+                    @if (!HideColumn2)
+                    {
+                        <div>
+                            @_resourceService.GetEncounterType(prevEncounter.EncounterTypeId)
+                        </div>
+                    }
+                    @if (!HideColumn3)
+                    {
+                        <div>
+                            @prevEncounter.Name
+                        </div>
+                    }
+                    <div class="smaller-column">
+                        <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
+                    </div>
+                </div>
+            }
+            <br />
+            <br />
+        }
+    </div>
+</div>
+
+@code {
+    private List<Encounter> prevEncounters;
+    private string encounterStoreKey;
+    private Encounter currentEncounter;
+
+    [Parameter]
+    public int? EncounterType { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string SelectorLabel { get; set; }
+
+    [Parameter]
+    public string EncounterStoreKey { get; set; }
+
+    [Parameter]
+    public string Column1Header { get; set; }
+
+    [Parameter]
+    public string Column2Header { get; set; }
+
+    [Parameter]
+    public string Column3Header { get; set; }
+
+    [Parameter]
+    public bool HideColumn1 { get; set; }
+
+    [Parameter]
+    public bool HideColumn2 { get; set; }
+
+    [Parameter]
+    public bool HideColumn3 { get; set; }
+
+    [Parameter]
+    public bool HideSelector { get; set; }
+
+    [Parameter]
+    public bool HideResultNumber { get; set; }
+
+    [Parameter]
+    public string IntroText { get; set; }
+
+    private async void GoToPreviousEncounter(Encounter prevEncounter)
+    {
+        currentEncounter = prevEncounter;
+        StateHasChanged();
+    }
+
+    private async void DeletePreviousEncounter(int prevEncounterIndex)
+    {
+        prevEncounters.RemoveAt(prevEncounterIndex);
+        StateHasChanged();
+    }
+
+    public async void NewEncounter(Encounter encounter)
+    {
+        await _userStoredEncountersService.StoreEncounter(EncounterStoreKey, encounter);
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(EncounterStoreKey);
+        currentEncounter = encounter;
+        StateHasChanged();
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(EncounterStoreKey);
+        currentEncounter = null;
+
+        if (string.IsNullOrEmpty(Column1Header))
+        {
+            Column1Header = "Result";
+        }
+        if (string.IsNullOrEmpty(Column2Header))
+        {
+            Column2Header = "Table";
+        }
+        if (string.IsNullOrEmpty(Column3Header))
+        {
+            Column3Header = "Effect";
+        }
+    }
+}

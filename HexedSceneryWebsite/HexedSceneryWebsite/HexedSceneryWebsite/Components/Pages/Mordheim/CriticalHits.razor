@@ -1,0 +1,118 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@page "/mordheim/criticalhits/"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IUserService _userService;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+@inject Services.IResourceService _resourceService;
+
+<PageTitle>Critical Hits</PageTitle>
+
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <div class="encounters-pane">
+        <div class="encounter-type-selection">
+            <h1>Critical Hits</h1>
+        </div>
+        <div class="encounter-type-selection only-row">
+            <div class="selection-item @(encounterType == 8 ? "selected" : "")" @onclick="() => encounterType = 8">
+                @*Missile weapons*@
+                <img class="crit-icon" src="@GetIconPath(8)" />
+            </div>
+            <div class="divider hidden-mobile"></div>
+            <div class="selection-item @(encounterType == 9 ? "selected" : "")" @onclick="() => encounterType = 9">
+                @*Bludgeon weapons*@
+                <img class="crit-icon" src="@GetIconPath(9)" />
+            </div>
+            <div class="divider hidden-mobile"></div>
+            <div class="selection-item @(encounterType == 10 ? "selected" : "")" @onclick="() => encounterType = 10">
+                @*Bladed weapons*@
+                <img class="crit-icon" src="@GetIconPath(10)" />
+            </div>
+            <div class="divider hidden-mobile"></div>
+            <div class="selection-item @(encounterType == 11 ? "selected" : "")" @onclick="() => encounterType = 11">
+                @*Unarmed combat*@
+                <img class="crit-icon" src="@GetIconPath(11)" />
+            </div>
+            <div class="divider hidden-mobile"></div>
+            <div class="selection-item @(encounterType == 12 ? "selected" : "")" @onclick="() => encounterType = 12">
+                @*Thrusting weapons*@
+                <img class="crit-icon" src="@GetIconPath(12)" />
+            </div>
+            <div class="divider hidden-mobile"></div>
+            <div class="selection-item @(encounterType == 19 ? "selected" : "")" @onclick="() => encounterType = 19">
+                @*Flexible weapons*@
+                <img class="crit-icon" src="@GetIconPath(19)" />
+            </div>
+        </div>
+        @if (encounterType.HasValue)
+        {
+            <EncountersComponent 
+                EncounterType="@encounterType"
+                SelectorLabel="Roll a D6 and enter the result:"
+                EncounterStoreKey="@encounterStoreKey" />
+        }
+        else
+        {
+            <EncountersComponent 
+                SelectorLabel="Choose weapon type"
+                EncounterStoreKey="@encounterStoreKey" />
+        }
+    </div>
+    <br />
+</div>
+
+@code {
+    private int? encounterType { get; set; }
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private string encounterStoreKey;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+    private string GetIconPath(int encounterType)
+    {
+        string path = string.Empty;
+        switch (encounterType)
+        {
+            case 8:
+                path = "crossbow.svg";
+                break;
+            case 9:
+                path = "wood-club.svg";
+                break;
+            case 10:
+                path = "stiletto.svg";
+                break;
+            case 11:
+                path = "mailed-fist.svg";
+                break;
+            case 12:
+                path = "barbed-spear.svg";
+                break;
+            case 19:
+                path = "whip.svg";
+                break;
+        }
+        return $"/images/icons/{path}";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"criticalhits_{userInfo.IpAddress}";
+    }
+}

@@ -1,0 +1,93 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@page "/mordheim/randommutations"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IEncounterService _randomHappeningsService
+@inject Services.IUserService _userService;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+
+<PageTitle>Random Mutations</PageTitle>
+
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <div class="mordheim-page">
+        <EncountersComponent 
+            EncounterType="5"
+            Title="Random Mutations"
+            SelectorLabel="Roll a D66 and enter the result:"
+            EncounterStoreKey="@encounterStoreKey"
+            Column3Header="Mutation"
+            HideColumn2=true/>
+    </div>
+    
+    <h2>Description</h2>
+    <p>
+        Mordheim is a city under the sway of Chaos,
+        and with Chaos comes mutation and change.
+        There are numerous ways by which a warrior
+        can be afflicted with mutation, and there are
+        some who actually seek out mutation as a
+        'reward’ of the Chaos Powers. While mutations
+        are not always harmful, and indeed can often
+        be helpful, they are a mark of Chaos, and as
+        such those who bear them are feared,
+        shunned and persecuted throughout the
+        Empire.<br /><br />
+        The following is a table used to generate the
+        colourful, exotic, and sometimes debilitating
+        mutations that will be visited upon certain
+        warriors at certain times (i.e. as a result of
+        exposure to Wyrdstone, for example). The
+        table may also prove useful to Gamemasters
+        who want to quickly generate some
+        interesting mutants for a special scenario. The
+        table uses a D66 roll, just like the Heroes
+        Serious Injuries table in the rulebook. If the
+        mutant rolls a mutation that it already
+        possesses, re-roll it until a new mutation is
+        generated.<br /><br />
+        Note: The great danger of mutation is that it
+        will ultimately overwhelm the victim with the
+        corrupting power of Chaos, reducing them to
+        a monstrous and mindless Chaos Spawn. To
+        represent this danger, if a warrior ever has a
+        characteristic reduced to zero as the result of
+        a mutation, they immediately degenerate into
+        a loathsome Chaos Spawn (see the full rules
+        for Chaos Spawn above).<br /><br />
+        Any member of a human, mercenary warband
+        (this includes both Ostlanders and
+        Averlanders) that receives a mutation marked
+        with * is immediately drummed out of the
+        warband by his suspicious peers. Remove the
+        hero from the roster, his equipment is lost.
+    </p>
+</div>
+
+@code {
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private string encounterStoreKey;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"randommutations_{userInfo.IpAddress}";
+    }
+}

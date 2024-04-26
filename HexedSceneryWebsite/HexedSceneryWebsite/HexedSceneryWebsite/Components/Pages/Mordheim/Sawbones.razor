@@ -1,0 +1,88 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@page "/mordheim/sawbones/"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IUserService _userService;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+@inject Services.IResourceService _resourceService;
+
+<PageTitle>Sawbones</PageTitle>
+
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <div class="encounters-pane">
+        <div class="encounter-type-selection">
+            <h1>Sawbones</h1>
+        </div>
+        <div class="encounter-type-selection only-row">
+            <div class="selection-item @(encounterType == 16 ? "selected" : "")" @onclick="() => encounterType = 16">
+                @*Limb surgery*@
+                <img class="crit-icon" src="@GetIconPath(16)" />
+            </div>
+            <div class="divider hidden-mobile"></div>
+            <div class="selection-item @(encounterType == 17 ? "selected" : "")" @onclick="() => encounterType = 17">
+                @*Brain surgery*@
+                <img class="crit-icon" src="@GetIconPath(17)" />
+            </div>
+        </div>
+    </div>
+        @if (encounterType.HasValue)
+        {
+            <EncountersComponent 
+                EncounterType="@encounterType"
+                SelectorLabel="Roll 2D6 and enter the result:"
+                EncounterStoreKey="@encounterStoreKey" />
+        }
+        else
+        {
+            <EncountersComponent 
+                SelectorLabel="Choose weapon type"
+                EncounterStoreKey="@encounterStoreKey" />
+        }
+    
+    <br />
+</div>
+
+@code {
+    private int? encounterType { get; set; }
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private string encounterStoreKey;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+    private string GetIconPath(int encounterType)
+    {
+        string path = string.Empty;
+        switch (encounterType)
+        {
+            case 16:
+                path = "limb.svg";
+                break;
+            case 17:
+                path = "brain.svg";
+                break;
+
+        }
+        return $"/images/icons/{path}";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"sawbones_{userInfo.IpAddress}";
+    }
+}
