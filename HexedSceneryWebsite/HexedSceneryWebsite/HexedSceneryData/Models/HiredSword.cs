@@ -33,17 +33,17 @@ public partial class HiredSword
 
     public virtual Grade Grade { get; set; } = null!;
 
-    public virtual ICollection<HiredSwordAdditionalProfile> HiredSwordAdditionalProfiles { get; } = new List<HiredSwordAdditionalProfile>();
+    public virtual ICollection<HiredSwordAdditionalProfile> HiredSwordAdditionalProfiles { get; set; } = new List<HiredSwordAdditionalProfile>();
 
-    public virtual ICollection<HiredSwordCompatibleWarband> HiredSwordCompatibleWarbands { get; } = new List<HiredSwordCompatibleWarband>();
+    public virtual ICollection<HiredSwordCompatibleWarband> HiredSwordCompatibleWarbands { get; set; } = new List<HiredSwordCompatibleWarband>();
 
-    public virtual ICollection<HiredSwordEquipment> HiredSwordEquipments { get; } = new List<HiredSwordEquipment>();
+    public virtual ICollection<HiredSwordEquipment> HiredSwordEquipments { get; set; } = new List<HiredSwordEquipment>();
 
-    public virtual ICollection<HiredSwordSkillType> HiredSwordSkillTypes { get; } = new List<HiredSwordSkillType>();
+    public virtual ICollection<HiredSwordSkillType> HiredSwordSkillTypes { get; set; } = new List<HiredSwordSkillType>();
 
-    public virtual ICollection<HiredSwordSkill> HiredSwordSkills { get; } = new List<HiredSwordSkill>();
+    public virtual ICollection<HiredSwordSkill> HiredSwordSkills { get; set; } = new List<HiredSwordSkill>();
 
-    public virtual ICollection<HiredSwordSpecialRule> HiredSwordSpecialRules { get; } = new List<HiredSwordSpecialRule>();
+    public virtual ICollection<HiredSwordSpecialRule> HiredSwordSpecialRules { get; set; } = new List<HiredSwordSpecialRule>();
 
     public virtual Profile Profile { get; set; } = null!;
 

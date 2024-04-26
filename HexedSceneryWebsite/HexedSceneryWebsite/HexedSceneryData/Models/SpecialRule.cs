@@ -11,7 +11,7 @@ public partial class SpecialRule
 
     public string Description { get; set; } = null!;
 
-    public virtual ICollection<HiredSwordSpecialRule> HiredSwordSpecialRules { get; } = new List<HiredSwordSpecialRule>();
+    public virtual ICollection<HiredSwordSpecialRule> HiredSwordSpecialRules { get; set; } = new List<HiredSwordSpecialRule>();
 
-    public virtual ICollection<MonsterSpecialRule> MonsterSpecialRules { get; } = new List<MonsterSpecialRule>();
+    public virtual ICollection<MonsterSpecialRule> MonsterSpecialRules { get; set; } = new List<MonsterSpecialRule>();
 }

@@ -11,7 +11,7 @@ public partial class Warband
 
     public int? RaceId { get; set; }
 
-    public virtual ICollection<HiredSwordCompatibleWarband> HiredSwordCompatibleWarbands { get; } = new List<HiredSwordCompatibleWarband>();
+    public virtual ICollection<HiredSwordCompatibleWarband> HiredSwordCompatibleWarbands { get; set; } = new List<HiredSwordCompatibleWarband>();
 
     public virtual Race? Race { get; set; }
 }

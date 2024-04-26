@@ -1,0 +1,46 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@page "/mordheim/animosity"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IUserService _userService;
+
+<PageTitle>Animosity</PageTitle>
+
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <EncountersComponent 
+        EncounterType="14"
+        Title="Animosity"
+        SelectorLabel="Roll a D6 and enter the result:"
+        EncounterStoreKey="@encounterStoreKey"
+        HideColumn2=true />
+</div>
+
+@code {
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private string encounterStoreKey;
+
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"animosity_{userInfo.IpAddress}";
+    }
+}

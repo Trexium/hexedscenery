@@ -9,5 +9,5 @@ public partial class Race
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<Warband> Warbands { get; } = new List<Warband>();
+    public virtual ICollection<Warband> Warbands { get; set; } = new List<Warband>();
 }

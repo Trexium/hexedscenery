@@ -13,5 +13,5 @@ public partial class Source
 
     public string? PdfUrl { get; set; }
 
-    public virtual ICollection<HiredSword> HiredSwords { get; } = new List<HiredSword>();
+    public virtual ICollection<HiredSword> HiredSwords { get; set; } = new List<HiredSword>();
 }

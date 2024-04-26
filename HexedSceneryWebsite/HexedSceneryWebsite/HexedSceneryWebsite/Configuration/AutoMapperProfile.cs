@@ -1,6 +1,5 @@
 ﻿
 using AutoMapper;
-using HexedSceneryWebsite.Shared;
 using Common = HexedSceneryCommon.Mordheim;
 using DataModels = HexedSceneryData.Models;
 using Main = HexedSceneryCommon.Main;

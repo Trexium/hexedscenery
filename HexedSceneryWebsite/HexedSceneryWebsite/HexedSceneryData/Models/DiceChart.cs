@@ -17,7 +17,7 @@ public partial class DiceChart
 
     public int MaxNumber { get; set; }
 
-    public virtual ICollection<DiceResult> DiceResults { get; } = new List<DiceResult>();
+    public virtual ICollection<DiceResult> DiceResults { get; set; } = new List<DiceResult>();
 
-    public virtual ICollection<Encounter> Encounters { get; } = new List<Encounter>();
+    public virtual ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
 }

@@ -1,0 +1,202 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@page "/mordheim/encounters/{encounterType:int?}"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IEncounterService _randomHappeningsService
+@inject Services.IUserService _userService;
+@inject Services.IUserStoredEncountersService _userStoredEncountersService;
+
+
+<PageTitle>Encounters</PageTitle>
+
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <div class="encounters-pane">
+        <div class="encounter-type-selection">
+            <div class="selection-item @(EncounterType == 1 ? "selected" : "")" @onclick="() => EncounterType = 1">
+                Random happenings
+            </div>
+            <div class="divider hidden-mobile"></div>
+            <div class="selection-item @(EncounterType == 2 ? "selected" : "")" @onclick="() => EncounterType = 2">
+                Subplots
+            </div>
+        </div>
+        @if (EncounterType == 1)
+        {
+            <EncounterSelector EncounterType="1" LabelText="Roll a D66 and enter the result:" OnEncounterSelected="@NewEncounter" />
+        }
+        else if (EncounterType == 2)
+        {
+            <EncounterSelector EncounterType="2" LabelText="Roll 3D6 and enter the result:" OnEncounterSelected="@NewEncounter" />
+        }
+        else
+        {
+            <EncounterSelector LabelText="Choose a type of encounter" />
+        }
+
+    </div>
+    <br />
+    <div class="encounter">
+        <div class="current-encounter">
+            @if (currentEncounter != null)
+            {
+
+                <h3>@currentEncounter.ResultNumber @currentEncounter.Name</h3>
+                <p>@((MarkupString)currentEncounter.Description)</p>
+
+                @if (currentEncounter.DiceChart != null)
+                {
+                    <table class="dice-chart-table">
+                        <thead>
+                            <tr>
+                                <th class="first-column">@currentEncounter.DiceChart.Dice</th>
+                                <th>Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var result in currentEncounter.DiceChart.DiceResults)
+                            {
+                                <tr>
+                                    <td>@result.ResultNumber</td>
+                                    <td>@((MarkupString)result.Description)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                @if (currentEncounter.Monster != null)
+                {
+                    @if (currentEncounter.Monster.Profile != null)
+                    {
+                        <span class="first-column">@currentEncounter.Monster.Name</span>
+                        <table class="profile-table">
+                            <thead>
+                                <tr>
+                                    <th class="first-column">Profile</th>
+                                    <th>M</th>
+                                    <th>WS</th>
+                                    <th>BS</th>
+                                    <th>S</th>
+                                    <th>T</th>
+                                    <th>W</th>
+                                    <th>I</th>
+                                    <th>A</th>
+                                    <th>Ld</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="first-column">@currentEncounter.Monster.Name</td>
+                                    <td>@currentEncounter.Monster.Profile.Movement</td>
+                                    <td>@currentEncounter.Monster.Profile.WeaponSkill</td>
+                                    <td>@currentEncounter.Monster.Profile.BallisticSkill</td>
+                                    <td>@currentEncounter.Monster.Profile.Strength</td>
+                                    <td>@currentEncounter.Monster.Profile.Toughness</td>
+                                    <td>@currentEncounter.Monster.Profile.Wounds</td>
+                                    <td>@currentEncounter.Monster.Profile.Initiative</td>
+                                    <td>@currentEncounter.Monster.Profile.Attacks</td>
+                                    <td>@currentEncounter.Monster.Profile.Leadership</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                    @if (currentEncounter.Monster.Skills != null)
+                    {
+                        foreach (var skill in currentEncounter.Monster.Skills)
+                        {
+                            <p class="skill"><b>@skill.Name:</b> @((MarkupString)skill.Description)</p>
+                        }
+                    }
+                }
+                @if (!string.IsNullOrEmpty(currentEncounter.BottomText))
+                {
+                    <p>@((MarkupString)currentEncounter.BottomText)</p>
+                }
+
+            }
+        </div>
+        <div class="previous-encounters">
+            @if (prevEncounters != null && prevEncounters.Any())
+            {
+                <div class="previous-encounters-header">
+                    <div class="smaller-column">Result</div>
+                    <div>Encounter</div>
+                    <div class="smaller-column"></div>
+                </div>
+
+                @foreach (var prevEncounter in prevEncounters)
+                {
+                    <div class="previous-encounters-row-data" @onclick="() => GoToPreviousEncounter(prevEncounter)">
+                        <div class="smaller-column">
+                            @prevEncounter.ResultNumber
+                        </div>
+                        <div>
+                            @prevEncounter.Name
+                        </div>
+                        <div class="smaller-column">
+                            <span @onclick="() => DeletePreviousEncounter(prevEncounters.IndexOf(prevEncounter))" class="oi oi-trash" />
+                        </div>
+                    </div>
+                }
+                <br />
+                <br />
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int? EncounterType { get; set; }
+
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private List<Encounter> prevEncounters;
+    private string encounterStoreKey;
+    private Encounter currentEncounter;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+    private async void GoToPreviousEncounter(Encounter prevEncounter)
+    {
+        currentEncounter = prevEncounter;
+        StateHasChanged();
+    }
+
+    private async void DeletePreviousEncounter(int prevEncounterIndex)
+    {
+        prevEncounters.RemoveAt(prevEncounterIndex);
+        StateHasChanged();
+    }
+
+    private async void NewEncounter(Encounter encounter)
+    {
+        await _userStoredEncountersService.StoreEncounter(encounterStoreKey, encounter);
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+        currentEncounter = encounter;
+        StateHasChanged();
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"encounters_{userInfo.IpAddress}";
+        prevEncounters = await _userStoredEncountersService.GetUserEncounters(encounterStoreKey);
+        currentEncounter = null;
+    }
+}

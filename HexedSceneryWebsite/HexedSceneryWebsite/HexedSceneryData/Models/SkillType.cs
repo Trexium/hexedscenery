@@ -9,7 +9,7 @@ public partial class SkillType
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<HiredSwordSkillType> HiredSwordSkillTypes { get; } = new List<HiredSwordSkillType>();
+    public virtual ICollection<HiredSwordSkillType> HiredSwordSkillTypes { get; set; } = new List<HiredSwordSkillType>();
 
-    public virtual ICollection<Skill> Skills { get; } = new List<Skill>();
+    public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
 }

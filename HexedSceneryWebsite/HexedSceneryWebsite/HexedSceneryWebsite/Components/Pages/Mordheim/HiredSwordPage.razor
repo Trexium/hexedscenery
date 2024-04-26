@@ -1,0 +1,48 @@
+﻿@page "/mordheim/hiredswords/{hiredSwordId:int}"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryWebsite.Components.Components
+@using HexedSceneryWebsite.Enums;
+@inject Services.IHiredSwordService _hiredSwordService;
+@inject Services.IWarbandService _warbandService;
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    @if (HiredSwordId < 1)
+    {
+        <h2>Hired Sword not found.</h2>
+    }
+    else if (hiredSword == null)
+    {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status" />
+        </div>
+    }
+    else
+    {
+        <h2>@hiredSword.Name</h2>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int HiredSwordId { get; set; }
+
+    HiredSword hiredSword;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (HiredSwordId > 0)
+        {
+            hiredSword = await _hiredSwordService.Get(HiredSwordId);
+            StateHasChanged();
+        }
+
+    }
+}

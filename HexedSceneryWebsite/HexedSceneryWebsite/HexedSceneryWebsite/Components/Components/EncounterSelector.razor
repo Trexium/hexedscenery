@@ -1,0 +1,75 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IEncounterService _randomHappeningsService;
+
+<div style="text-align: center;">
+    <label for="resultNumber">@LabelText</label>
+    <br />
+    <input id="resultNumber" @oninput="FindEncounter" disabled="@(!EncounterType.HasValue)" />
+    <br />
+    @if (EncounterType.HasValue)
+    {
+        <span>Or</span>
+    }
+    <br />
+    <div @onclick="@GenerateResultSubmit" class="randomize-btn @(EncounterType.HasValue ? "" : "disabled")">
+        <span>Shuffle</span>
+        <img src="images/dice.svg"
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int? EncounterType { get; set; }
+
+    [Parameter]
+    public string LabelText { get; set; }
+
+    [Parameter]
+    public EventCallback<Encounter> OnEncounterSelected { get; set; }
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+    public Encounter Encounter { get; set; }
+
+
+    private async void FindEncounter(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if (args.Value != null && !string.IsNullOrEmpty(args.Value.ToString()))
+        {
+            if (int.TryParse(args.Value.ToString(), out int resultNumber))
+            {
+                var encounter = await _randomHappeningsService.GetEncounter(resultNumber, EncounterType.Value);
+
+                if (encounter != null && OnEncounterSelected.HasDelegate)
+                {
+                    await OnEncounterSelected.InvokeAsync(encounter);
+                }
+
+                StateHasChanged();
+            }
+            else
+            {
+                ErrorComponent.ShowError("Invalid dice result.", $"{args.Value.ToString()} is not a valid D66 result.");
+            }
+        }
+    }
+
+    private async void GenerateResultSubmit()
+    {
+        if (EncounterType.HasValue)
+        {
+            var encounter = await _randomHappeningsService.GetRandomEncounter(EncounterType.Value);
+
+            if (encounter != null && OnEncounterSelected.HasDelegate)
+            {
+                await OnEncounterSelected.InvokeAsync(encounter);
+            }
+        }
+        
+
+        StateHasChanged();
+    }
+}

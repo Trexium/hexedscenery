@@ -15,5 +15,5 @@ public partial class Image
 
     public string? ImagePath { get; set; }
 
-    public virtual ICollection<ImageImageCategory> ImageImageCategories { get; } = new List<ImageImageCategory>();
+    public virtual ICollection<ImageImageCategory> ImageImageCategories { get; set; } = new List<ImageImageCategory>();
 }

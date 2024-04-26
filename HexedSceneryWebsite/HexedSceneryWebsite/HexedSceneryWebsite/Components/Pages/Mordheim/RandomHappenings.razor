@@ -1,0 +1,204 @@
+﻿@using HexedSceneryWebsite.Components.Components
+@page "/mordheim/randomhappenings"
+@using HexedSceneryCommon.Mordheim;
+@using HexedSceneryCommon.User;
+@inject Services.IUserService _userService;
+
+<PageTitle>Random Happenings</PageTitle>
+
+
+<div class="background-paper">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.02" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="20" />
+        </filter>
+    </svg>
+</div>
+<div class="mordheim-page">
+    <EncountersComponent 
+        EncounterType="1"
+        Title="Random Happenings"
+        SelectorLabel="Roll a D66 and enter the result:"
+        EncounterStoreKey="@encounterStoreKey"
+        HideColumn2=true />
+</div>
+
+@code {
+    private string resultNumberString = string.Empty;
+    private UserInfo userInfo;
+    private string encounterStoreKey;
+
+    [CascadingParameter(Name = "ErrorComponent")]
+    protected IErrorComponent ErrorComponent { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        userInfo = await _userService.GetUserInfo();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        encounterStoreKey = $"randomhappenings_{userInfo.IpAddress}";
+        
+        // switch (EncounterType)
+        // {
+        //     case 1:
+        //         title = "Random Happenings";
+        //         diceRollText = "Roll a D66 and enter the result:";
+        //         break;
+        //     case 2:
+        //         title = "Subplots";
+        //         diceRollText = "Roll 3D6 and enter the result:";
+        //         break;
+        //     case 3:
+        //         title = "Power of the Stones";
+        //         diceRollText = "Roll 2D6 and enter the result:";
+        //         description = @"The value of the wyrdstone shards is not
+        //                         simply the coin that nobles and
+        //                         merchants are willing to pay for them. It is a
+        //                         well-known fact that the stones are rich in
+        //                         magic, and they are said to grant a variety of
+        //                         powers to those that learn to use them. Tales
+        //                         are told among the common folk of stones
+        //                         that caused a certain farmer’s harvest to
+        //                         double, or of the stone that made old Herr
+        //                         Grutenbauer's dog speak like a man. True or
+        //                         not, these tales hint at the powerful and
+        //                         chaotic forces at work in the stones. The most
+        //                         common use for the stones’ magic has to do
+        //                         with the discovery of the famed alchemist van
+        //                         Hoffman of Reikland. It was he who first
+        //                         observed that Wyrdstone can serve as a
+        //                         catalyst in the transmutation of base metals
+        //                         into gold. This usage of the stones has come
+        //                         to be the primary obsession of those who seek
+        //                         it, for many are willing to pay princely sums
+        //                         for stones that will make them an even larger
+        //                         fortune. Yet there are those who continue to
+        //                         seek the stones for their more arcane
+        //                         uses, and even mercenaries have
+        //                         been known to keep a stone
+        //                         or two that was thought
+        //                         to bring luck, healing,
+        //                         or other magical
+        //                         benefits.<br /><br />
+        //                         Yet the stones
+        //                         are ultimately
+        //                         the work of
+        //                         Chaos, and
+        //                         those who
+        //                         seek to
+        //                         use
+        //                         them
+        //                         often
+        //                         learn
+        //                         to
+        //                         fear their magic rather than harness it. For
+        //                         every tale of a harvest that doubled, there are
+        //                         two about the harvests that rotted in the field
+        //                         when exposed to the strange glow of the
+        //                         stones; and for every tale of a dog that learned
+        //                         to speak like a man there are darker tales of
+        //                         animals that turned into a gruesome parody of
+        //                         a man-beast. The tales of magical healings are
+        //                         mixed with many of mutation and death
+        //                         brought on by exposure to the stones. Yet
+        //                         greed is the downfall of many in the City of
+        //                         the Damned, and the greed for power is
+        //                         perhaps the greatest of all...<br /><br />
+        //                         Note: Witch Hunters, Sisters of Sigmar,
+        //                         Bretonnians, High Elf Shadow Warriors and
+        //                         Dwarfs are all too aware of the corrupting
+        //                         power of the stones, and will not make use of
+        //                         them under any circumstances.<br /><br />
+        //                         <h2>Evaluating Stones</h2>
+        //                         Instead of selling or storing all of a warband's
+        //                         wyrdstone shards, a player may choose to
+        //                         have one or more of their stones evaluated by
+        //                         an alchemist for useful magical properties.
+        //                         This is done during the trading phase of the
+        //                         post-battle sequence (consequently, this
+        //                         means if a stone is chosen to be evaluated and
+        //                         yields no special power, it cannot
+        //                         subsequently be sold until after the next
+        //                         battle). Instead of searching for a rare item, a
+        //                         hero may take one shard of the warband’s
+        //                         wyrdstone to an alchemist. Numerous
+        //                         alchemists have flocked to Mordheim to study
+        //                         the stones, and they ply their trade from tents
+        //                         and wagons in the encampments around the
+        //                         city. Alchemists are known for their greed,
+        //                         however, and they do not provide their
+        //                         services for free; for each stone evaluated, the
+        //                         warband must pay 20 gold crowns. When the
+        //                         stone is evaluated, roll 2D6 on the chart.";
+        //         break;
+        //     case 4:
+        //         title = "Using Stones";
+        //         diceRollText = "Roll a D6 and enter the result:";
+        //         description = @"Stones may only be used by heroes, just like
+        //                         other equipment. No hero may ever carry
+        //                         more than one stone at a time (the combined
+        //                         Chaotic magic would instantly turn them into
+        //                         Chaos Spawn). Using a wyrdstone’s power is
+        //                         always a dangerous undertaking and to
+        //                         represent this, after every battle, each hero
+        //                         who carried a stone must make a check to see
+        //                         if they have been adversely affected by their
+        //                         usage of the stone’s power. Make the check by
+        //                         rolling 2D6 for each hero: a roll of 2, 3, 11 or
+        //                         12 indicates that they have been affected.
+        //                         Skaven, having a natural tolerance for
+        //                         warpstone, are only affected on the roll of 2
+        //                         or 12. Roll a D6 on the following chart over
+        //                         the page to see what has happened to affected
+        //                         models.";
+        //         break;
+        //     case 5:
+        //         title = "Random Mutations Table";
+        //         diceRollText = "Roll a D66 and enter the result:";
+        //         description = @"Mordheim is a city under the sway of Chaos,
+        //                         and with Chaos comes mutation and change.
+        //                         There are numerous ways by which a warrior
+        //                         can be afflicted with mutation, and there are
+        //                         some who actually seek out mutation as a
+        //                         'reward’ of the Chaos Powers. While mutations
+        //                         are not always harmful, and indeed can often
+        //                         be helpful, they are a mark of Chaos, and as
+        //                         such those who bear them are feared,
+        //                         shunned and persecuted throughout the
+        //                         Empire.<br /><br />
+        //                         The following is a table used to generate the
+        //                         colourful, exotic, and sometimes debilitating
+        //                         mutations that will be visited upon certain
+        //                         warriors at certain times (i.e. as a result of
+        //                         exposure to Wyrdstone, for example). The
+        //                         table may also prove useful to Gamemasters
+        //                         who want to quickly generate some
+        //                         interesting mutants for a special scenario. The
+        //                         table uses a D66 roll, just like the Heroes
+        //                         Serious Injuries table in the rulebook. If the
+        //                         mutant rolls a mutation that it already
+        //                         possesses, re-roll it until a new mutation is
+        //                         generated.<br /><br />
+        //                         Note: The great danger of mutation is that it
+        //                         will ultimately overwhelm the victim with the
+        //                         corrupting power of Chaos, reducing them to
+        //                         a monstrous and mindless Chaos Spawn. To
+        //                         represent this danger, if a warrior ever has a
+        //                         characteristic reduced to zero as the result of
+        //                         a mutation, they immediately degenerate into
+        //                         a loathsome Chaos Spawn (see the full rules
+        //                         for Chaos Spawn above).<br /><br />
+        //                         Any member of a human, mercenary warband
+        //                         (this includes both Ostlanders and
+        //                         Averlanders) that receives a mutation marked
+        //                         with * is immediately drummed out of the
+        //                         warband by his suspicious peers. Remove the
+        //                         hero from the roster, his equipment is lost.";
+        //         break;
+
+        // }
+    }
+}
