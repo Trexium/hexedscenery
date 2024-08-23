@@ -115,3 +115,10 @@
 /HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryCommon/bin
 /HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryData/bin
 /HexedSceneryWebsite/HexedSceneryWebsite/HexedSceneryWebsite/bin
+/HexedSceneryMobileApp/.vs/HexedSceneryMobileApp
+/HexedSceneryMobileApp/HexedSceneryCommon/obj
+/HexedSceneryMobileApp/HexedSceneryData/obj
+/HexedSceneryMobileApp/HexedSceneryMobileApp/obj
+/HexedSceneryMobileApp/HexedSceneryData/bin/Debug
+/HexedSceneryMobileApp/HexedSceneryMobileApp/bin/Debug/net8.0-android
+/HexedSceneryMobileApp/HexedSceneryCommon/bin/Debug
