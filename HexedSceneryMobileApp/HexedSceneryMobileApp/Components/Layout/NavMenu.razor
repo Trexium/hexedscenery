@@ -1,8 +1,32 @@
-﻿
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+﻿@using HexedSceneryMobileApp.Helpers
 
-<MudNavMenu>
+@inject IMenuBuilder menuBuilder
+
+@* <input type="checkbox" title="Navigation menu" class="navbar-toggler" /> *@
+<div class="background-paper-menu">
+    <svg>
+        <filter id="wavy2">
+            <feTurbulence x="0" y="0" baseFrequency="0.022" numOctaves="5" seed="1"></feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="50" />
+        </filter>
+    </svg>
+</div>
+@* <MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
     <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
     <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
+</MudNavMenu> *@
+
+<MudNavMenu>
+    @foreach(var title in menuBuilder.GetMenu())
+    {
+        <div class="nav-item px-3 category" style="font-size: large">
+            @title.DisplayTitle
+            <hr />
+        </div>
+        @foreach(var menuItem in title.Children)
+        {
+            <MudNavLink Href="@menuItem.Url" Match="NavLinkMatch.Prefix" >@menuItem.DisplayName</MudNavLink>
+        }
+    }
 </MudNavMenu>

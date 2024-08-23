@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using HexedSceneryData.Services;
+using HexedSceneryMobileApp.Helpers;
+using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 
 namespace HexedSceneryMobileApp
@@ -18,7 +20,14 @@ namespace HexedSceneryMobileApp
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddMudServices();
 
+            builder.Services.AddScoped<IMenuBuilder, MenuBuilder>();
 
+
+            // Add dummy data instead of getting data from api
+            builder.Services.AddSingleton<IEncounterService, DummyData>();
+            builder.Services.AddSingleton<IGamePlayService, DummyData>();
+            builder.Services.AddSingleton<IPostGameService, DummyData>();
+            builder.Services.AddSingleton<IHiredSwordService, DummyData>();
 
 
 #if DEBUG

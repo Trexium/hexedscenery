@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HexedSceneryMobileApp
 {
-    public class DummyData : IEncounterService, IGamePlayService, IPostGameService
+    public class DummyData : IEncounterService, IGamePlayService, IPostGameService, IHiredSwordService
     {
         public List<EncounterType> GetEncounterTypes()
         {

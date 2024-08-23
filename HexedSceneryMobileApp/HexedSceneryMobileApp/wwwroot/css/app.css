@@ -84,3 +84,55 @@ h1:focus {
         padding-left: env(safe-area-inset-left);
     }
 }
+
+
+
+
+/*Non-generated*/
+
+div.background-paper {
+    z-index: -1;
+    position: absolute;
+    display: flex;
+    width: 110%;
+    min-height: 99.5%;
+    top: 0%;
+    left: 99%;
+    transform: translate(-96%, 0);
+    margin: 0 0 0 0;
+    padding: 0;
+    box-shadow: 12px 13px 20px black, 0 0 60px #8a4d0f inset;
+    background: #fffef0;
+    filter: url(#wavy2);
+}
+
+div.background-paper-menu {
+    z-index: -1;
+    position: absolute;
+    display: flex;
+    width: 110%;
+    min-height: 99.5%;
+    top: 0%;
+    left: 82%;
+    transform: translate(-96%, 0);
+    margin: 0 0 0 0;
+    padding: 0;
+    box-shadow: 1px 1px 10px black, 0 0 60px #8a4d0f inset;
+    background: #fffef0;
+    filter: url(#wavy2);
+}
+
+
+/*Hacks to ignore default behavior*/
+
+div.mud-overlay.mud-drawer-overlay.mud-overlay-drawer.mud-drawer-pos-left.mud-drawer-overlay--open.mud-drawer-overlay-responsive.mud-drawer-overlay-md {
+    background-color: transparent !important;
+}
+
+div.mud-overlay-scrim.mud-overlay-dark {
+    background-color: transparent !important;
+}
+
+a.active {
+    background-color: transparent !important;
+}
