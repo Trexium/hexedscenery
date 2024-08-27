@@ -42,4 +42,8 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+
+// To map api-controllers
+app.MapControllers();
+
 app.Run();
