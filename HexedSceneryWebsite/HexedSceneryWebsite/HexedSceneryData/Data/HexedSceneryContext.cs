@@ -20,6 +20,8 @@ public partial class HexedSceneryContext : DbContext
 
     public virtual DbSet<DiceResult> DiceResults { get; set; }
 
+    public virtual DbSet<DiceType> DiceTypes { get; set; }
+
     public virtual DbSet<Encounter> Encounters { get; set; }
 
     public virtual DbSet<EncounterType> EncounterTypes { get; set; }
@@ -66,11 +68,20 @@ public partial class HexedSceneryContext : DbContext
 
     public virtual DbSet<SkillType> SkillTypes { get; set; }
 
+    public virtual DbSet<SkkDog> SkkDogs { get; set; }
+
     public virtual DbSet<Source> Sources { get; set; }
 
     public virtual DbSet<SpecialRule> SpecialRules { get; set; }
 
+    public virtual DbSet<TableCategory> TableCategories { get; set; }
+
     public virtual DbSet<Warband> Warbands { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+    }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -98,6 +109,15 @@ public partial class HexedSceneryContext : DbContext
                 .HasForeignKey(d => d.DiceChartId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__DiceResul__DiceC__04AFB25B");
+        });
+
+        modelBuilder.Entity<DiceType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__DiceType__3214EC07D95A5F38");
+
+            entity.ToTable("DiceType");
+
+            entity.Property(e => e.DisplayName).HasMaxLength(25);
         });
 
         modelBuilder.Entity<Encounter>(entity =>
@@ -128,6 +148,7 @@ public partial class HexedSceneryContext : DbContext
 
             entity.ToTable("EncounterType");
 
+            entity.Property(e => e.Active).HasDefaultValue(false);
             entity.Property(e => e.DisplayName).HasMaxLength(255);
             entity.Property(e => e.Name).HasMaxLength(255);
         });
@@ -435,6 +456,22 @@ public partial class HexedSceneryContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(255);
         });
 
+        modelBuilder.Entity<SkkDog>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SkkDog__3214EC07377E5E6D");
+
+            entity.ToTable("SkkDog");
+
+            entity.Property(e => e.Breed).HasMaxLength(255);
+            entity.Property(e => e.ChipNr).HasMaxLength(100);
+            entity.Property(e => e.Gender).HasMaxLength(10);
+            entity.Property(e => e.IdNr).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.SkkId).HasMaxLength(100);
+            entity.Property(e => e.SkkRegNr).HasMaxLength(100);
+            entity.Property(e => e.Type).HasMaxLength(100);
+        });
+
         modelBuilder.Entity<Source>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Source__3214EC07995FA1E4");
@@ -453,6 +490,16 @@ public partial class HexedSceneryContext : DbContext
             entity.ToTable("SpecialRule");
 
             entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<TableCategory>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__TableCat__3214EC0745B3BBEF");
+
+            entity.ToTable("TableCategory");
+
+            entity.Property(e => e.Active).HasDefaultValue(false);
+            entity.Property(e => e.DisplayName).HasMaxLength(255);
         });
 
         modelBuilder.Entity<Warband>(entity =>

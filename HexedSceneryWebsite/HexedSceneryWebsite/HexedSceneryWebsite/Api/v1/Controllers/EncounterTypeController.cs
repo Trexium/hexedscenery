@@ -1,6 +1,5 @@
 ﻿using HexedSceneryData.Data;
 using HexedSceneryData.Models;
-using HexedSceneryWebsite.Api.v1.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,21 +8,25 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class EncounterTypeController : ControllerBase
     {
         private readonly HexedSceneryContext _context;
 
-        public CategoryController(HexedSceneryContext context)
+        public EncounterTypeController(HexedSceneryContext context)
         {
             _context = context;
         }
 
-        // GET: api/<CategoryController>
         [HttpGet]
-        public IEnumerable<TableCategory> Get()
+        public IEnumerable<EncounterType> Get()
         {
-            //return new string[] { "value1", "value2" };
-            return _context.TableCategories.Where(m => m.Active == true && !string.IsNullOrEmpty(m.DisplayName)).ToList();
+            return _context.EncounterTypes.Where(m => m.Active == true).ToList();
+        }
+
+        [HttpGet("{id}")]
+        public EncounterType Get(int id)
+        {
+            return _context.EncounterTypes.Where(m => m.Active == true && m.TableCategoryId == id).FirstOrDefault();
         }
     }
 }
