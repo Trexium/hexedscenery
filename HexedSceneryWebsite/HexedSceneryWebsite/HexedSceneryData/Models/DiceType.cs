@@ -12,4 +12,6 @@ public partial class DiceType
     public int MinNumber { get; set; }
 
     public int MaxNumber { get; set; }
+
+    public virtual ICollection<EncounterType> EncounterTypes { get; set; } = new List<EncounterType>();
 }

@@ -10,4 +10,6 @@ public partial class TableCategory
     public string? DisplayName { get; set; }
 
     public bool? Active { get; set; }
+
+    public virtual ICollection<EncounterType> EncounterTypes { get; set; } = new List<EncounterType>();
 }

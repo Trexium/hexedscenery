@@ -11,7 +11,7 @@ public partial class EncounterType
 
     public string? DisplayName { get; set; }
 
-    public int? TableCategoryId { get; set; }
+    public int TableCategoryId { get; set; }
 
     public int? DiceTypeId { get; set; }
 
@@ -19,5 +19,9 @@ public partial class EncounterType
 
     public bool? Active { get; set; }
 
+    public virtual DiceType? DiceType { get; set; }
+
     public virtual ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
+
+    public virtual TableCategory TableCategory { get; set; } = null!;
 }
