@@ -1,8 +1,11 @@
 ﻿
-using HexedSceneryCommon.Models;
+
+using HexedSceneryData.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,13 +13,32 @@ namespace HexedSceneryData.Services
 {
     public interface IEncounterService
     {
-        List<EncounterType> GetEncounterTypes();
+        Task<List<TableCategory>> GetTableCategoriesAsync();
     }
     public class EncounterService : IEncounterService
     {
-        public List<EncounterType> GetEncounterTypes()
+        private readonly IHttpClientFactory _httpClientFactory;
+        private static readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
+
+        public EncounterService(IHttpClientFactory httpClientFactory)
         {
-            throw new NotImplementedException();
+            _httpClientFactory = httpClientFactory;
+        }
+
+        public async Task<List<TableCategory>> GetTableCategoriesAsync()
+        {
+            var url = "category/includeChildren";
+
+            if (!_cache.ContainsKey(url))
+            {
+                using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
+                {
+                    var categories = await httpClient.GetFromJsonAsync<IEnumerable<TableCategory>>(url);
+                    _cache.Add(url, categories.ToList());
+                }
+            }
+            
+            return (List<TableCategory>)_cache[url];
         }
     }
 }

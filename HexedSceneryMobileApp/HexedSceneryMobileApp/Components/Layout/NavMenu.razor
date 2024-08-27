@@ -1,4 +1,5 @@
 ﻿@using HexedSceneryMobileApp.Helpers
+@using HexedSceneryMobileApp.Models
 
 @inject IMenuBuilder menuBuilder
 
@@ -18,7 +19,7 @@
 </MudNavMenu> *@
 
 <MudNavMenu>
-    @foreach(var title in menuBuilder.GetMenu())
+    @foreach (var title in menuTitles)
     {
         <div class="nav-item px-3 category" style="font-size: large">
             @title.DisplayTitle
@@ -30,3 +31,13 @@
         }
     }
 </MudNavMenu>
+
+
+@code{
+    List<MenuTitle> menuTitles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        menuTitles = await menuBuilder.GetMenuAsync();
+    }
+}

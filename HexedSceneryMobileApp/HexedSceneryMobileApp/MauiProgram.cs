@@ -2,6 +2,7 @@
 using HexedSceneryMobileApp.Helpers;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
+using System.Net.Http;
 
 namespace HexedSceneryMobileApp
 {
@@ -24,10 +25,12 @@ namespace HexedSceneryMobileApp
 
 
             // Add dummy data instead of getting data from api
-            builder.Services.AddSingleton<IEncounterService, DummyData>();
-            builder.Services.AddSingleton<IGamePlayService, DummyData>();
-            builder.Services.AddSingleton<IPostGameService, DummyData>();
+            builder.Services.AddSingleton<IEncounterService, EncounterService>();
             builder.Services.AddSingleton<IHiredSwordService, DummyData>();
+            builder.Services.AddHttpClient("HexedApi", client => 
+            {
+                client.BaseAddress = new Uri(builder.Configuration["ApiUrl"]);
+            });
 
 
 #if DEBUG
