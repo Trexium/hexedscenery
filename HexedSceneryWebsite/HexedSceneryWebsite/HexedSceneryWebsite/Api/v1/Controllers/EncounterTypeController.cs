@@ -25,9 +25,9 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         }
 
         [HttpGet("category/{categoryId}")]
-        public EncounterType GetByCategory(int categoryId)
+        public IEnumerable<EncounterType> GetByCategory(int categoryId)
         {
-            return _context.EncounterTypes.FirstOrDefault(m => m.Active == true && m.TableCategoryId == categoryId);
+            return _context.EncounterTypes.Where(m => m.Active == true && m.TableCategoryId == categoryId);
         }
 
         [HttpGet("{id}")]

@@ -2,13 +2,19 @@ using HexedSceneryWebsite.Components;
 using HexedSceneryWebsite.Configuration;
 using HexedSceneryWebsite.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    // In addition, you can limit the depth
+    // options.MaxDepth = 4;
+});
 builder.Services.AddDbContext<HexedSceneryData.Data.HexedSceneryContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("HexedScenery")));
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -44,6 +50,7 @@ app.MapRazorComponents<App>()
 
 
 // To map api-controllers
+
 app.MapControllers();
 
 app.Run();
