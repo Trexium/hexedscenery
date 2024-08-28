@@ -16,16 +16,17 @@
 </div>
 
 <MudLayout>
-    <MudAppBar Elevation="0">
+    <MudIconButton Class="@_drawerButtonClass" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+@*     <MudAppBar Elevation="0">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
         <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/arbems/.NET-MAUI-Blazor-Hybrid-app-with-MudBlazor" Target="_blank" />
-    </MudAppBar>
+    </MudAppBar> *@
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Style="background-color: transparent; box-shadow:none;">
-        <MudDrawerHeader>
+@*         <MudDrawerHeader>
             <MudText Typo="Typo.h6">MyApplication</MudText>
-        </MudDrawerHeader>
+        </MudDrawerHeader> *@
         <NavMenu />
     </MudDrawer>
     <MudMainContent>
@@ -37,9 +38,11 @@
 
 @code {
     bool _drawerOpen = true;
+    string _drawerButtonClass = "invisible";
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+        _drawerButtonClass = _drawerOpen ? "invisible" : "visible";
     }
 }

@@ -1,5 +1,5 @@
 ﻿html, body {
-    font-family: 'CaslonAntique', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'CaslonAntique';
 }
 
 a, .btn-link {
@@ -90,6 +90,27 @@ h1:focus {
 
 /*Non-generated*/
 
+@font-face {
+    font-family: CaslonAntique;
+    src: url('../fonts/CaslonAntique.ttf') format('truetype');
+}
+@font-face {
+    font-family: CaslonAntiqueBold;
+    src: url('../fonts/CaslonAntique-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: CaslonAntiqueBoldItalic;
+    src: url('../fonts/CaslonAntique-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+    font-family: CaslonAntiqueItalic;
+    src: url('../fonts/CaslonAntique-Italic.ttf') format('truetype');
+}
+@font-face {
+    font-family: Schoensperger;
+    src: url('../fonts/Schoensperger.otf') format('opentype');
+}
+
 div.background-paper {
     z-index: -1;
     position: absolute;
@@ -123,12 +144,15 @@ div.background-paper-menu {
 }
 
 
-div.nav-item.category {
-    font-family: 'Schoensperger'
+button.mud-nav-link > div.mud-nav-link-text {
+    font-family: Schoensperger !important;
+    font-size: 20px !important;
 }
 
 a.mud-nav-link {
-    font-family: 'CaslonAntique'
+    font-family: CaslonAntique;
+    color: black !important;
+    font-size: 20px;
 }
 
 

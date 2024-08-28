@@ -18,7 +18,7 @@
     <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
 </MudNavMenu> *@
 
-<MudNavMenu>
+<MudNavMenu Class="overflow-hidden">
     @if (menuTitles == null)
     {
         <span>Loading...</span>
@@ -27,25 +27,54 @@
     {
         @foreach (var title in menuTitles)
         {
-            <div class="nav-item px-3 category" style="font-size: large">
-                @title.DisplayTitle
-                <hr />
-            </div>
-            @foreach (var menuItem in title.Children)
-            {
-                <MudNavLink Href="@menuItem.Url" Match="NavLinkMatch.Prefix">@menuItem.DisplayName</MudNavLink>
-            }
+            <MudNavGroup Class="nav-category" Title="@title.DisplayTitle" Expanded="false" @bind-Expanded=>
+                @foreach (var menuItem in title.Children)
+                {
+                    <MudNavLink Href="@menuItem.Url" Match="NavLinkMatch.Prefix">@menuItem.DisplayName</MudNavLink>
+                }
+            </MudNavGroup>
+            @*             <div class="nav-item px-3 category" style="font-size: large">
+
+    </div> *@
+
         }
     }
-    
+
 </MudNavMenu>
 
 
-@code{
+@code {
     List<MenuTitle> menuTitles;
+
+    private Dictionary<string, MudNavGroup> menuItems = new();
 
     protected override async Task OnInitializedAsync()
     {
         menuTitles = await menuBuilder.GetMenuAsync();
+
+        foreach(var title in menuTitles)
+        {
+            var group = new MudNavGroup();
+            group.Title = title.DisplayTitle;
+
+            foreach(var menuItem in title.Children)
+            {
+                var link = new MudNavLink();
+                link.Match = NavLinkMatch.Prefix;
+                link. menuItem.DisplayName;
+            }
+            menuItems.Add(title.DisplayTitle, group);
+        }
+    }
+
+    private void ToggleExpanded(bool expanded, string itemName)
+    {
+        if (expanded)
+        {
+            foreach (var entry in this.subMenuItems.Where(entry => entry.Key != itemName))
+            {
+                entry.Value.Expanded = false;
+            }
+        }
     }
 }
