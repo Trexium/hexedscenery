@@ -19,17 +19,25 @@
 </MudNavMenu> *@
 
 <MudNavMenu>
-    @foreach (var title in menuTitles)
+    @if (menuTitles == null)
     {
-        <div class="nav-item px-3 category" style="font-size: large">
-            @title.DisplayTitle
-            <hr />
-        </div>
-        @foreach(var menuItem in title.Children)
+        <span>Loading...</span>
+    }
+    else
+    {
+        @foreach (var title in menuTitles)
         {
-            <MudNavLink Href="@menuItem.Url" Match="NavLinkMatch.Prefix" >@menuItem.DisplayName</MudNavLink>
+            <div class="nav-item px-3 category" style="font-size: large">
+                @title.DisplayTitle
+                <hr />
+            </div>
+            @foreach (var menuItem in title.Children)
+            {
+                <MudNavLink Href="@menuItem.Url" Match="NavLinkMatch.Prefix">@menuItem.DisplayName</MudNavLink>
+            }
         }
     }
+    
 </MudNavMenu>
 
 

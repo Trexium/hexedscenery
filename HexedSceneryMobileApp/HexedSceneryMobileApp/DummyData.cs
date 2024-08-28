@@ -1,6 +1,6 @@
 ﻿
-using HexedSceneryData.Models;
-using HexedSceneryData.Services;
+using HexedSceneryApiClient.Models;
+using HexedSceneryApiClient.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
