@@ -1,5 +1,5 @@
 ﻿html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'CaslonAntique', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 a, .btn-link {
@@ -120,6 +120,15 @@ div.background-paper-menu {
     box-shadow: 1px 1px 10px black, 0 0 60px #8a4d0f inset;
     background: #fffef0;
     filter: url(#wavy2);
+}
+
+
+div.nav-item.category {
+    font-family: 'Schoensperger'
+}
+
+a.mud-nav-link {
+    font-family: 'CaslonAntique'
 }
 
 

@@ -18,6 +18,11 @@ namespace HexedSceneryMobileApp
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("CaslonAntique.ttf", "CaslonAntique");
+                    fonts.AddFont("CaslonAntique-Bold.ttf", "CaslonAntiqueBold");
+                    fonts.AddFont("CaslonAntique-BoldItalic.ttf", "CaslonAntiqueBoldItalic");
+                    fonts.AddFont("CaslonAntique-Italic.ttf", "CaslonAntiqueItalic");
+                    fonts.AddFont("Schoensperger.otf", "Schoensperger");
                 });
 
             // Load appsettings.json

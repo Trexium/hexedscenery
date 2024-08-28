@@ -62,6 +62,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Resources\Fonts\CaslonAntique-Bold.ttf" />
+      <None Remove="Resources\Fonts\CaslonAntique-BoldItalic.ttf" />
+      <None Remove="Resources\Fonts\CaslonAntique-Italic.ttf" />
+      <None Remove="Resources\Fonts\CaslonAntique.ttf" />
+      <None Remove="Resources\Fonts\Schoensperger.otf" />
+    </ItemGroup>
+
+    <ItemGroup>
       <EmbeddedResource Include="appsettings.json" />
     </ItemGroup>
 
