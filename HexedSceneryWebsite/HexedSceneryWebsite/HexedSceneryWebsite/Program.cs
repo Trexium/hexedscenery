@@ -1,3 +1,4 @@
+using HexedSceneryWebsite.Api.Auth;
 using HexedSceneryWebsite.Components;
 using HexedSceneryWebsite.Configuration;
 using HexedSceneryWebsite.Services;
@@ -29,6 +30,14 @@ builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddTransient<IDiceRollService, DiceRollService>();
 builder.Services.AddTransient<IResourceService, ResourceService>();
 builder.Services.AddTransient<IMonsterService, MonsterService>();
+builder.Services.AddTransient<IApiKeyValidator>(sp =>
+{
+    var test = builder.Configuration.GetSection("ApiKeys").Get<string[]>();
+    var validator = new ApiKeyValidator(builder.Configuration.GetSection("ApiKeys").Get<string[]>());
+    return validator;
+});
+builder.Services.AddScoped<ApiKeyAuthorizationFilter>();
+
 
 var app = builder.Build();
 

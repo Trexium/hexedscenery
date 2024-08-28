@@ -1,8 +1,10 @@
 ﻿using HexedSceneryData.Data;
 using HexedSceneryData.Models;
 using HexedSceneryWebsite.Api.v1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using HexedSceneryWebsite.Api.Auth;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,6 +22,7 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         }
 
         [HttpGet]
+        [ApiKey]
         public IEnumerable<TableCategory> Get()
         {
             //return new string[] { "value1", "value2" };
@@ -27,6 +30,7 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         }
 
         [HttpGet("includeChildren")]
+        [ApiKey]
         public IEnumerable<TableCategory> GetWithChildren()
         {
             return _context.TableCategories.Include(m => m.EncounterTypes).Where(m => m.Active == true);

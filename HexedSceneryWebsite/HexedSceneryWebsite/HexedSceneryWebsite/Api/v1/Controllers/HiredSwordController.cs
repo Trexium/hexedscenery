@@ -1,5 +1,6 @@
 ﻿using HexedSceneryData.Data;
 using HexedSceneryData.Models;
+using HexedSceneryWebsite.Api.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,12 +21,14 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
 
         // GET: api/<HiredSwordController>
         [HttpGet]
+        [ApiKey]
         public IEnumerable<HiredSword> Get()
         {
             return _context.HiredSwords;
         }
 
         [HttpGet]
+        [ApiKey]
         public IEnumerable<HiredSword> Get([FromQuery] int? warbandId, [FromQuery] int? minGradeId, [FromQuery] int? maxGradeId)
         {
             return _context.HiredSwords.Include(m => m.HiredSwordCompatibleWarbands).Where(m => m.Active && (!warbandId.HasValue || m.HiredSwordCompatibleWarbands.Any(w => w.WarbandId == warbandId) && (!minGradeId.HasValue || m.GradeId >= minGradeId) && (!maxGradeId.HasValue || m.GradeId <= maxGradeId)));
@@ -33,6 +36,7 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
 
         // GET api/<HiredSwordController>/5
         [HttpGet("{id}")]
+        [ApiKey]
         public HiredSword Get(int id)
         {
             return _context.HiredSwords

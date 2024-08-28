@@ -1,5 +1,6 @@
 ﻿using HexedSceneryData.Data;
 using HexedSceneryData.Models;
+using HexedSceneryWebsite.Api.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,18 +20,21 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         }
 
         [HttpGet]
+        [ApiKey]
         public IEnumerable<EncounterType> Get()
         {
             return _context.EncounterTypes.Where(m => m.Active == true).ToList();
         }
 
         [HttpGet("category/{categoryId}")]
+        [ApiKey]
         public IEnumerable<EncounterType> GetByCategory(int categoryId)
         {
             return _context.EncounterTypes.Where(m => m.Active == true && m.TableCategoryId == categoryId);
         }
 
         [HttpGet("{id}")]
+        [ApiKey]
         public EncounterType Get(int id)
         {
             return _context.EncounterTypes.Include(m => m.DiceType).Include(m => m.TableCategory).FirstOrDefault(m => m.Active == true && m.Id == id);
