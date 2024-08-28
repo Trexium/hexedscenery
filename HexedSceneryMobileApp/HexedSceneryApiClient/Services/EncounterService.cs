@@ -33,9 +33,6 @@ namespace HexedSceneryApiClient.Services
             {
                 using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
                 {
-
-                    var json = await httpClient.GetStringAsync(url);
-                    Console.WriteLine(json);
                     var categories = await httpClient.GetFromJsonAsync<IEnumerable<TableCategory>>(url);
                     _cache.Add(url, categories.ToList());
                 }
