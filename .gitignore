@@ -125,3 +125,9 @@
 /HexedSceneryMobileApp/.vs/ProjectEvaluation
 /HexedSceneryMobileApp/HexedSceneryMobileApp/appsettings.json
 /HexedSceneryMobileApp/HexedSceneryMobileApp/bin/Debug
+/HexedSceneryMobileApp/HexedSceneryApiClient/bin/Debug/net8.0
+/HexedSceneryMobileApp/HexedSceneryApiClient/obj
+/HexedSceneryMobileApp/HexedSceneryDataTests/bin/Debug/net8.0
+/HexedSceneryMobileApp/HexedSceneryDataTests/obj/Debug/net8.0
+/HexedSceneryMobileApp/HexedSceneryDataTests/obj
+/HexedSceneryMobileApp/HexedSceneryDataTests/EncounterServiceTests.cs
