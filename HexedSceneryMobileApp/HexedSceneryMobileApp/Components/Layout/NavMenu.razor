@@ -19,7 +19,7 @@
 </MudNavMenu> *@
 
 <MudNavMenu Class="overflow-hidden">
-    @if (menuTitles == null)
+    @if (menuTitles == null || menuItems == null || !menuItems.Any())
     {
         <span>Loading...</span>
     }
@@ -27,12 +27,16 @@
     {
         @foreach (var title in menuTitles)
         {
-            <MudNavGroup Class="nav-category" Title="@title.DisplayTitle" Expanded="false" @bind-Expanded=>
-                @foreach (var menuItem in title.Children)
-                {
-                    <MudNavLink Href="@menuItem.Url" Match="NavLinkMatch.Prefix">@menuItem.DisplayName</MudNavLink>
-                }
-            </MudNavGroup>
+            @if (!string.IsNullOrEmpty(title.DisplayTitle))
+            {
+                <MudNavGroup @ref="@this.menuItems[title.Id]" Class="nav-category" Title="@title.DisplayTitle" Expanded="false" ExpandedChanged="@(() => ToggleExpanded(title.Id))">
+                    @foreach (var menuItem in title.Children)
+                    {
+                        <MudNavLink Href="@menuItem.Url" Match="NavLinkMatch.Prefix">@menuItem.DisplayName</MudNavLink>
+                    }
+                </MudNavGroup>
+            }
+
             @*             <div class="nav-item px-3 category" style="font-size: large">
 
     </div> *@
@@ -48,33 +52,47 @@
 
     private Dictionary<string, MudNavGroup> menuItems = new();
 
+
     protected override async Task OnInitializedAsync()
     {
         menuTitles = await menuBuilder.GetMenuAsync();
 
-        foreach(var title in menuTitles)
+        foreach (var title in menuTitles)
         {
-            var group = new MudNavGroup();
-            group.Title = title.DisplayTitle;
-
-            foreach(var menuItem in title.Children)
+            if (!string.IsNullOrEmpty(title.DisplayTitle))
             {
-                var link = new MudNavLink();
-                link.Match = NavLinkMatch.Prefix;
-                link. menuItem.DisplayName;
+                var group = new MudNavGroup();
+                group.Title = title.DisplayTitle;
+
+                menuItems.Add(title.Id, group);
             }
-            menuItems.Add(title.DisplayTitle, group);
+
         }
     }
 
-    private void ToggleExpanded(bool expanded, string itemName)
+    // private delegate bool ToggleExpandedCallback(EventCallback<bool> eventCallback);
+
+
+    private void ToggleExpanded(string identifier)
     {
-        if (expanded)
+        foreach (var item in menuItems)
         {
-            foreach (var entry in this.subMenuItems.Where(entry => entry.Key != itemName))
+            if (item.Key != identifier)
             {
-                entry.Value.Expanded = false;
+                item.Value.Expanded = false;
+                item.Value.Title = "RAOENUOAE";
             }
         }
     }
+
+    // private void ToggleExpanded(bool expanded, string itemName)
+    // {
+    //     if (expanded)
+    //     {
+    //         // foreach (var entry in this.subMenuItems.Where(entry => entry.Key != itemName))
+    //         // {
+    //         //     entry.Value.Expanded = false;
+    //         // }
+    //     }
+    // }
 }

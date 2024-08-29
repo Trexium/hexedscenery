@@ -35,6 +35,7 @@ namespace HexedSceneryMobileApp.Helpers
                 {
                     var menuTitle = new MenuTitle
                     {
+                        Id = $"category_{category.Id}",
                         DisplayTitle = category.DisplayName,
                         Children = new List<Models.MenuItem>()
                     };
@@ -43,6 +44,7 @@ namespace HexedSceneryMobileApp.Helpers
                     {
                         menuTitle.Children.Add(new Models.MenuItem
                         {
+                            Id = $"encounterType_{encounterType.Id}",
                             DisplayName = encounterType.DisplayName,
                             Url = ""
                         });
