@@ -10,22 +10,22 @@ namespace HexedSceneryMobileApp.Helpers
 {
     public interface IMenuBuilder
     {
-        Task<List<MenuTitle>> GetMenuAsync();
+        Task<List<MenuGroup>> GetMenuAsync();
     }
     public class MenuBuilder : IMenuBuilder
     {
         private readonly IEncounterService _encounterService;
         private readonly IHiredSwordService _hiredSwordService;
-        private readonly List<MenuTitle> _menu;
+        private readonly List<MenuGroup> _menu;
 
         public MenuBuilder(IEncounterService encounterService, IHiredSwordService hiredSwordService)
         {
             _encounterService = encounterService;
             _hiredSwordService = hiredSwordService;
-            _menu = new List<MenuTitle>();
+            _menu = new List<MenuGroup>();
         }
 
-        public async Task<List<MenuTitle>> GetMenuAsync()
+        public async Task<List<MenuGroup>> GetMenuAsync()
         {
             if (!_menu.Any())
             {
@@ -33,7 +33,7 @@ namespace HexedSceneryMobileApp.Helpers
 
                 foreach (var category in categories)
                 {
-                    var menuTitle = new MenuTitle
+                    var menuTitle = new MenuGroup
                     {
                         Id = $"category_{category.Id}",
                         DisplayTitle = category.DisplayName,

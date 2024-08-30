@@ -117,10 +117,10 @@ div.background-paper {
     display: flex;
     width: 110%;
     min-height: 99.5%;
-    top: 0%;
+    top: -20px;
     left: 99%;
     transform: translate(-96%, 0);
-    margin: 0 0 0 0;
+    margin: 0 20px 0 0;
     padding: 0;
     box-shadow: 12px 13px 20px black, 0 0 60px #8a4d0f inset;
     background: #fffef0;

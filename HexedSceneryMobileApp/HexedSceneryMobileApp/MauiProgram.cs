@@ -64,7 +64,17 @@ namespace HexedSceneryMobileApp
                 logging.SetMinimumLevel(LogLevel.Trace);
                 logging.AddDebug();
             });
+
+            if (!OperatingSystem.IsWindows())
+            {
+                builder.Services.AddSingleton<IEncounterService, DummyData>();
+            }
+            else
+            {
+                builder.Services.AddSingleton<IEncounterService, EncounterService>();
+            }
 #endif
+
 
             return builder.Build();
         }
