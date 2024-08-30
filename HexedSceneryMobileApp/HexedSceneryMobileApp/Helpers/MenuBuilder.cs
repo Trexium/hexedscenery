@@ -37,6 +37,7 @@ namespace HexedSceneryMobileApp.Helpers
                     {
                         Id = $"category_{category.Id}",
                         DisplayTitle = category.DisplayName,
+                        Expanded = false,
                         Children = new List<Models.MenuItem>()
                     };
 

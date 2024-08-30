@@ -1,9 +1,9 @@
 ﻿@using HexedSceneryMobileApp.Helpers
 @using HexedSceneryMobileApp.Models
+@using System.Linq;
 
 @inject IMenuBuilder menuBuilder
 
-@* <input type="checkbox" title="Navigation menu" class="navbar-toggler" /> *@
 <div class="background-paper-menu">
     <svg>
         <filter id="wavy2">
@@ -12,35 +12,25 @@
         </filter>
     </svg>
 </div>
-@* <MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
-    <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
-</MudNavMenu> *@
 
 <MudNavMenu Class="overflow-hidden">
-    @if (menuTitles == null || menuItems == null || !menuItems.Any())
+    @if (_menuItems == null)
     {
         <span>Loading...</span>
     }
     else
     {
-        @foreach (var title in menuTitles)
+        @foreach (var title in _menuItems.Values)
         {
             @if (!string.IsNullOrEmpty(title.DisplayTitle))
             {
-                <MudNavGroup @ref="@this.menuItems[title.Id]" Class="nav-category" Title="@title.DisplayTitle" Expanded="false" ExpandedChanged="@(() => ToggleExpanded(title.Id))">
+                <MudNavGroup Class="nav-category" Title="@title.DisplayTitle" @bind-Expanded="@title.Expanded" onclick="@(() => ToggleExpanded(title.Id))">
                     @foreach (var menuItem in title.Children)
                     {
                         <MudNavLink Href="@menuItem.Url" Match="NavLinkMatch.Prefix">@menuItem.DisplayName</MudNavLink>
                     }
                 </MudNavGroup>
             }
-
-            @*             <div class="nav-item px-3 category" style="font-size: large">
-
-    </div> *@
-
         }
     }
 
@@ -48,51 +38,27 @@
 
 
 @code {
-    List<MenuTitle> menuTitles;
-
-    private Dictionary<string, MudNavGroup> menuItems = new();
+    private Dictionary<string, MenuTitle> _menuItems;
 
 
     protected override async Task OnInitializedAsync()
     {
-        menuTitles = await menuBuilder.GetMenuAsync();
+        _menuItems = new();
+        var menuTitles = await menuBuilder.GetMenuAsync();
 
-        foreach (var title in menuTitles)
-        {
-            if (!string.IsNullOrEmpty(title.DisplayTitle))
-            {
-                var group = new MudNavGroup();
-                group.Title = title.DisplayTitle;
-
-                menuItems.Add(title.Id, group);
-            }
-
-        }
+        _menuItems = menuTitles.ToDictionary(k => k.Id);
     }
-
-    // private delegate bool ToggleExpandedCallback(EventCallback<bool> eventCallback);
 
 
     private void ToggleExpanded(string identifier)
     {
-        foreach (var item in menuItems)
+        foreach (var key in _menuItems.Keys)
         {
-            if (item.Key != identifier)
+            if (key != identifier)
             {
-                item.Value.Expanded = false;
-                item.Value.Title = "RAOENUOAE";
+                _menuItems[key].Expanded = false;
             }
         }
+        StateHasChanged();
     }
-
-    // private void ToggleExpanded(bool expanded, string itemName)
-    // {
-    //     if (expanded)
-    //     {
-    //         // foreach (var entry in this.subMenuItems.Where(entry => entry.Key != itemName))
-    //         // {
-    //         //     entry.Value.Expanded = false;
-    //         // }
-    //     }
-    // }
 }

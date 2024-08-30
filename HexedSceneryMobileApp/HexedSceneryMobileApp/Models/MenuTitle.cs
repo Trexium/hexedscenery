@@ -10,6 +10,7 @@ namespace HexedSceneryMobileApp.Models
     {
         public string Id { get; set; }
         public string DisplayTitle { get; set; }
+        public bool Expanded { get; set; }
         public List<MenuItem> Children { get; set; }
     }
 }
