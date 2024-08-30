@@ -9,8 +9,7 @@ namespace HexedSceneryMobileApp.Models
     public class MenuItem
     {
         public string Id { get; set; }
-        public string DisplayName { get; set; }
+        public string DisplayText { get; set; }
         public string Url { get; set; }
-        public List<MenuItem> Children { get; set; }
     }
 }

@@ -33,8 +33,13 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
             menu.Items = new List<MenuItem>();
             menu.Groups = new List<MenuGroup>();
 
-            // Hired Swords
-            menu.Items.Add(new MenuItem { DisplayText = "Hired Swords", Name = "HiredSwords", Id = "hiredswords" });
+            // Preperation
+            var prepGroup = new MenuGroup();
+            prepGroup.Id = "preperation";
+            prepGroup.DisplayText = "Preperation";
+            prepGroup.Items = new List<MenuItem>();
+            prepGroup.Items.Add(new MenuItem { DisplayText = "Hired Swords", Name = "HiredSwords", Id = "hiredswords" });
+            menu.Groups.Add(prepGroup);
 
             // Encounters
             var encounterCategory = categories.First(m => m.Id == 3);

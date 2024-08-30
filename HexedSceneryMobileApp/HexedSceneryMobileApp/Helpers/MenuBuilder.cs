@@ -10,49 +10,25 @@ namespace HexedSceneryMobileApp.Helpers
 {
     public interface IMenuBuilder
     {
-        Task<List<MenuGroup>> GetMenuAsync();
+        Task<Menu> GetMenuAsync();
     }
     public class MenuBuilder : IMenuBuilder
     {
-        private readonly IEncounterService _encounterService;
-        private readonly IHiredSwordService _hiredSwordService;
-        private readonly List<MenuGroup> _menu;
+        private readonly IMenuService _menuService;
+        private static Menu _menu;
 
-        public MenuBuilder(IEncounterService encounterService, IHiredSwordService hiredSwordService)
+        public MenuBuilder(IMenuService menuService)
         {
-            _encounterService = encounterService;
-            _hiredSwordService = hiredSwordService;
-            _menu = new List<MenuGroup>();
+            _menuService = menuService;
         }
 
-        public async Task<List<MenuGroup>> GetMenuAsync()
+        public async Task<Menu> GetMenuAsync()
         {
-            if (!_menu.Any())
+            if (_menu == null)
             {
-                var categories = await _encounterService.GetTableCategoriesAsync();
+                var menu = await _menuService.GetMenuAsync();
 
-                foreach (var category in categories)
-                {
-                    var menuTitle = new MenuGroup
-                    {
-                        Id = $"category_{category.Id}",
-                        DisplayTitle = category.DisplayName,
-                        Expanded = false,
-                        Children = new List<Models.MenuItem>()
-                    };
-
-                    foreach(var encounterType in category.EncounterTypes)
-                    {
-                        menuTitle.Children.Add(new Models.MenuItem
-                        {
-                            Id = $"encounterType_{encounterType.Id}",
-                            DisplayName = encounterType.DisplayName,
-                            Url = ""
-                        });
-                    }
-
-                    _menu.Add(menuTitle);
-                }
+                _menu = menu.ToViewModel();
             }
 
             return _menu;

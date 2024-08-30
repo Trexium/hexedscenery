@@ -9,125 +9,17 @@ using System.Threading.Tasks;
 
 namespace HexedSceneryMobileApp
 {
-    public class DummyData : IEncounterService, IHiredSwordService
+    public class DummyData : IEncounterService, IHiredSwordService, IMenuService
     {
-        //public List<EncounterType> GetEncounterTypes()
-        //{
-        //    var testdata = new List<EncounterType>();
-        //    testdata.Add(new EncounterType
-        //    {
-        //        Id = 1,
-        //        Name = "Random Happenings",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D66,
-        //        NumberOfDice = 1
-        //    });
-        //    testdata.Add(new EncounterType
-        //    {
-        //        Id = 2,
-        //        Name = "Subplots",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 3
-        //    });
-        //    testdata.Add(new EncounterType
-        //    {
-        //        Id = 3,
-        //        Name = "Town Cryer",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 2
-        //    });
-        //    testdata.Add(new EncounterType
-        //    {
-        //        Id = 4,
-        //        Name = "Treasures of the Underground",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 1
-        //    });
+        private readonly string _dummyMenuJson = @"{""Title"":null,""Items"":[],""Groups"":[{""Id"":""preperation"",""DisplayText"":""Preperation"",""Items"":[{""Id"":""hiredswords"",""DisplayText"":""Hired Swords"",""Name"":""HiredSwords""}],""Groups"":null},{""Id"":""category_3"",""DisplayText"":""Encounters"",""Items"":[{""Id"":""encounterType_1"",""DisplayText"":""Random Happenings"",""Name"":""RandomHappening""},{""Id"":""encounterType_2"",""DisplayText"":""Subplots"",""Name"":""SubPlot""},{""Id"":""encounterType_15"",""DisplayText"":""The Town Cryer in Mordheim"",""Name"":""TheTownCryerInMordheim""},{""Id"":""encounterType_21"",""DisplayText"":""Treasures of the Underground"",""Name"":""TreasuresOfTheUnderground""}],""Groups"":null},{""Id"":""category_4"",""DisplayText"":""Skirmish"",""Items"":[{""Id"":""encounterType_6"",""DisplayText"":""Black Powder Misfires"",""Name"":""Misfires""},{""Id"":""encounterType_13"",""DisplayText"":""Stupidity"",""Name"":""Stupidity""},{""Id"":""encounterType_14"",""DisplayText"":""Animosity"",""Name"":""Animosity""}],""Groups"":[{""Id"":""Crit_"",""DisplayText"":""Critical Hits"",""Items"":[{""Id"":""encounterType_8"",""DisplayText"":""Missile Weapons"",""Name"":""Crit_MissileWeapons""},{""Id"":""encounterType_9"",""DisplayText"":""Bludgeon Weapons"",""Name"":""Crit_BludgeonWeapons""},{""Id"":""encounterType_10"",""DisplayText"":""Bladed Weapons"",""Name"":""Crit_BladedWeapons""},{""Id"":""encounterType_11"",""DisplayText"":""Unarmed"",""Name"":""Crit_UnarmedCombat""},{""Id"":""encounterType_12"",""DisplayText"":""Thrusting Weapons"",""Name"":""Crit_ThrustingWeapons""},{""Id"":""encounterType_19"",""DisplayText"":""Flexible Weapons"",""Name"":""Crit_FlexibleWeapons""}],""Groups"":null}]},{""Id"":""category_5"",""DisplayText"":""Post-Battle Sequence"",""Items"":[{""Id"":""encounterType_3"",""DisplayText"":""Power in the Stones"",""Name"":""PowerInTheStones""},{""Id"":""encounterType_4"",""DisplayText"":""Using Stones"",""Name"":""UsingStones""},{""Id"":""encounterType_5"",""DisplayText"":""Random Mutations"",""Name"":""RandomMutationTable""},{""Id"":""encounterType_7"",""DisplayText"":""Rewards of the Shadowlord"",""Name"":""RewardsOfTheShadowlord""},{""Id"":""encounterType_18"",""DisplayText"":""Witch Hunter Rabble Rousing"",""Name"":""RabbleRousing""},{""Id"":""encounterType_20"",""DisplayText"":""Serious Injuries"",""Name"":""SeriousInjuries""}],""Groups"":[{""Id"":""Sawbones_"",""DisplayText"":""Sawbones"",""Items"":[{""Id"":""encounterType_16"",""DisplayText"":""Limb Surgery"",""Name"":""Sawbones_LimbSurgery""},{""Id"":""encounterType_17"",""DisplayText"":""Brain Surgery"",""Name"":""Sawbones_BrainSurgery""}],""Groups"":null}]}]}";
 
-        //    return testdata;
-        //}
 
-        //public List<GamePlayTableType> GetGamePlayTableTypes()
-        //{
-        //    var testdata = new List<GamePlayTableType>();
-        //    testdata.Add(new GamePlayTableType
-        //    {
-        //        Id = 1,
-        //        Name = "Animosity",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 1
-        //    });
-        //    testdata.Add(new GamePlayTableType
-        //    {
-        //        Id = 2,
-        //        Name = "Blackpowder Misfires",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 1
-        //    });
-        //    testdata.Add(new GamePlayTableType
-        //    {
-        //        Id = 3,
-        //        Name = "Critical Hits",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 1
-        //    });
-        //    testdata.Add(new GamePlayTableType
-        //    {
-        //        Id = 4,
-        //        Name = "Stupidity",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 1
-        //    });
-        //    return testdata;
-        //}
+        public async Task<Menu> GetMenuAsync()
+        {
+            var menu = System.Text.Json.JsonSerializer.Deserialize<Menu>(_dummyMenuJson);
+            return menu;
+        }
 
-        //public List<PostGameTableType> GetPostGameTableTypes()
-        //{
-        //    var testdata = new List<PostGameTableType>();
-        //    testdata.Add(new PostGameTableType
-        //    {
-        //        Id = 1,
-        //        Name = "Power in the Stones",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 2
-        //    });
-        //    testdata.Add(new PostGameTableType
-        //    {
-        //        Id = 2,
-        //        Name = "Rewards of the Shadowlord",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 2
-        //    });
-        //    testdata.Add(new PostGameTableType
-        //    {
-        //        Id = 3,
-        //        Name = "Random Mutations",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D66,
-        //        NumberOfDice = 1
-        //    });
-        //    testdata.Add(new PostGameTableType
-        //    {
-        //        Id = 4,
-        //        Name = "Sawbones",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 2
-        //    });
-        //    testdata.Add(new PostGameTableType
-        //    {
-        //        Id = 5,
-        //        Name = "Serious Injuries",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D66,
-        //        NumberOfDice = 1
-        //    });
-        //    testdata.Add(new PostGameTableType
-        //    {
-        //        Id = 6,
-        //        Name = "Rabble Rousing",
-        //        DiceType = HexedSceneryCommon.Enums.DiceType.D6,
-        //        NumberOfDice = 2
-        //    });
-
-        //    return testdata;
-        //}
         public async Task<List<TableCategory>> GetTableCategoriesAsync()
         {
             var testdata = new List<TableCategory>();

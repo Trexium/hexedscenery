@@ -111,6 +111,10 @@ h1:focus {
     src: url('../fonts/Schoensperger.otf') format('opentype');
 }
 
+div.mud-drawer-content {
+    padding-right: 50px;
+}
+
 div.background-paper {
     z-index: -1;
     position: absolute;
@@ -144,8 +148,13 @@ div.background-paper-menu {
 }
 
 
-button.mud-nav-link > div.mud-nav-link-text {
+nav.top-level-group > button.mud-nav-link > div.mud-nav-link-text {
     font-family: Schoensperger !important;
+    font-size: 20px !important;
+}
+
+button.mud-nav-link > div.mud-nav-link-text {
+    font-family: CaslonAntique !important;
     font-size: 20px !important;
 }
 
