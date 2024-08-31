@@ -43,11 +43,9 @@ namespace HexedSceneryMobileApp
             builder.Services.AddMudServices();
 
             builder.Services.AddScoped<IMenuBuilder, MenuBuilder>();
-
+            builder.Services.AddSingleton<IEncounterTypeHandler, EncounterTypeHandler>();
 
             // Add dummy data instead of getting data from api
-            builder.Services.AddSingleton<IEncounterService, EncounterService>();
-            builder.Services.AddSingleton<IHiredSwordService, DummyData>();
             
             var test = builder.Configuration["ApiUrl"];
             builder.Services.AddHttpClient("HexedApi", client => 
@@ -70,11 +68,13 @@ namespace HexedSceneryMobileApp
             {
                 builder.Services.AddSingleton<IEncounterService, DummyData>();
                 builder.Services.AddSingleton<IMenuService, DummyData>();
+                builder.Services.AddSingleton<IHiredSwordService, DummyData>();
             }
             else
             {
                 builder.Services.AddSingleton<IEncounterService, EncounterService>();
                 builder.Services.AddSingleton<IMenuService, MenuService>();
+                builder.Services.AddSingleton<IHiredSwordService, HiredSwordService>();
             }
 #endif
 

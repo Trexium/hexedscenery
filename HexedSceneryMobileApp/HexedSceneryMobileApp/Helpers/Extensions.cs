@@ -67,6 +67,42 @@ namespace HexedSceneryMobileApp.Helpers
             var model = new ViewModels.MenuItem();
             model.Id = source.Id;
             model.DisplayText = source.DisplayText;
+            model.Url = source.Url;
+            model.Type = source.Type.ToViewModel();
+            return model;
+        }
+
+        public static Enums.MenuItemType ToViewModel(this ApiModels.MenuItemTypeEnum source)
+        {
+            switch (source)
+            {
+                case ApiModels.MenuItemTypeEnum.HiredSwords:
+                    return Enums.MenuItemType.HiredSwords;
+                case ApiModels.MenuItemTypeEnum.EncounterType:
+                    return Enums.MenuItemType.EncounterType;
+                default:
+                    return Enums.MenuItemType.Unknown;
+            }
+        }
+
+        public static ViewModels.EncounterType ToViewModel(this ApiModels.EncounterType source)
+        {
+            var model = new ViewModels.EncounterType();
+            model.Id = source.Id;
+            model.Name = source.Name;
+            model.DisplayName = source.DisplayName;
+            model.NumberOfDice = source.NumberOfDice;
+            model.DiceType = source.DiceType.ToViewModel();
+            return model;
+        }
+
+        public static ViewModels.DiceType ToViewModel(this ApiModels.DiceType source)
+        {
+            var model = new ViewModels.DiceType();
+            model.Id = source.Id;
+            model.DisplayName = source.DisplayName;
+            model.MinNumber = source.MinNumber;
+            model.MaxNumber = source.MaxNumber;
             return model;
         }
     }

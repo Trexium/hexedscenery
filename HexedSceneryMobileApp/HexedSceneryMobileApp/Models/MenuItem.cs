@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HexedSceneryMobileApp.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,9 @@ namespace HexedSceneryMobileApp.Models
 {
     public class MenuItem
     {
-        public string Id { get; set; }
+        public int? Id { get; set; }
         public string DisplayText { get; set; }
         public string Url { get; set; }
+        public MenuItemType Type { get; set; }
     }
 }

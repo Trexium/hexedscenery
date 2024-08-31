@@ -38,7 +38,7 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
             prepGroup.Id = "preperation";
             prepGroup.DisplayText = "Preperation";
             prepGroup.Items = new List<MenuItem>();
-            prepGroup.Items.Add(new MenuItem { DisplayText = "Hired Swords", Name = "HiredSwords", Id = "hiredswords" });
+            prepGroup.Items.Add(new MenuItem { DisplayText = "Hired Swords", Name = "HiredSwords", Url = "hiredswords" });
             menu.Groups.Add(prepGroup);
 
             // Encounters
@@ -89,9 +89,11 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
                 if (!IsInSkipList(encounterType.Name))
                 {
                     var menuItem = new MenuItem();
-                    menuItem.Id = $"encounterType_{encounterType.Id}";
+                    menuItem.Id = encounterType.Id;
                     menuItem.Name = encounterType.Name;
                     menuItem.DisplayText = encounterType.DisplayName;
+                    menuItem.Url = $"encountertype/{encounterType.Id}";
+                    menuItem.Type = MenuItemTypeEnum.EncounterType;
                     group.Items.Add(menuItem);
                 }
             }
@@ -109,9 +111,11 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
             foreach (var encounterType in category.EncounterTypes.Where(m => m.Name.StartsWith(prefix)))
             {
                 var menuItem = new MenuItem();
-                menuItem.Id = $"encounterType_{encounterType.Id}";
+                menuItem.Id = encounterType.Id;
                 menuItem.Name = encounterType.Name;
                 menuItem.DisplayText = encounterType.DisplayName;
+                menuItem.Url = $"encountertype/{encounterType.Id}";
+                menuItem.Type = MenuItemTypeEnum.EncounterType;
                 group.Items.Add(menuItem);
             }
 

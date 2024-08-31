@@ -1,0 +1,39 @@
+﻿@page "/encounterType/{encountertypeid}"
+@using HexedSceneryMobileApp.Helpers
+
+@inject IEncounterTypeHandler EncounterTypeHandler 
+
+@if (_encounterType == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <h3>@_encounterType.DisplayName</h3>
+}
+
+
+@code {
+    [Parameter]
+    public string EncounterTypeId { get; set; }
+
+    private Models.EncounterType _encounterType;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        // if (int.TryParse(EncounterTypeId, out int result))
+        // {
+        //     _encounterType = await EncounterTypeHandler.GetEncounterType(result);
+        // }
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (int.TryParse(EncounterTypeId, out int result))
+        {
+            _encounterType = await EncounterTypeHandler.GetEncounterType(result);
+        }
+    }
+}
