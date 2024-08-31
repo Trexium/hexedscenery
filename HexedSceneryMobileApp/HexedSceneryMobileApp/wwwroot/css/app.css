@@ -164,8 +164,17 @@ a.mud-nav-link {
     font-size: 20px;
 }
 
+h1 {
+    font-family: Schoensperger;
+    text-align: center;
+}
+
 
 /*Hacks to ignore default behavior*/
+
+div.mud-main-content {
+    padding-top: 0px !important;
+}
 
 div.mud-overlay.mud-drawer-overlay.mud-overlay-drawer.mud-drawer-pos-left.mud-drawer-overlay--open.mud-drawer-overlay-responsive.mud-drawer-overlay-md {
     background-color: transparent !important;

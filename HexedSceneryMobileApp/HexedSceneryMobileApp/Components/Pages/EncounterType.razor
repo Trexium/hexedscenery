@@ -1,7 +1,7 @@
 ﻿@page "/encounterType/{encountertypeid}"
 @using HexedSceneryMobileApp.Helpers
 
-@inject IEncounterTypeHandler EncounterTypeHandler 
+@inject IEncounterTypeHandler EncounterTypeHandler
 
 @if (_encounterType == null)
 {
@@ -9,7 +9,8 @@
 }
 else
 {
-    <h3>@_encounterType.DisplayName</h3>
+    <h1 style="align-content: center;">@_encounterType.DisplayName</h1>
+
 }
 
 

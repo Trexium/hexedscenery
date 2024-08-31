@@ -25,7 +25,7 @@
         {
             @foreach (var item in _menu.Items)
             {
-                <MudNavLink Href="@item.Url" Match="NavLinkMatch.Prefix">@item.DisplayText</MudNavLink>
+                <MudNavLink Href="@item.Url" Match="NavLinkMatch.Prefix" @OnClick="@OnNavItemClick">@item.DisplayText</MudNavLink>
             }
         }
         @if (_menu.Groups != null)
@@ -40,7 +40,7 @@
                             <MudNavGroup Title="@subGroup.DisplayText">
                                 @foreach (var item in subGroup.Items)
                                 {
-                                    <MudNavLink Href="@item.Url" Match="NavLinkMatch.Prefix">@item.DisplayText</MudNavLink>
+                                    <MudNavLink Href="@item.Url" Match="NavLinkMatch.Prefix" @OnClick="@OnNavItemClick">@item.DisplayText</MudNavLink>
                                 }
                             </MudNavGroup>
                         }
@@ -49,7 +49,7 @@
                     {
                         @foreach (var item in group.Items)
                         {
-                            <MudNavLink Href="@item.Url" Match="NavLinkMatch.Prefix">@item.DisplayText</MudNavLink>
+                            <MudNavLink Href="@item.Url" Match="NavLinkMatch.Prefix" @OnClick="@OnNavItemClick">@item.DisplayText</MudNavLink>
                         }
                     }
                 </MudNavGroup>
@@ -63,6 +63,9 @@
 
 @code {
     private Menu _menu;
+
+    [Parameter]
+    public Action OnNavItemClick { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

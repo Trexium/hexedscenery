@@ -16,7 +16,7 @@
 </div>
 
 <MudLayout>
-    <MudIconButton Class="@_drawerButtonClass" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+    <MudIconButton Class="" Style="position:absolute;left: 30px; top: 10px;" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
 @*     <MudAppBar Elevation="0">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
@@ -27,10 +27,10 @@
 @*         <MudDrawerHeader>
             <MudText Typo="Typo.h6">MyApplication</MudText>
         </MudDrawerHeader> *@
-        <NavMenu />
+        <NavMenu OnNavItemClick="@DrawerToggle"/>
     </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-5 pt-5">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-5 pt-5 align-content-center">
             @Body
         </MudContainer>
     </MudMainContent>
@@ -44,5 +44,6 @@
     {
         _drawerOpen = !_drawerOpen;
         _drawerButtonClass = _drawerOpen ? "invisible" : "visible";
+        StateHasChanged();
     }
 }
