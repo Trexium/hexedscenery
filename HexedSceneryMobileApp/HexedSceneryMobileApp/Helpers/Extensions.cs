@@ -1,4 +1,5 @@
 ﻿
+using HexedSceneryMobileApp.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,6 +104,7 @@ namespace HexedSceneryMobileApp.Helpers
             model.DisplayName = source.DisplayName;
             model.MinNumber = source.MinNumber;
             model.MaxNumber = source.MaxNumber;
+            model.Type = (Die)source.Id;
             return model;
         }
     }

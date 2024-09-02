@@ -44,7 +44,7 @@ namespace HexedSceneryMobileApp
 
             builder.Services.AddScoped<IMenuBuilder, MenuBuilder>();
             builder.Services.AddSingleton<IEncounterTypeHandler, EncounterTypeHandler>();
-            builder.Services.AddSingleton<IDiceRoller, DiceRoller>();
+            builder.Services.AddSingleton<IDiceHandler, DiceHandler>();
 
             // Add dummy data instead of getting data from api
             

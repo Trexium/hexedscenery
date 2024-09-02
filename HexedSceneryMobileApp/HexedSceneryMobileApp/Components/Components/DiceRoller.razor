@@ -1,13 +1,20 @@
-﻿
+﻿@using HexedSceneryApiClient.Services
+@using HexedSceneryMobileApp.Helpers
+@using HexedSceneryMobileApp.Models
+
+@inject IDiceHandler DiceHandler
 
 
-@if (!_diceTypeId.HasValue)
+@if (_diceType == null)
 {
     <span>Loading...</span>
 }
 else
 {
-    
+    <div style="flex-direction: row;" class="d-flex">
+        <MudTextField @bind-Value="_result" Label="@_label" Variant="@Variant.Text"></MudTextField>
+        <MudIconButton OnClick="Roll" Icon="@Icons.Material.Filled.Casino" aria-label="shuffle" />
+    </div>
 }
 
 
@@ -15,25 +22,27 @@ else
 
 @code {
     [Parameter]
-    public string DiceTypeId { get; set; }
+    public int DiceTypeId { get; set; }
     [Parameter]
-    public string NumberOfDice { get; set; }
+    public int NumberOfDice { get; set; }
+    [Parameter]
+    public EventCallback<int> OnNewResult { get; set; }
 
-    private int? _diceTypeId { get; set; }
-    private int? _numberOfDice { get; set; }
+    private int? _result { get; set; }
+    private DiceType _diceType { get; set; }
+    private string _label;
 
+    public async Task Roll()
+    {
+        _result = await DiceHandler.Roll(_diceType, NumberOfDice);
+        OnNewResult.InvokeAsync(_result.Value);
+    }
 
 
     protected override async Task OnParametersSetAsync()
     {
-        if (int.TryParse(DiceTypeId, out int diceTypeId))
-        {
-            _diceTypeId = diceTypeId;
-        }
-        if (int.TryParse(NumberOfDice, out int numberOfDice))
-        {
-            _numberOfDice = numberOfDice;
-        }
+        _diceType = await DiceHandler.GetDiceType(DiceTypeId);
+        _label = $"Roll {NumberOfDice}{_diceType.DisplayName} and enter the result or push the button to roll the dice";
     }
 
 

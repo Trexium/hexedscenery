@@ -187,3 +187,13 @@ div.mud-overlay-scrim.mud-overlay-dark {
 a.active {
     background-color: transparent !important;
 }
+
+label.mud-input-label {
+    font-family: CaslonAntique;
+    font-size: 20px !important;
+}
+
+span.mud-button-label {
+    font-family: CaslonAntique;
+    font-size: 20px;
+}

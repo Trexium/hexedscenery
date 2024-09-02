@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HexedSceneryMobileApp.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,6 @@ namespace HexedSceneryMobileApp.Models
         public int MinNumber { get; set; }
 
         public int MaxNumber { get; set; }
+        public Die Type { get; set; }
     }
 }
