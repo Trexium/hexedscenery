@@ -1,5 +1,40 @@
-﻿<h3>DiceRoller</h3>
+﻿
+
+
+@if (!_diceTypeId.HasValue)
+{
+    <span>Loading...</span>
+}
+else
+{
+    
+}
+
+
+
 
 @code {
+    [Parameter]
+    public string DiceTypeId { get; set; }
+    [Parameter]
+    public string NumberOfDice { get; set; }
+
+    private int? _diceTypeId { get; set; }
+    private int? _numberOfDice { get; set; }
+
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (int.TryParse(DiceTypeId, out int diceTypeId))
+        {
+            _diceTypeId = diceTypeId;
+        }
+        if (int.TryParse(NumberOfDice, out int numberOfDice))
+        {
+            _numberOfDice = numberOfDice;
+        }
+    }
+
 
 }
