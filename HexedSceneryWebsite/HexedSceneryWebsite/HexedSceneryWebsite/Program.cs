@@ -14,12 +14,13 @@ builder.Services.AddRazorComponents()
 builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 
+
     // In addition, you can limit the depth
     // options.MaxDepth = 4;
 });
 builder.Services.AddDbContext<HexedSceneryData.Data.HexedSceneryContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("HexedScenery")));
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile), typeof(HexedSceneryWebsite.Api.v1.AutoMapperProfile));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IEncounterService, EncounterService>();
 builder.Services.AddTransient<IHiredSwordService, HiredSwordService>();

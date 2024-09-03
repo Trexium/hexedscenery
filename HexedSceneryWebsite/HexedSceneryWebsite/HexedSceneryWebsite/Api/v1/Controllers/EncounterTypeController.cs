@@ -1,6 +1,7 @@
-﻿using HexedSceneryData.Data;
-using HexedSceneryData.Models;
+﻿using AutoMapper;
+using HexedSceneryData.Data;
 using HexedSceneryWebsite.Api.Auth;
+using HexedSceneryWebsite.Api.v1.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,31 +14,39 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
     public class EncounterTypeController : ControllerBase
     {
         private readonly HexedSceneryContext _context;
+        private readonly IMapper _mapper;
 
-        public EncounterTypeController(HexedSceneryContext context)
+        public EncounterTypeController(HexedSceneryContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [ApiKey]
         public IEnumerable<EncounterType> Get()
         {
-            return _context.EncounterTypes.Where(m => m.Active == true).ToList();
+            var dataItems = _context.EncounterTypes.Where(m => m.Active == true).ToList();
+            var encounterTypes = _mapper.Map<List<EncounterType>>(dataItems);
+            return encounterTypes;
         }
 
         [HttpGet("category/{categoryId}")]
         [ApiKey]
         public IEnumerable<EncounterType> GetByCategory(int categoryId)
         {
-            return _context.EncounterTypes.Where(m => m.Active == true && m.TableCategoryId == categoryId);
+            var dataItems = _context.EncounterTypes.Where(m => m.Active == true && m.TableCategoryId == categoryId);
+            var encounterTypes = _mapper.Map<List<EncounterType>>(dataItems);
+            return encounterTypes;
         }
 
         [HttpGet("{id}")]
         [ApiKey]
         public EncounterType Get(int id)
         {
-            return _context.EncounterTypes.Include(m => m.DiceType).Include(m => m.TableCategory).FirstOrDefault(m => m.Active == true && m.Id == id);
+            var dataItem = _context.EncounterTypes.Include(m => m.DiceType).Include(m => m.TableCategory).FirstOrDefault(m => m.Active == true && m.Id == id);
+            var encounterType = _mapper.Map<EncounterType>(dataItem);
+            return encounterType;
         }
     }
 }

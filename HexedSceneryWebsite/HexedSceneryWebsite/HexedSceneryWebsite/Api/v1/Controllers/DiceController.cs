@@ -1,6 +1,7 @@
-﻿using HexedSceneryData.Data;
-using HexedSceneryData.Models;
+﻿using AutoMapper;
+using HexedSceneryData.Data;
 using HexedSceneryWebsite.Api.Auth;
+using HexedSceneryWebsite.Api.v1.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,10 +13,12 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
     public class DiceController : ControllerBase
     {
         private readonly HexedSceneryContext _context;
+        private readonly IMapper _mapper;
 
-        public DiceController(HexedSceneryContext context)
+        public DiceController(HexedSceneryContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET api/<DiceController>/5
@@ -23,7 +26,8 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         [ApiKey]
         public DiceType Get(int id)
         {
-            var diceType = _context.DiceTypes.FirstOrDefault(m => m.Id == id);
+            var dataItem = _context.DiceTypes.FirstOrDefault(m => m.Id == id);
+            var diceType = _mapper.Map<DiceType>(dataItem);
             return diceType;
         }
     }
