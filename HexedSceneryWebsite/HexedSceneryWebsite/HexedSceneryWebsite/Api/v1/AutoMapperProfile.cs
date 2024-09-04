@@ -24,37 +24,37 @@ namespace HexedSceneryWebsite.Api.v1
             CreateMap<Data.Equipment, Equipment>();
             CreateMap<Data.Grade, Grade>();
             CreateMap<Data.HiredSword, HiredSword>()
-                .ForMember(m => m.AdditionalProfiles, opt => opt.MapFrom(s => s.HiredSwordAdditionalProfiles))
-                .ForMember(m => m.CompatibleWarbands, opt => opt.MapFrom(s => s.HiredSwordCompatibleWarbands))
-                .ForMember(m => m.Equipment, opt => opt.MapFrom(s => s.HiredSwordEquipments))
-                .ForMember(m => m.SkillTypes, opt => opt.MapFrom(s => s.HiredSwordSkillTypes))
-                .ForMember(m => m.Skills, opt => opt.MapFrom(s => s.HiredSwordSkills))
-                .ForMember(m => m.SpecialRules, opt => opt.MapFrom(s => s.HiredSwordSpecialRules));
-            CreateMap<Data.HiredSwordAdditionalProfile, Profile>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.Profile));
-            CreateMap<Data.HiredSwordCompatibleWarband, Warband>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.Warband));
-            CreateMap<Data.HiredSwordEquipment, Equipment>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.Equipment));
-            CreateMap<Data.HiredSwordSkill, Skill>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.Skill));
-            CreateMap<Data.HiredSwordSkillType, SkillType>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.SkillType));
-            CreateMap<Data.HiredSwordSpecialRule, SpecialRule>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.SpecialRule));
+                .ForMember(m => m.AdditionalProfiles, opt => opt.MapFrom(s => s.HiredSwordAdditionalProfiles.Select(x => x.Profile)))
+                .ForMember(m => m.CompatibleWarbands, opt => opt.MapFrom(s => s.HiredSwordCompatibleWarbands.Select(x => x.Warband)))
+                .ForMember(m => m.Equipment, opt => opt.MapFrom(s => s.HiredSwordEquipments.Select(x => x.Equipment)))
+                .ForMember(m => m.SkillTypes, opt => opt.MapFrom(s => s.HiredSwordSkillTypes.Select(x => x.SkillType)))
+                .ForMember(m => m.Skills, opt => opt.MapFrom(s => s.HiredSwordSkills.Select(x => x.Skill)))
+                .ForMember(m => m.SpecialRules, opt => opt.MapFrom(s => s.HiredSwordSpecialRules.Select(x => x.SpecialRule)));
+            //CreateMap<Data.HiredSwordAdditionalProfile, Profile>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.Profile));
+            //CreateMap<Data.HiredSwordCompatibleWarband, Warband>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.Warband));
+            //CreateMap<Data.HiredSwordEquipment, Equipment>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.Equipment));
+            //CreateMap<Data.HiredSwordSkill, Skill>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.Skill));
+            //CreateMap<Data.HiredSwordSkillType, SkillType>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.SkillType));
+            //CreateMap<Data.HiredSwordSpecialRule, SpecialRule>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.SpecialRule));
             CreateMap<Data.Monster, Monster>()
-                .ForMember(m => m.Equipment, opt => opt.MapFrom(s => s.MonsterEquipments))
-                .ForMember(m => m.Skills, opt => opt.MapFrom(s => s.MonsterSkills))
-                .ForMember(m => m.SpecialRules, opt => opt.MapFrom(s => s.MonsterSpecialRules))
-                .ForMember(m => m.AdditionalProfiles, opt => opt.MapFrom(s => s.MonsterAdditionalProfiles));
-            CreateMap<Data.MonsterAdditionalProfile, Profile>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.Profile));
-            CreateMap<Data.MonsterEquipment, Equipment>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.Equipment));
-            CreateMap<Data.MonsterSkill, Skill>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.Skill));
-            CreateMap<Data.MonsterSpecialRule, SpecialRule>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.SpecialRule));
+                .ForMember(m => m.Equipment, opt => opt.MapFrom(s => s.MonsterEquipments.Select(x => x.Equipment)))
+                .ForMember(m => m.Skills, opt => opt.MapFrom(s => s.MonsterSkills.Select(x => x.Skill)))
+                .ForMember(m => m.SpecialRules, opt => opt.MapFrom(s => s.MonsterSpecialRules.Select(x => x.SpecialRule)))
+                .ForMember(m => m.AdditionalProfiles, opt => opt.MapFrom(s => s.MonsterAdditionalProfiles.Select(x => x.Profile)));
+            //CreateMap<Data.MonsterAdditionalProfile, Profile>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.Profile));
+            //CreateMap<Data.MonsterEquipment, Equipment>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.Equipment));
+            //CreateMap<Data.MonsterSkill, Skill>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.Skill));
+            //CreateMap<Data.MonsterSpecialRule, SpecialRule>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.SpecialRule));
             CreateMap<Data.Profile, Profile>();
             CreateMap<Data.Race, Race>();
             CreateMap<Data.Skill, Skill>();
@@ -76,10 +76,12 @@ namespace HexedSceneryWebsite.Api.v1
                 .ForMember(m => m.CompatibleHiredSwords, opt =>
                 {
                     opt.PreCondition(m => m.HiredSwordCompatibleWarbands != null);
-                    opt.MapFrom(s => s.HiredSwordCompatibleWarbands);
+                    opt.MapFrom(s => s.HiredSwordCompatibleWarbands.Select(x => x.HiredSword));
                 });
-            CreateMap<Data.HiredSwordCompatibleWarband, HiredSword>()
-                .ForMember(m => m, opt => opt.MapFrom(s => s.HiredSword));
+            //CreateMap<Data.HiredSwordCompatibleWarband, HiredSword>()
+            //    .ForPath(m => m, opt => opt.MapFrom(s => s.HiredSword));
+
+            
         }
 
     }

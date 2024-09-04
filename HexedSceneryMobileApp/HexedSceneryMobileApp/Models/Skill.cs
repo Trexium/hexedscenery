@@ -16,6 +16,5 @@ namespace HexedSceneryMobileApp.Models
         public string? Description { get; set; }
 
         public int SkillTypeId { get; set; }
-        public SkillType? SkillType { get; set; }
     }
 }

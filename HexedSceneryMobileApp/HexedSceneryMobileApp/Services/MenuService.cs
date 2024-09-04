@@ -1,4 +1,5 @@
-﻿using HexedSceneryApiClient.Models;
+﻿
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,23 @@ namespace HexedSceneryMobileApp.Services
 {
     public interface IMenuService
     {
-        Task<Menu> GetMenuAsync();
+        Task<Models.Menu> GetMenuAsync();
     }
 
     public class MenuService : IMenuService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IMapper _mapper;
 
-        private static Menu _menuCache; 
+        private static Models.Menu _menuCache; 
 
-        public MenuService(IHttpClientFactory httpClientFactory)
+        public MenuService(IHttpClientFactory httpClientFactory, IMapper mapper)
         {
             _httpClientFactory = httpClientFactory;
+            _mapper = mapper;
         }
 
-        public async Task<Menu> GetMenuAsync()
+        public async Task<Models.Menu> GetMenuAsync()
         {
             var url = "menu";
 
@@ -32,7 +35,8 @@ namespace HexedSceneryMobileApp.Services
             {
                 using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
                 {
-                    var menu = await httpClient.GetFromJsonAsync<Menu>(url);
+                    var data = await httpClient.GetFromJsonAsync<ApiModels.Menu>(url);
+                    var menu = _mapper.Map<Models.Menu>(data);
                     _menuCache = menu;
                 }
             }

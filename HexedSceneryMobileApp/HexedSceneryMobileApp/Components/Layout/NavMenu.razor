@@ -1,8 +1,9 @@
-﻿@using HexedSceneryMobileApp.Helpers
+﻿
 @using HexedSceneryMobileApp.Models
 @using System.Linq;
+@using HexedSceneryMobileApp.Services
 
-@inject IMenuBuilder menuBuilder
+@inject IMenuService MenuService
 
 <div class="background-paper-menu">
     <svg>
@@ -69,7 +70,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _menu = await menuBuilder.GetMenuAsync();
+        _menu = await MenuService.GetMenuAsync();
     }
 
 

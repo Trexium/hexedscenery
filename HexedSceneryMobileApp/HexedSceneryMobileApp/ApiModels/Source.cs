@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HexedSceneryMobileApp.ApiModels;
-
-public class Source
+﻿namespace HexedSceneryMobileApp.ApiModels
 {
-    public int Id { get; set; }
+    public class Source
+    {
+        public int Id { get; set; }
 
-    public string? Name { get; set; }
+        public string? Name { get; set; }
 
-    public string? Key { get; set; }
+        public string? Key { get; set; }
 
-    public string? PdfUrl { get; set; }
-
-    public List<HiredSword>? HiredSwords { get; set; }
+        public string? PdfUrl { get; set; }
+    }
 }

@@ -1,5 +1,6 @@
-﻿using HexedSceneryApiClient.Services;
+﻿
 using HexedSceneryMobileApp.Helpers;
+using HexedSceneryMobileApp.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
@@ -42,9 +43,9 @@ namespace HexedSceneryMobileApp
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddMudServices();
 
-            builder.Services.AddScoped<IMenuBuilder, MenuBuilder>();
-            builder.Services.AddSingleton<IEncounterTypeHandler, EncounterTypeHandler>();
-            builder.Services.AddSingleton<IDiceHandler, DiceHandler>();
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            builder.Services.AddSingleton<IDiceRollHelper, DiceRollHelper>();
 
             // Add dummy data instead of getting data from api
             
@@ -70,6 +71,7 @@ namespace HexedSceneryMobileApp
                 builder.Services.AddSingleton<IEncounterService, DummyData>();
                 builder.Services.AddSingleton<IMenuService, DummyData>();
                 builder.Services.AddSingleton<IHiredSwordService, DummyData>();
+                builder.Services.AddSingleton<IDiceService, DummyData>();
             }
             else
             {

@@ -1,6 +1,6 @@
 ﻿
 
-using HexedSceneryApiClient.Models;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,21 +13,23 @@ namespace HexedSceneryMobileApp.Services
 {
     public interface IEncounterService
     {
-        Task<List<TableCategory>> GetTableCategoriesAsync();
-        Task<EncounterType> GetEncounterTypeAsync(int id);
+        Task<List<Models.TableCategory>> GetTableCategoriesAsync();
+        Task<Models.EncounterType> GetEncounterTypeAsync(int id);
     }
     public class EncounterService : IEncounterService
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private static readonly Dictionary<string, List<TableCategory>> _categoryCache = new Dictionary<string, List<TableCategory>>();
-        private static readonly Dictionary<int, EncounterType> _encounterTypeCache = new Dictionary<int, EncounterType>();
+        private readonly IMapper _mapper;
+        private static readonly Dictionary<string, List<Models.TableCategory>> _categoryCache = new Dictionary<string, List<Models.TableCategory>>();
+        private static readonly Dictionary<int, Models.EncounterType> _encounterTypeCache = new Dictionary<int, Models.EncounterType>();
 
-        public EncounterService(IHttpClientFactory httpClientFactory)
+        public EncounterService(IHttpClientFactory httpClientFactory, IMapper mapper)
         {
             _httpClientFactory = httpClientFactory;
+            _mapper = mapper;
         }
 
-        public async Task<List<TableCategory>> GetTableCategoriesAsync()
+        public async Task<List<Models.TableCategory>> GetTableCategoriesAsync()
         {
             var url = "category/includeChildren";
 
@@ -35,7 +37,8 @@ namespace HexedSceneryMobileApp.Services
             {
                 using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
                 {
-                    var categories = await httpClient.GetFromJsonAsync<IEnumerable<TableCategory>>(url);
+                    var data = await httpClient.GetFromJsonAsync<IEnumerable<ApiModels.TableCategory>>(url);
+                    var categories = _mapper.Map<IEnumerable<Models.TableCategory>>(data);
                     _categoryCache.Add(url, categories.ToList());
                 }
             }
@@ -43,7 +46,7 @@ namespace HexedSceneryMobileApp.Services
             return _categoryCache[url];
         }
 
-        public async Task<EncounterType> GetEncounterTypeAsync(int id)
+        public async Task<Models.EncounterType> GetEncounterTypeAsync(int id)
         {
             var url = $"encountertype/{id}";
 
@@ -51,7 +54,8 @@ namespace HexedSceneryMobileApp.Services
             {
                 using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
                 {
-                    var encounterType = await httpClient.GetFromJsonAsync<EncounterType>(url);
+                    var data = await httpClient.GetFromJsonAsync<ApiModels.EncounterType>(url);
+                    var encounterType = _mapper.Map<Models.EncounterType>(data);
                     _encounterTypeCache.Add(id, encounterType);
                 }
             }

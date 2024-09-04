@@ -6,6 +6,7 @@ using System.Net.Http.Json;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 
 namespace HexedSceneryMobileApp.Services
@@ -17,11 +18,13 @@ namespace HexedSceneryMobileApp.Services
     public class DiceService : IDiceService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IMapper _mapper;
         private static Dictionary<int, Models.DiceType> _diceTypeCache = new Dictionary<int, Models.DiceType>();
 
-        public DiceService(IHttpClientFactory httpClientFactory)
+        public DiceService(IHttpClientFactory httpClientFactory, IMapper mapper)
         {
             _httpClientFactory = httpClientFactory;
+            _mapper = mapper;
         }
 
         public async Task<Models.DiceType> GetDiceTypeAsync(int diceTypeId)
@@ -32,7 +35,8 @@ namespace HexedSceneryMobileApp.Services
             {
                 using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
                 {
-                    var diceType = await httpClient.GetFromJsonAsync<ApiModels.DiceType>(url);
+                    var data = await httpClient.GetFromJsonAsync<ApiModels.DiceType>(url);
+                    var diceType = _mapper.Map<Models.DiceType>(data);
                     _diceTypeCache.Add(diceTypeId, diceType);
                 }
             }

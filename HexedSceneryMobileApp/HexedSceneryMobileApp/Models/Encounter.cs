@@ -26,8 +26,6 @@ namespace HexedSceneryMobileApp.Models
 
         public DiceChart? DiceChart { get; set; }
 
-        public EncounterType? EncounterType { get; set; }
-
         public Monster? Monster { get; set; }
     }
 }

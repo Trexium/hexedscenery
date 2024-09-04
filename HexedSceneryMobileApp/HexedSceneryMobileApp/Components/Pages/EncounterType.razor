@@ -1,7 +1,7 @@
 ﻿@page "/encounterType/{encountertypeid}"
-@using HexedSceneryMobileApp.Helpers
+@using HexedSceneryMobileApp.Services
 
-@inject IEncounterTypeHandler EncounterTypeHandler
+@inject IEncounterService EncounterService
 
 @if (_encounterType == null)
 {
@@ -36,7 +36,7 @@ else
     {
         if (int.TryParse(EncounterTypeId, out int result))
         {
-            _encounterType = await EncounterTypeHandler.GetEncounterType(result);
+            _encounterType = await EncounterService.GetEncounterTypeAsync(result);
         }
     }
 }

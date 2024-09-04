@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HexedSceneryMobileApp.ApiModels;
-
-public class Race
+﻿namespace HexedSceneryMobileApp.ApiModels
 {
-    public int Id { get; set; }
-
-    public string? Name { get; set; }
-
-    public List<Warband>? Warbands { get; set; }
+    public class Race
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+    }
 }

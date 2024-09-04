@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HexedSceneryMobileApp.ApiModels;
-
-public class Monster
+﻿namespace HexedSceneryMobileApp.ApiModels
 {
-    public int Id { get; set; }
-
-    public string? Name { get; set; }
-
-    public string? Description { get; set; }
-
-    public int? ProfileId { get; set; }
-
-    public List<Encounter>? Encounters { get; set; }
-
-    public List<MonsterAdditionalProfile>? MonsterAdditionalProfiles { get; set; }
-
-    public List<MonsterEquipment>? MonsterEquipments { get; set; }
-
-    public List<MonsterSkill>? MonsterSkills { get; set; }
-
-    public List<MonsterSpecialRule>? MonsterSpecialRules { get; set; }
-
-    public Profile? Profile { get; set; }
+    public class Monster
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public int? ProfileId { get; set; }
+        public IEnumerable<Profile>? AdditionalProfiles { get; set; }
+        public IEnumerable<Equipment>? Equipment { get; set; }
+        public IEnumerable<Skill>? Skills { get; set; }
+        public IEnumerable<SpecialRule>? SpecialRules { get; set; }
+        public Profile? Profile { get; set; }
+    }
 }

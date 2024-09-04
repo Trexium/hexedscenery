@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace HexedSceneryMobileApp.Models
 {
-    public class SkillType
+    public class TableCategory
     {
         public int Id { get; set; }
-
-        public string? Name { get; set; }
-        public List<Skill>? Skills { get; set; }
+        public string? DisplayName { get; set; }
+        public bool? Active { get; set; }
+        public List<EncounterType>? EncounterTypes { get; set; }
     }
 }

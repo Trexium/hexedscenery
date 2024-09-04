@@ -1,4 +1,4 @@
-﻿using HexedSceneryApiClient.Services;
+﻿
 using HexedSceneryMobileApp.Enums;
 using HexedSceneryMobileApp.Models;
 using System;
@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace HexedSceneryMobileApp.Helpers
 {
-    public interface IDiceHandler
+    public interface IDiceRollHelper
     {
         Task<int> Roll(DiceType diceType, int numberOfDice = 1);
-        Task<int> Roll(int diceTypeId, int numberOfDice = 1);
         Task<int> RollD2(int numberOfDice = 1);
         Task<int> RollD3(int numberOfDice = 1);
         Task<int> RollD4(int numberOfDice = 1);
@@ -23,38 +22,14 @@ namespace HexedSceneryMobileApp.Helpers
         Task<int> RollD20(int numberOfDice = 1);
         Task<int> RollD66();
         Task<int> RollD100(int numberOfDice = 1);
-        Task<DiceType> GetDiceType(int diceTypeId);
     }
-    public class DiceHandler : IDiceHandler
+    public class DiceRollHelper : IDiceRollHelper
     {
-        private readonly IDiceService _diceService;
-
-        public DiceHandler(IDiceService diceService)
-        {
-            _diceService = diceService;
-        }
-
-        public async Task<DiceType> GetDiceType(int diceTypeId)
-        {
-            var apiResult = await _diceService.GetDiceTypeAsync(diceTypeId);
-            var model = apiResult.ToViewModel();
-            return model;
-        }
 
         public async Task<int> Roll(DiceType diceType, int numberOfDice = 1)
         {
             return await DoRollLogic(diceType, numberOfDice);
         }
-
-        public async Task<int> Roll(int diceTypeId, int numberOfDice = 1)
-        {
-            var diceType = await _diceService.GetDiceTypeAsync(diceTypeId);
-            var viewModel = diceType.ToViewModel();
-
-            return await DoRollLogic(viewModel, numberOfDice);
-        }
-
-        
 
         public async Task<int> RollD2(int numberOfDice = 1)
         {
