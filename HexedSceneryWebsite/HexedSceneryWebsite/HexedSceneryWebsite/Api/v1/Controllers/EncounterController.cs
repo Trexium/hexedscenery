@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HexedSceneryWebsite.Api.v1.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class EncounterController : ControllerBase
     {
@@ -31,11 +31,15 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
             return encounters;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{encounterTypeId}/{resultNumber}")]
         [ApiKey]
-        public Encounter GetByResult(int resultNumber)
+        public Encounter GetByResult(int encounterTypeId, int resultNumber)
         {
-            var dataItem = _context.Encounters.Include(m => m.DiceChart).Include(m => m.EncounterType).Include(m => m.Monster).FirstOrDefault(m => m.ResultNumber == resultNumber);
+            var dataItem = _context.Encounters
+                .Include(m => m.DiceChart)
+                    .ThenInclude(m => m.DiceResults)
+                .Include(m => m.EncounterType)
+                .FirstOrDefault(m => m.EncounterTypeId == encounterTypeId && m.ResultNumber == resultNumber);
             var encounter = _mapper.Map<Encounter>(dataItem);
             return encounter;
         }

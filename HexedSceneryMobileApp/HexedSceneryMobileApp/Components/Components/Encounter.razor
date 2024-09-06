@@ -1,17 +1,61 @@
-﻿
+﻿@using HexedSceneryMobileApp.Services
 
 
+@inject IEncounterService EncounterService
 
+
+@if (_encounter == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <h2>@_encounter.Name</h2>
+    <p>@((MarkupString)_encounter.Description)</p>
+
+    @if (_encounter.DiceChart != null)
+    {
+        <MudTable Items="@_encounter.DiceChart.DiceResults">
+            <HeaderContent>
+                <MudTh>@_encounter.DiceChart.Dice</MudTh>
+                <MudTh>Result</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="@_encounter.DiceChart.Dice">
+                    @if (string.IsNullOrEmpty(context.Name))
+                    {
+                        @context.ResultNumber
+                    }
+                    else
+                    {
+                        @context.Name
+                    }
+                </MudTd>
+                <MudTd DataLabel="Result">@((MarkupString)context.Description)</MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+    @if (_encounter.Monster != null)
+    {
+        
+    }
+}
 
 
 @code {
     [Parameter]
-    public int EncounterId { get; set; }
+    public int EncounterResultNumber { get; set; }
 
+    [Parameter]
+    public int EncounterTypeId { get; set; }
+
+    private Models.Encounter _encounter;
+  
 
 
     protected override async Task OnParametersSetAsync()
     {
-        
+        _encounter = await EncounterService.GetEncounterAsync(EncounterTypeId, EncounterResultNumber);
+        StateHasChanged();
     }
 }

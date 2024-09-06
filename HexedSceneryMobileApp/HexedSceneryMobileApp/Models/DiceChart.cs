@@ -25,5 +25,6 @@ namespace HexedSceneryMobileApp.Models
         public int? NumberOfDice { get; set; }
 
         public List<DiceResult>? DiceResults { get; set; }
+        public DiceType? DiceType { get; set; }
     }
 }

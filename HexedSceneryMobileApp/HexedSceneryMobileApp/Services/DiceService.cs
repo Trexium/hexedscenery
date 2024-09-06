@@ -33,11 +33,18 @@ namespace HexedSceneryMobileApp.Services
 
             if (!_diceTypeCache.ContainsKey(diceTypeId))
             {
-                using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
+                try
                 {
-                    var data = await httpClient.GetFromJsonAsync<ApiModels.DiceType>(url);
-                    var diceType = _mapper.Map<Models.DiceType>(data);
-                    _diceTypeCache.Add(diceTypeId, diceType);
+                    using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
+                    {
+                        var data = await httpClient.GetFromJsonAsync<ApiModels.DiceType>(url);
+                        var diceType = _mapper.Map<Models.DiceType>(data);
+                        _diceTypeCache.Add(diceTypeId, diceType);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return null;
                 }
             }
 

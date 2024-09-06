@@ -38,6 +38,75 @@ namespace HexedSceneryMobileApp
             }
         }
 
+        public async Task<Encounter> GetEncounterAsync(int encounterTypeId, int resultNumber)
+        {
+            var encounter = new Encounter
+            {
+                ResultNumber = 2,
+                BottomText = "Bottom text",
+                Description = "Description",
+                Name = "Name",
+                EncounterTypeId = encounterTypeId,
+                DiceChart = new DiceChart
+                {
+                    Description = "Description",
+                    Dice = "1D6",
+                    Name = "Name",
+                    NumberOfDice = 1,
+                    MinNumber = 1,
+                    MaxNumber = 6,
+                    DiceType = new DiceType
+                    {
+                        DisplayName = "D6",
+                        MinNumber = 1,
+                        MaxNumber = 6,
+                        Type = Enums.Die.D6
+                    },
+                    DiceResults = new List<DiceResult>
+                        {
+                            new DiceResult
+                            {
+                                 Description = "Description1",
+                                  Name = "Name1",
+                                   ResultNumber = 1
+                            },
+                            new DiceResult
+                            {
+                                 Description = "Description2",
+                                  Name = "Name2",
+                                   ResultNumber = 2
+                            },
+                            new DiceResult
+                            {
+                                 Description = "Description3",
+                                  Name = "Name3",
+                                   ResultNumber = 3
+                            },
+                            new DiceResult
+                            {
+                                 Description = "Description4",
+                                  Name = "Name4",
+                                   ResultNumber = 4
+                            },
+                            new DiceResult
+                            {
+                                 Description = "Description5",
+                                  Name = "Name5",
+                                   ResultNumber = 5
+                            },
+                            new DiceResult
+                            {
+                                 Description = "Description6",
+                                  Name = "Name6",
+                                   ResultNumber = 6
+                            }
+                        }
+                }
+            };
+
+            return encounter;
+        }
+
         public async Task<EncounterType> GetEncounterTypeAsync(int id)
         {
             var testData = await GetTableCategoriesAsync();

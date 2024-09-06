@@ -33,11 +33,18 @@ namespace HexedSceneryMobileApp.Services
 
             if (_menuCache == null)
             {
-                using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
+                try
                 {
-                    var data = await httpClient.GetFromJsonAsync<ApiModels.Menu>(url);
-                    var menu = _mapper.Map<Models.Menu>(data);
-                    _menuCache = menu;
+                    using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
+                    {
+                        var data = await httpClient.GetFromJsonAsync<ApiModels.Menu>(url);
+                        var menu = _mapper.Map<Models.Menu>(data);
+                        _menuCache = menu;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return null;
                 }
             }
 
