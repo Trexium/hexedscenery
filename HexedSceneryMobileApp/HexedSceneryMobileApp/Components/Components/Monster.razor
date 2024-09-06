@@ -1,0 +1,91 @@
+﻿@using HexedSceneryMobileApp.Services
+
+
+@inject IMonsterService MonsterService
+
+
+@if (_monster == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <MudExpansionPanels>
+        <MudExpansionPanel Text="@_monster.Name" Expanded="true">
+
+            <MudTable Items="_profiles">
+                <HeaderContent>
+                    <MudTh>Profile</MudTh>
+                    <MudTh>M</MudTh>
+                    <MudTh>WS</MudTh>
+                    <MudTh>BS</MudTh>
+                    <MudTh>S</MudTh>
+                    <MudTh>T</MudTh>
+                    <MudTh>W</MudTh>
+                    <MudTh>I</MudTh>
+                    <MudTh>A</MudTh>
+                    <MudTh>Ld</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Profile">@context.Name</MudTd>
+                    <MudTd DataLabel="M">@context.Movement</MudTd>
+                    <MudTd DataLabel="WS">@context.WeaponSkill</MudTd>
+                    <MudTd DataLabel="BS">@context.BallisticSkill</MudTd>
+                    <MudTd DataLabel="S">@context.Strength</MudTd>
+                    <MudTd DataLabel="T">@context.Toughness</MudTd>
+                    <MudTd DataLabel="W">@context.Wounds</MudTd>
+                    <MudTd DataLabel="I">@context.Initiative</MudTd>
+                    <MudTd DataLabel="A">@context.Attacks</MudTd>
+                    <MudTd DataLabel="Ld">@context.Leadership</MudTd>
+                </RowTemplate>
+            </MudTable>
+
+            <p>
+                <b>Weapons/Armour:</b>
+                @foreach(var equipment in _monster.Equipments)
+                {
+                    @((MarkupString)equipment.Name)
+                }
+            </p>
+
+            @foreach(var skill in _monster.Skills)
+            {
+                <p>
+                    <h3>@skill.Name</h3>
+                    @((MarkupString)skill.Description)
+                </p>
+            }
+            @foreach(var specialRule in _monster.SpecialRules)
+            {
+                <p>
+                    <h3>@specialRule.Name</h3>
+                    @((MarkupString)specialRule.Description)
+                </p>
+            }
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+}
+
+
+
+@code {
+    [Parameter]
+    public int MonsterId { get; set; }
+
+    private Models.Monster _monster;
+    private List<Models.Profile> _profiles;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _monster = await MonsterService.GetMonsterAsync(MonsterId);
+        _profiles = new List<Models.Profile>();
+        _profiles.Add(_monster.Profile);
+
+        if (_monster.AdditionalProfiles != null && _monster.AdditionalProfiles.Any())
+        {
+            _profiles.AddRange(_monster.AdditionalProfiles);
+        }
+
+        StateHasChanged();
+    }
+}

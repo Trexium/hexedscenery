@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HexedSceneryMobileApp.Enums;
+using HexedSceneryMobileApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,76 +8,86 @@ using System.Threading.Tasks;
 
 namespace HexedSceneryMobileApp.Services
 {
-    public enum LogLevel
-    {
-        Trace = 0,
-        Debug = 1,
-        Info = 2,
-        Warn = 3,
-        Error = 4,
-        Fatal = 5
-    }
+    
     public interface ILogService
     {
-        LogLevel LogLevel { get; }
-        Task TraceAsync(string  message);
+        LogLevel CurrentLogLevel { get; }
+        Task TraceAsync(string message);
         Task DebugAsync(string message);
         Task InfoAsync(string message);
         Task WarnAsync(string message);
         Task ErrorAsync(string message, Exception exception = null);
         Task FatalAsync(string message, Exception exception = null);
+        Task<IEnumerable<Log>> GetLogs(LogLevel logLevel);
+        Task<Log> GetLatest(LogLevel logLevel);
     }
     public class LogService : ILogService
     {
-        private readonly Dictionary<LogLevel, List<Log>> _logs;
+        private readonly Dictionary<LogLevel, Stack<Log>> _logs;
+        private Log _latestLog;
 
         public LogService(LogLevel logLevel)
         {
-            LogLevel = logLevel;
+            CurrentLogLevel = logLevel;
+            _logs = new Dictionary<LogLevel, Stack<Log>>();
+
+            foreach (var level in Enum.GetValues(typeof(LogLevel)).Cast<LogLevel>())
+            {
+                _logs.Add(level, new Stack<Log>());
+            }
         }
 
-        public LogLevel LogLevel { get; private set; }
+        public LogLevel CurrentLogLevel { get; private set; }
 
-        public Task DebugAsync(string message)
+        public async Task<IEnumerable<Log>> GetLogs(LogLevel logLevel)
         {
-            throw new NotImplementedException();
+            return _logs[logLevel];
         }
 
-        public Task ErrorAsync(string message, Exception exception = null)
+        public async Task<Log> GetLatest(LogLevel logLevel)
         {
-            throw new NotImplementedException();
+            return _logs[logLevel].Peek();
         }
 
-        public Task FatalAsync(string message, Exception exception = null)
+        public async Task DebugAsync(string message)
         {
-            throw new NotImplementedException();
+            if (((int)CurrentLogLevel) <= (int)LogLevel.Debug)
+                Log(LogLevel.Debug, message);
         }
 
-        public Task InfoAsync(string message)
+        public async Task ErrorAsync(string message, Exception exception = null)
         {
-            throw new NotImplementedException();
+            if (((int)CurrentLogLevel) <= (int)LogLevel.Error)
+                Log(LogLevel.Error, message, exception);
         }
 
-        public Task TraceAsync(string message)
+        public async Task FatalAsync(string message, Exception exception = null)
         {
-            throw new NotImplementedException();
+            Log(LogLevel.Fatal, message, exception);
         }
 
-        public Task WarnAsync(string message)
+        public async Task InfoAsync(string message)
         {
-            throw new NotImplementedException();
+            if (((int)CurrentLogLevel) <= (int)LogLevel.Info)
+                Log(LogLevel.Info, message);
         }
+
+        public async Task TraceAsync(string message)
+        {
+            if (((int)CurrentLogLevel) <= (int)LogLevel.Trace)
+                Log(LogLevel.Trace, message);
+        }
+
+        public async Task WarnAsync(string message)
+        {
+            if (((int)CurrentLogLevel) <= (int)LogLevel.Warn)
+                Log(LogLevel.Warn, message);
+        }
+
 
         private void Log(LogLevel logLevel, string message, Exception exception = null)
         {
-
+            _logs[logLevel].Push(new Log(logLevel, message, exception));
         }
-    }
-
-    internal class Log
-    {
-        internal LogLevel LogLevel { get; private set; }
-        internal string Message { get; private set; }
-        internal Exception Exception { get; private set; }
     }
 }

@@ -62,7 +62,7 @@ namespace HexedSceneryMobileApp
             builder.Services.AddLogging(logging =>
             {
                 //logging.AddFilter("Microsoft.AspNetCore.Components.WebView", LogLevel.Trace);
-                logging.SetMinimumLevel(LogLevel.Trace);
+                logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
                 logging.AddDebug();
             });
 
@@ -79,6 +79,8 @@ namespace HexedSceneryMobileApp
                 builder.Services.AddSingleton<IMenuService, MenuService>();
                 builder.Services.AddSingleton<IHiredSwordService, HiredSwordService>();
                 builder.Services.AddSingleton<IDiceService, DiceService>();
+                builder.Services.AddSingleton<IMonsterService, MonsterService>();
+                builder.Services.AddSingleton<ILogService, LogService>();
             }
 #endif
 
