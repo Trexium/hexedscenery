@@ -11,56 +11,59 @@
 else
 {
     <MudExpansionPanels>
-        <MudExpansionPanel Text="@_monster.Name" Expanded="true">
+        <MudExpansionPanel Class="schoensperger text" Text="@_monster.Name" Expanded="true">
 
             <MudTable Items="_profiles">
                 <HeaderContent>
-                    <MudTh>Profile</MudTh>
-                    <MudTh>M</MudTh>
-                    <MudTh>WS</MudTh>
-                    <MudTh>BS</MudTh>
-                    <MudTh>S</MudTh>
-                    <MudTh>T</MudTh>
-                    <MudTh>W</MudTh>
-                    <MudTh>I</MudTh>
-                    <MudTh>A</MudTh>
-                    <MudTh>Ld</MudTh>
+                    <MudTh Class="caslon-antique-bold text">Profile</MudTh>
+                    <MudTh Class="caslon-antique-bold text">M</MudTh>
+                    <MudTh Class="caslon-antique-bold text">WS</MudTh>
+                    <MudTh Class="caslon-antique-bold text">BS</MudTh>
+                    <MudTh Class="caslon-antique-bold text">S</MudTh>
+                    <MudTh Class="caslon-antique-bold text">T</MudTh>
+                    <MudTh Class="caslon-antique-bold text">W</MudTh>
+                    <MudTh Class="caslon-antique-bold text">I</MudTh>
+                    <MudTh Class="caslon-antique-bold text">A</MudTh>
+                    <MudTh Class="caslon-antique-bold text">Ld</MudTh>
                 </HeaderContent>
                 <RowTemplate>
-                    <MudTd DataLabel="Profile">@context.Name</MudTd>
-                    <MudTd DataLabel="M">@context.Movement</MudTd>
-                    <MudTd DataLabel="WS">@context.WeaponSkill</MudTd>
-                    <MudTd DataLabel="BS">@context.BallisticSkill</MudTd>
-                    <MudTd DataLabel="S">@context.Strength</MudTd>
-                    <MudTd DataLabel="T">@context.Toughness</MudTd>
-                    <MudTd DataLabel="W">@context.Wounds</MudTd>
-                    <MudTd DataLabel="I">@context.Initiative</MudTd>
-                    <MudTd DataLabel="A">@context.Attacks</MudTd>
-                    <MudTd DataLabel="Ld">@context.Leadership</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="Profile">@context.Name</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="M">@context.Movement</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="WS">@context.WeaponSkill</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="BS">@context.BallisticSkill</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="S">@context.Strength</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="T">@context.Toughness</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="W">@context.Wounds</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="I">@context.Initiative</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="A">@context.Attacks</MudTd>
+                    <MudTd Class="caslon-antique text" DataLabel="Ld">@context.Leadership</MudTd>
                 </RowTemplate>
             </MudTable>
-
-            <p>
-                <b>Weapons/Armour:</b>
-                @foreach(var equipment in _monster.Equipments)
+            <div>&nbsp;</div>
+            <p class="caslon-antique">
+                @foreach (var equipment in _monster.Equipments)
                 {
                     @((MarkupString)equipment.Name)
                 }
             </p>
 
-            @foreach(var skill in _monster.Skills)
+            @foreach (var skill in _monster.Skills)
             {
-                <p>
+                <div class="mb-3">
                     <h3>@skill.Name</h3>
-                    @((MarkupString)skill.Description)
-                </p>
+                    <span class="caslon-antique">
+                        @((MarkupString)skill.Description)
+                    </span>
+                </div>
             }
-            @foreach(var specialRule in _monster.SpecialRules)
+            @foreach (var specialRule in _monster.SpecialRules)
             {
-                <p>
+                <div>
                     <h3>@specialRule.Name</h3>
-                    @((MarkupString)specialRule.Description)
-                </p>
+                    <span class="caslon-antique">
+                        @((MarkupString)specialRule.Description)
+                    </span>
+                </div>
             }
         </MudExpansionPanel>
     </MudExpansionPanels>

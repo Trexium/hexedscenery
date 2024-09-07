@@ -80,7 +80,8 @@ namespace HexedSceneryMobileApp
                 builder.Services.AddSingleton<IHiredSwordService, HiredSwordService>();
                 builder.Services.AddSingleton<IDiceService, DiceService>();
                 builder.Services.AddSingleton<IMonsterService, MonsterService>();
-                builder.Services.AddSingleton<ILogService, LogService>();
+                var logService = new LogService(Enums.LogLevel.Debug);
+                builder.Services.AddSingleton<ILogService>(m => logService);
             }
 #endif
 

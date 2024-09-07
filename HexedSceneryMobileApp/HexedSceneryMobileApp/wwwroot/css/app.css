@@ -111,6 +111,44 @@ h1:focus {
     src: url('../fonts/Schoensperger.otf') format('opentype');
 }
 
+.caslon-antique {
+    font-family: CaslonAntique !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+}
+
+.caslon-antique-bold {
+    font-family: CaslonAntiqueBold !important;
+    font-weight: bold !important;
+    font-style: normal !important;
+}
+
+.caslon-antique-italic {
+    font-family: CaslonAntiqueItalic !important;
+    font-weight: normal !important;
+    font-style: italic !important;
+}
+
+.caslon-antique-bold-italic {
+    font-family: CaslonAntiqueBoldItalic !important;
+    font-weight: bold !important;
+    font-style: italic !important;
+}
+
+.schoensperger {
+    font-family: Schoensperger !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+}
+
+.larger-text {
+    font-size: larger !important;
+}
+
+.xtra-large-text {
+    font-size: x-large !important;
+}
+
 div.mud-drawer-content {
     padding-right: 50px;
 }
@@ -170,9 +208,20 @@ h1 {
     text-align: center;
 }
 
+h3 {
+    font-family: Schoensperger;
+    font-size: 20px;
+}
+
+.mud-expand-panel-text {
+    font-size: 20px;
+}
+
+.text {
+    font-size: 20px !important; 
+}
 
 /*Hacks to ignore default behavior*/
-
 div.mud-main-content {
     padding-top: 0px !important;
 }

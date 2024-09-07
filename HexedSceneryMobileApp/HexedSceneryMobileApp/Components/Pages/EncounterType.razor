@@ -12,11 +12,10 @@ else
     <h1>@_encounterType.DisplayName</h1>
 
     <HexedSceneryMobileApp.Components.Components.DiceRoller DiceTypeId="@_encounterType.DiceType.Id" NumberOfDice="@_encounterType.NumberOfDice.Value" OnNewResult="UpdateDiceResult" />
-    @if(_diceResult != 0)
+    @if (_diceResult != 0)
     {
         <HexedSceneryMobileApp.Components.Components.Encounter EncounterTypeId="@_encounterType.Id" EncounterResultNumber="@_diceResult" />
     }
-    
 }
 
 

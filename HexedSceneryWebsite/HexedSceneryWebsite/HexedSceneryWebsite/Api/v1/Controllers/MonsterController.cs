@@ -36,7 +36,9 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
                     .ThenInclude(m => m.Skill)
                 .Include(m => m.MonsterSpecialRules)
                     .ThenInclude(m => m.SpecialRule)
+                .Include(m => m.Profile)
                 .FirstOrDefault(m => m.Id == id);
+                
             
             var monster = _mapper.Map<Monster>(dataItem);
             return monster;

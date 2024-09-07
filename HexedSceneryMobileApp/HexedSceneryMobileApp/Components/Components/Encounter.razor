@@ -10,18 +10,20 @@
 }
 else
 {
-    <h2>@_encounter.Name</h2>
-    <p>@((MarkupString)_encounter.Description)</p>
+    <div>&nbsp;</div>
+    <h3 class="schoensperger xtra-large-text">@_encounter.Name</h3>
+    <p class="caslon-antique text">@((MarkupString)_encounter.Description)</p>
 
     @if (_encounter.DiceChart != null)
     {
+        <div>&nbsp;</div>
         <MudTable Items="@_encounter.DiceChart.DiceResults">
             <HeaderContent>
-                <MudTh>@_encounter.DiceChart.Dice</MudTh>
-                <MudTh>Result</MudTh>
+                <MudTh Class="schoensperger text">@_encounter.DiceChart.Dice</MudTh>
+                <MudTh Class="schoensperger text">Result</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="@_encounter.DiceChart.Dice">
+                <MudTd Class="caslon-antique text" DataLabel="@_encounter.DiceChart.Dice">
                     @if (string.IsNullOrEmpty(context.Name))
                     {
                         @context.ResultNumber
@@ -31,13 +33,14 @@ else
                         @context.Name
                     }
                 </MudTd>
-                <MudTd DataLabel="Result">@((MarkupString)context.Description)</MudTd>
+                <MudTd Class="caslon-antique text" DataLabel="Result">@((MarkupString)context.Description)</MudTd>
             </RowTemplate>
         </MudTable>
     }
-    @if (_encounter.Monster != null)
+    @if (_encounter.MonsterId.HasValue)
     {
-        
+        <div>&nbsp;</div>
+        <Monster MonsterId="_encounter.MonsterId.Value" />
     }
 }
 
