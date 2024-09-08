@@ -68,6 +68,7 @@ public partial class HexedSceneryContext : DbContext
 
     public virtual DbSet<SkillType> SkillTypes { get; set; }
 
+    public virtual DbSet<SkkDog> SkkDogs { get; set; }
 
     public virtual DbSet<Source> Sources { get; set; }
 
@@ -461,6 +462,22 @@ public partial class HexedSceneryContext : DbContext
             entity.ToTable("SkillType");
 
             entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<SkkDog>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__SkkDog__3214EC07377E5E6D");
+
+            entity.ToTable("SkkDog");
+
+            entity.Property(e => e.Breed).HasMaxLength(255);
+            entity.Property(e => e.ChipNr).HasMaxLength(100);
+            entity.Property(e => e.Gender).HasMaxLength(10);
+            entity.Property(e => e.IdNr).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(255);
+            entity.Property(e => e.SkkId).HasMaxLength(100);
+            entity.Property(e => e.SkkRegNr).HasMaxLength(100);
+            entity.Property(e => e.Type).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Source>(entity =>

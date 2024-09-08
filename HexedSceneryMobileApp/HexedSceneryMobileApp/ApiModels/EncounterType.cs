@@ -18,5 +18,7 @@ namespace HexedSceneryMobileApp.ApiModels
         public bool? Active { get; set; }
 
         public DiceType? DiceType { get; set; }
+
+        public string? Description { get; set; }
     }
 }

@@ -19,5 +19,6 @@ namespace HexedSceneryWebsite.Api.v1.Models
         public bool? Active { get; set; }
 
         public DiceType? DiceType { get; set; }
+        public string? Description {  get; set; }
     }
 }

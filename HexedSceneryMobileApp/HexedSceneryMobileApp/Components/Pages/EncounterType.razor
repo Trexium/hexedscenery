@@ -12,6 +12,18 @@ else
     <h1>@_encounterType.DisplayName</h1>
 
     <HexedSceneryMobileApp.Components.Components.DiceRoller DiceTypeId="@_encounterType.DiceType.Id" NumberOfDice="@_encounterType.NumberOfDice.Value" OnNewResult="UpdateDiceResult" />
+
+    if (_encounterType.Description != null)
+    {
+        <MudExpansionPanels>
+            <MudExpansionPanel Class="schoensperger text" Text="Description" Expanded="false">
+                <div class="description">
+                    @((MarkupString)_encounterType.Description)
+                </div>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    }
+
     @if (_diceResult != 0)
     {
         <HexedSceneryMobileApp.Components.Components.Encounter EncounterTypeId="@_encounterType.Id" EncounterResultNumber="@_diceResult" />
@@ -24,17 +36,13 @@ else
     public string EncounterTypeId { get; set; }
 
     private Models.EncounterType _encounterType;
-    
+
 
     private int _diceResult;
 
 
     protected override async Task OnInitializedAsync()
     {
-        // if (int.TryParse(EncounterTypeId, out int result))
-        // {
-        //     _encounterType = await EncounterTypeHandler.GetEncounterType(result);
-        // }
 
     }
 
@@ -44,6 +52,7 @@ else
         {
             _encounterType = await EncounterService.GetEncounterTypeAsync(result);
         }
+        _diceResult = 0;
     }
 
     public async Task UpdateDiceResult(int newResult)

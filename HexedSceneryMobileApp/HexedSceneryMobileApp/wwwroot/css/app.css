@@ -213,6 +213,14 @@ h3 {
     font-size: 20px;
 }
 
+p {
+    font-family: CaslonAntique;
+}
+
+div.description > div {
+    padding-bottom: 5px;
+}
+
 .mud-expand-panel-text {
     font-size: 20px;
 }

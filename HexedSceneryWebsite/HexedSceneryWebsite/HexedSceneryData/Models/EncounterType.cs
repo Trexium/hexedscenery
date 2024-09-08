@@ -19,6 +19,8 @@ public partial class EncounterType
 
     public bool? Active { get; set; }
 
+    public string? Description { get; set; }
+
     public virtual DiceType? DiceType { get; set; }
 
     public virtual ICollection<Encounter> Encounters { get; set; } = new List<Encounter>();
