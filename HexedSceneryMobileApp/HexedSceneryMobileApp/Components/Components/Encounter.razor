@@ -17,7 +17,8 @@ else
     @if (_encounter.DiceChart != null)
     {
         <div>&nbsp;</div>
-        <MudTable Items="@_encounter.DiceChart.DiceResults">
+        <DiceChartComponent DiceChart="@_encounter.DiceChart" />
+@*         <MudTable Items="@_encounter.DiceChart.DiceResults">
             <HeaderContent>
                 <MudTh Class="schoensperger text">@_encounter.DiceChart.Dice</MudTh>
                 <MudTh Class="schoensperger text">Result</MudTh>
@@ -35,7 +36,7 @@ else
                 </MudTd>
                 <MudTd Class="caslon-antique text" DataLabel="Result">@((MarkupString)context.Description)</MudTd>
             </RowTemplate>
-        </MudTable>
+        </MudTable> *@
     }
     @if (_encounter.MonsterId.HasValue)
     {

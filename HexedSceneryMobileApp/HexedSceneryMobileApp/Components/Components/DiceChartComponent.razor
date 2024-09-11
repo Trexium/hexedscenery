@@ -1,0 +1,64 @@
+﻿@using HexedSceneryMobileApp.Helpers
+@using HexedSceneryMobileApp.Models
+@using HexedSceneryMobileApp.Services
+
+
+@inject IDiceRollHelper DiceRollHelper
+@inject IDiceService DiceService
+
+@if (DiceChart == null || _diceType == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <MudTable Items="@DiceChart.DiceResults" @ref="_mudTable" T="DiceResult">
+        <HeaderContent>
+            <MudTh Class="schoensperger text">@DiceChart.Dice</MudTh>
+            <MudTh Class="schoensperger text">Result</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            @* <div class="@(_result == context.ResultNumber ? "selected" : "")" hidden></div> *@
+            <div data-id="@context.ResultNumber" hidden ></div>
+            <MudTd Class="caslon-antique text" DataLabel="@DiceChart.Dice">
+                @if (string.IsNullOrEmpty(context.Name))
+                {
+                    @context.ResultNumber
+                }
+                else
+                {
+                    @context.Name
+                }
+            </MudTd>
+            <MudTd Class="caslon-antique text" DataLabel="Result">@((MarkupString)context.Description)</MudTd>
+        </RowTemplate>
+    </MudTable>
+    <MudIconButton OnClick="Roll" Icon="@Icons.Material.Filled.Casino" aria-label="roll" />
+}
+
+@code {
+    [Parameter]
+    public DiceChart DiceChart { get; set; }
+
+    private DiceType _diceType;
+
+    private int _result;
+
+    private MudTable<DiceResult> _mudTable;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _diceType = await DiceService.GetDiceTypeAsync(DiceChart.DiceTypeId.Value);
+    }
+
+    private async Task Roll()
+    {
+        _result = await DiceRollHelper.Roll(_diceType, DiceChart.NumberOfDice ?? 1);
+        var row = _mudTable.Items.FirstOrDefault(m => m.ResultNumber == _result);
+        if (row != null)
+        {
+            _mudTable.SetSelectedItem(row);
+        }
+        StateHasChanged();
+    }
+}

@@ -20,7 +20,7 @@ builder.Services.AddControllers().AddJsonOptions(options => {
     // options.MaxDepth = 4;
 });
 builder.Services.AddDbContext<HexedSceneryData.Data.HexedSceneryContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("HexedScenery")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("HexedScenery"), opt => opt.EnableRetryOnFailure()));
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile), typeof(HexedSceneryWebsite.Api.v1.AutoMapperProfile));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IEncounterService, EncounterService>();
