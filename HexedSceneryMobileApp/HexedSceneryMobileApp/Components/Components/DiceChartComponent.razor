@@ -12,9 +12,9 @@
 }
 else
 {
-    <MudTable Items="@DiceChart.DiceResults" @ref="_mudTable" T="DiceResult">
+    <MudTable Items="@DiceChart.DiceResults" @ref="_mudTable" T="DiceResult" RowClassFunc="@SelectedRowClassFunc">
         <HeaderContent>
-            <MudTh Class="schoensperger text">@DiceChart.Dice</MudTh>
+            <MudTh Class="schoensperger text"><MudButton OnClick="Roll" aria-label="roll" Class="schoensperger text">@DiceChart.Dice</MudButton></MudTh>
             <MudTh Class="schoensperger text">Result</MudTh>
         </HeaderContent>
         <RowTemplate>
@@ -60,5 +60,17 @@ else
             _mudTable.SetSelectedItem(row);
         }
         StateHasChanged();
+    }
+
+    private string SelectedRowClassFunc(DiceResult element, int rowNumber)
+    {
+        if (_mudTable.SelectedItem != null && _mudTable.SelectedItem.Equals(element))
+        {
+            return "selected";
+        }
+        else
+        {
+            return string.Empty;
+        }
     }
 }
