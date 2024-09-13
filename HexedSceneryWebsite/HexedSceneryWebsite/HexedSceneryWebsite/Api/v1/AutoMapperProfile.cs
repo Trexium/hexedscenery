@@ -73,11 +73,7 @@ namespace HexedSceneryWebsite.Api.v1
                     opt.MapFrom(s => s.EncounterTypes.ToList());
                 });
             CreateMap<Data.Warband, Warband>()
-                .ForMember(m => m.CompatibleHiredSwords, opt =>
-                {
-                    opt.PreCondition(m => m.HiredSwordCompatibleWarbands != null);
-                    opt.MapFrom(s => s.HiredSwordCompatibleWarbands.Select(x => x.HiredSword));
-                });
+                .ForMember(m => m.CompatibleHiredSwordIds, opt => opt.Ignore());
             //CreateMap<Data.HiredSwordCompatibleWarband, HiredSword>()
             //    .ForPath(m => m, opt => opt.MapFrom(s => s.HiredSword));
 

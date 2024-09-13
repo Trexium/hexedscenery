@@ -15,14 +15,32 @@
 }
 else
 {
-
-    <MudTable Items="@_currentHiredSwords" @ref="_mudTable" T="HiredSword">
+    <h1>Hired Swords</h1>
+    <div>&nbsp;</div>
+    <MudTable Items="@_currentHiredSwords" @ref="_mudTable" T="HiredSword" Filter="new Func<HiredSword,bool>(FilterFunc1)" Class="d-flex flex-column">
+        
+        <ToolBarContent>
+            <MudSelect @bind-Value="_selectedWarbandId" Placeholder="Select warband" Label="Warband filter" Variant="Variant.Text" Clearable="true">
+                @foreach (var warband in _warbands){
+                    <MudSelectItem Value="warband.Id.ToString()">@warband.Name</MudSelectItem>
+                }
+            </MudSelect>
+            <MudSpacer />
+            <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <ColGroup>
+            <col style="width: 40%;" />
+            <col style="width: 15%;" />
+            <col style="width: 15%;" />
+            <col style="width: 15%;" />
+            <col style="width: 15%;" />
+        </ColGroup>
         <HeaderContent>
-            <MudTh Class="schoensperger text">Hired Sword</MudTh>
-            <MudTh Class="schoensperger text">Hire Fee</MudTh>
-            <MudTh Class="schoensperger text">Upkeep Cost</MudTh>
-            <MudTh Class="schoensperger text">Grade</MudTh>
-            <MudTh Class="schoensperger text">Source</MudTh>
+            <MudTh Class="schoensperger text"><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<HiredSword, object>(x=>x.Name)">Hired Sword</MudTableSortLabel></MudTh>
+            <MudTh Class="schoensperger text"><MudTableSortLabel SortBy="new Func<HiredSword, object>(x=>x.HireFee)">Hire Fee</MudTableSortLabel></MudTh>
+            <MudTh Class="schoensperger text"><MudTableSortLabel SortBy="new Func<HiredSword, object>(x=>x.UpkeepCost)">Upkeep Cost</MudTableSortLabel></MudTh>
+            <MudTh Class="schoensperger text"><MudTableSortLabel SortBy="new Func<HiredSword, object>(x=>x.Grade.Name)">Grade</MudTableSortLabel></MudTh>
+            <MudTh Class="schoensperger text"><MudTableSortLabel SortBy="new Func<HiredSword, object>(x=>x.Source.Key)">Source</MudTableSortLabel></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd Class="caslon-antique text" DataLabel="Hired Sword">@context.Name</MudTd>
@@ -32,23 +50,26 @@ else
             <MudTd Class="caslon-antique text" DataLabel="Source">
                 @if (!string.IsNullOrEmpty(context.Source.PdfUrl))
                 {
-                    <a target="_blank" href="@context.Source.PdfUrl">@context.Source.Key</a>
+                    <MudButton Href="@context.Source.PdfUrl"
+                               Target="_blank"
+                               EndIcon="@Icons.Material.Filled.OpenInNew">
+                        @context.Source.Key
+                    </MudButton>
+                    
                 }
                 else
                 {
-                    @context.Source.Key
+                    <MudButton EndIcon="@Icons.Material.Filled.OpenInNewOff">
+                        @context.Source.Key
+                    </MudButton>
                 }
             </MudTd>
         </RowTemplate>
+        <PagerContent>
+            <MudTablePager HideRowsPerPage="true"/>
+        </PagerContent>
     </MudTable>
 }
-
-
-
-
-
-
-
 
 @code {
     private List<HiredSword> _hiredSwords;
@@ -58,6 +79,8 @@ else
     private List<HiredSword> _currentHiredSwords;
     private int _minGrade;
     private int _maxGrade;
+    private string _selectedWarbandId = "";
+    private string searchString = "";
 
     private MudTable<HiredSword> _mudTable;
 
@@ -68,5 +91,20 @@ else
         _grades = await GradeService.GetGradesAsync();
         _hiredSwords = await HiredSwordService.GetHiredSwordsAsync();
         _currentHiredSwords = _hiredSwords;
+    }
+
+    private bool FilterFunc1(HiredSword element) => FilterFunc(element, searchString);
+
+    private bool FilterFunc(HiredSword element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Grade.Name.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Source.Key.StartsWith(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
     }
 }

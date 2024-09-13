@@ -19,6 +19,8 @@ builder.Services.AddControllers().AddJsonOptions(options => {
     // In addition, you can limit the depth
     // options.MaxDepth = 4;
 });
+
+//builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options => options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<HexedSceneryData.Data.HexedSceneryContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("HexedScenery"), opt => opt.EnableRetryOnFailure()));
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile), typeof(HexedSceneryWebsite.Api.v1.AutoMapperProfile));

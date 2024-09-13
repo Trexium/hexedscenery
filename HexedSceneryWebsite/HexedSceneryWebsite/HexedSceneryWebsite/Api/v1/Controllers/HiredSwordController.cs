@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HexedSceneryWebsite.Api.v1.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class HiredSwordController : ControllerBase
     {
@@ -27,17 +27,10 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         [ApiKey]
         public IEnumerable<HiredSword> Get()
         {
-            var dataItems = _context.HiredSwords.Include(m => m.Source);
-            var hiredSwords = _mapper.Map<List<HiredSword>>(dataItems);
-            return hiredSwords;
-        }
-
-        [HttpGet]
-        [ApiKey]
-        public IEnumerable<HiredSword> Get([FromQuery] int? warbandId, [FromQuery] int? minGradeId, [FromQuery] int? maxGradeId)
-        {
             var dataItems = _context.HiredSwords
-                .Include(m => m.HiredSwordCompatibleWarbands).Where(m => m.Active && (!warbandId.HasValue || m.HiredSwordCompatibleWarbands.Any(w => w.WarbandId == warbandId) && (!minGradeId.HasValue || m.GradeId >= minGradeId) && (!maxGradeId.HasValue || m.GradeId <= maxGradeId)));
+                .Include(m => m.Source)
+                .Include(m => m.Grade)
+                .ToList();
             var hiredSwords = _mapper.Map<List<HiredSword>>(dataItems);
             return hiredSwords;
         }

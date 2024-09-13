@@ -79,12 +79,7 @@ namespace HexedSceneryMobileApp
             CreateMap<ApiModels.MenuItem, Models.MenuItem>()
                 .ForMember(m => m.Type, opt => opt.MapFrom(s => (MenuItemType)((int)s.Type)));
 
-            CreateMap<ApiModels.Warband, Models.Warband>()
-                .ForMember(m => m.CompatibleHiredSwords, opt =>
-                {
-                    opt.PreCondition(m => m.CompatibleHiredSwords != null);
-                    opt.MapFrom(s => s.CompatibleHiredSwords.ToList());
-                });
+            CreateMap<ApiModels.Warband, Models.Warband>();
 
             CreateMap<ApiModels.Grade, Models.Grade>();
             
