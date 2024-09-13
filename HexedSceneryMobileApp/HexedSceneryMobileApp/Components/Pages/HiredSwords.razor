@@ -1,0 +1,72 @@
+﻿@page "/hiredswords"
+@using HexedSceneryMobileApp.Models
+@using HexedSceneryMobileApp.Services
+
+
+@inject IHiredSwordService HiredSwordService
+@inject IGradeService GradeService
+@inject IWarbandService WarbandService
+
+
+
+@if (_hiredSwords == null || _warbands == null || _grades == null || _currentHiredSwords == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+
+    <MudTable Items="@_currentHiredSwords" @ref="_mudTable" T="HiredSword">
+        <HeaderContent>
+            <MudTh Class="schoensperger text">Hired Sword</MudTh>
+            <MudTh Class="schoensperger text">Hire Fee</MudTh>
+            <MudTh Class="schoensperger text">Upkeep Cost</MudTh>
+            <MudTh Class="schoensperger text">Grade</MudTh>
+            <MudTh Class="schoensperger text">Source</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd Class="caslon-antique text" DataLabel="Hired Sword">@context.Name</MudTd>
+            <MudTd Class="caslon-antique text" DataLabel="Hire Fee">@context.HireFee gc</MudTd>
+            <MudTd Class="caslon-antique text" DataLabel="Upkeep Cost">@context.UpkeepCost gc</MudTd>
+            <MudTd Class="caslon-antique text" DataLabel="Grade">@context.Grade.Name</MudTd>
+            <MudTd Class="caslon-antique text" DataLabel="Source">
+                @if (!string.IsNullOrEmpty(context.Source.PdfUrl))
+                {
+                    <a target="_blank" href="@context.Source.PdfUrl">@context.Source.Key</a>
+                }
+                else
+                {
+                    @context.Source.Key
+                }
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+}
+
+
+
+
+
+
+
+
+@code {
+    private List<HiredSword> _hiredSwords;
+    private List<Warband> _warbands;
+    private List<Grade> _grades;
+
+    private List<HiredSword> _currentHiredSwords;
+    private int _minGrade;
+    private int _maxGrade;
+
+    private MudTable<HiredSword> _mudTable;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _warbands = await WarbandService.GetWarbandsAsync();
+        _grades = await GradeService.GetGradesAsync();
+        _hiredSwords = await HiredSwordService.GetHiredSwordsAsync();
+        _currentHiredSwords = _hiredSwords;
+    }
+}

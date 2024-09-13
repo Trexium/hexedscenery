@@ -27,7 +27,7 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         [ApiKey]
         public IEnumerable<HiredSword> Get()
         {
-            var dataItems = _context.HiredSwords;
+            var dataItems = _context.HiredSwords.Include(m => m.Source);
             var hiredSwords = _mapper.Map<List<HiredSword>>(dataItems);
             return hiredSwords;
         }
@@ -36,7 +36,8 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         [ApiKey]
         public IEnumerable<HiredSword> Get([FromQuery] int? warbandId, [FromQuery] int? minGradeId, [FromQuery] int? maxGradeId)
         {
-            var dataItems = _context.HiredSwords.Include(m => m.HiredSwordCompatibleWarbands).Where(m => m.Active && (!warbandId.HasValue || m.HiredSwordCompatibleWarbands.Any(w => w.WarbandId == warbandId) && (!minGradeId.HasValue || m.GradeId >= minGradeId) && (!maxGradeId.HasValue || m.GradeId <= maxGradeId)));
+            var dataItems = _context.HiredSwords
+                .Include(m => m.HiredSwordCompatibleWarbands).Where(m => m.Active && (!warbandId.HasValue || m.HiredSwordCompatibleWarbands.Any(w => w.WarbandId == warbandId) && (!minGradeId.HasValue || m.GradeId >= minGradeId) && (!maxGradeId.HasValue || m.GradeId <= maxGradeId)));
             var hiredSwords = _mapper.Map<List<HiredSword>>(dataItems);
             return hiredSwords;
         }
@@ -48,12 +49,18 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         {
             var dataItem = _context.HiredSwords
                 .Include(m => m.HiredSwordEquipments)
+                    .ThenInclude(m => m.Equipment)
                 .Include(m => m.Grade)
                 .Include(m => m.HiredSwordAdditionalProfiles)
+                    .ThenInclude(m => m.Profile)
                 .Include(m => m.HiredSwordCompatibleWarbands)
+                    .ThenInclude(m => m.Warband)
                 .Include(m => m.HiredSwordSkills)
+                    .ThenInclude(m => m.Skill)
                 .Include(m => m.HiredSwordSkillTypes)
+                    .ThenInclude(m => m.SkillType)
                 .Include(m => m.HiredSwordSpecialRules)
+                    .ThenInclude(m => m.SpecialRule)
                 .Include(m => m.Profile)
                 .Include(m => m.Source)
                 .FirstOrDefault(m => m.Active && m.Id == id);

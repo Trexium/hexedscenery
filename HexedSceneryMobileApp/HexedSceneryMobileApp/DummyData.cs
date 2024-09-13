@@ -114,6 +114,11 @@ namespace HexedSceneryMobileApp
             return encounterType;
         }
 
+        public Task<List<HiredSword>> GetHiredSwordsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Menu> GetMenuAsync()
         {
             var menu = System.Text.Json.JsonSerializer.Deserialize<Menu>(_dummyMenuJson);

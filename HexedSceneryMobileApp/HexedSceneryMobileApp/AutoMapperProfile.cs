@@ -79,6 +79,50 @@ namespace HexedSceneryMobileApp
             CreateMap<ApiModels.MenuItem, Models.MenuItem>()
                 .ForMember(m => m.Type, opt => opt.MapFrom(s => (MenuItemType)((int)s.Type)));
 
+            CreateMap<ApiModels.Warband, Models.Warband>()
+                .ForMember(m => m.CompatibleHiredSwords, opt =>
+                {
+                    opt.PreCondition(m => m.CompatibleHiredSwords != null);
+                    opt.MapFrom(s => s.CompatibleHiredSwords.ToList());
+                });
+
+            CreateMap<ApiModels.Grade, Models.Grade>();
+            
+            CreateMap<ApiModels.Source, Models.Source>();
+
+            CreateMap<ApiModels.HiredSword, Models.HiredSword>()
+                .ForMember(m => m.AdditionalProfiles, opt =>
+                {
+                    opt.PreCondition(m => m.AdditionalProfiles != null);
+                    opt.MapFrom(s => s.AdditionalProfiles.ToList());
+                })
+                .ForMember(m => m.CompatibleWarbands, opt =>
+                {
+                    opt.PreCondition(m => m.CompatibleWarbands != null);
+                    opt.MapFrom(s => s.CompatibleWarbands.ToList());
+                })
+                .ForMember(m => m.Equipment, opt =>
+                {
+                    opt.PreCondition(m => m.Equipment != null);
+                    opt.MapFrom(s => s.Equipment.ToList());
+                })
+                .ForMember(m => m.Skills, opt =>
+                {
+                    opt.PreCondition(m => m.Skills != null);
+                    opt.MapFrom(s => s.Skills.ToList());
+                })
+                .ForMember(m => m.SkillTypes, opt =>
+                {
+                    opt.PreCondition(m => m.SkillTypes != null);
+                    opt.MapFrom(s => s.SkillTypes.ToList());
+                })
+                .ForMember(m => m.SpecialRules, opt =>
+                {
+                    opt.PreCondition(m => m.SpecialRules != null);
+                    opt.MapFrom(s => s.SpecialRules.ToList());
+                });
+
+            CreateMap<ApiModels.Race, Models.Race>();
         }
     }
 }
