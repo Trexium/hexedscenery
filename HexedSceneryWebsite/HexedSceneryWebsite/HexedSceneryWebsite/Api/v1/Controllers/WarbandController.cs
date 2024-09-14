@@ -28,8 +28,6 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         {
             var dataItems = _context.Warbands
                 .Include(m => m.Race)
-                //.Include(m => m.HiredSwordCompatibleWarbands)
-                //    .ThenInclude(m => m.HiredSword)
                     .ToList();
             var warbands = _mapper.Map<List<Warband>>(dataItems);
 
