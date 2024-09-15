@@ -27,11 +27,11 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         public IEnumerable<Warband> Get()
         {
             var dataItems = _context.Warbands
-                .Include(m => m.Race)
-                    .ToList();
+                    .Include(m => m.Race)
+                        .ToList();
             var warbands = _mapper.Map<List<Warband>>(dataItems);
 
-            foreach(var warband in warbands)
+            foreach (var warband in warbands)
             {
                 warband.CompatibleHiredSwordIds = _context.HiredSwordCompatibleWarbands.Where(m => m.WarbandId == warband.Id).Select(m => m.HiredSwordId.Value).ToList();
             }

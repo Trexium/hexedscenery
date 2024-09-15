@@ -38,6 +38,11 @@ namespace HexedSceneryMobileApp
             }
         }
 
+        public Task<List<DiceType>> GetDiceTypesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Encounter> GetEncounterAsync(int encounterTypeId, int resultNumber)
         {
             var encounter = new Encounter

@@ -30,5 +30,14 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
             var diceType = _mapper.Map<DiceType>(dataItem);
             return diceType;
         }
+
+        [HttpGet]
+        [ApiKey]
+        public List<DiceType> Get()
+        {
+            var dataItems = _context.DiceTypes.ToList();
+            var diceTypes = _mapper.Map<List<DiceType>>(dataItems);
+            return diceTypes;
+        }
     }
 }

@@ -12,7 +12,7 @@
 else
 {
     <div style="flex-direction: row;" class="d-flex">
-        <MudTextField T="int?" DebounceInterval="500" @bind-Value="_result" Label="@_label" Variant="@Variant.Text" OnDebounceIntervalElapsed="ManualDiceResultInput"></MudTextField>
+        <MudTextField T="int?" DebounceInterval="500" @bind-Value="_result" Label="@_label" Text="@(_result?.ToString() ?? string.Empty)" Variant="@Variant.Text" OnDebounceIntervalElapsed="ManualDiceResultInput"></MudTextField>
         <MudIconButton OnClick="Roll" Icon="@Icons.Material.Filled.Casino" aria-label="shuffle" />
     </div>
 }
@@ -35,8 +35,9 @@ else
     public async Task Roll()
     {
         var result = await DiceRollHelper.Roll(_diceType, NumberOfDice);
+        await OnNewResult.InvokeAsync(result);
         _result = result;
-        OnNewResult.InvokeAsync(result);
+        StateHasChanged();
     }
 
 

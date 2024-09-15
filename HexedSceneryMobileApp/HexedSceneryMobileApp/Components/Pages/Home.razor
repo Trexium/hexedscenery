@@ -2,7 +2,9 @@
 @using HexedSceneryMobileApp.Services
 
 @inject IWarbandService WarbandService
-
+@inject IGradeService GradeService
+@inject IHiredSwordService HiredSwordService
+@inject IDiceService DiceService
 
 <PageTitle>Index</PageTitle>
 
@@ -16,7 +18,11 @@
 {
     protected override async Task OnInitializedAsync()
     {
-        WarbandService.GetWarbandsAsync();
+        // Load caches
+        await WarbandService.GetWarbandsAsync();
+        await GradeService.GetGradesAsync();
+        await HiredSwordService.GetHiredSwordsAsync();
+        await DiceService.GetDiceTypesAsync();
     }
 
 }

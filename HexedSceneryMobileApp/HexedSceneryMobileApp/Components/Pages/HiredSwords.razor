@@ -17,30 +17,32 @@ else
     <h1>Hired Swords</h1>
     <div>&nbsp;</div>
     <MudExpansionPanels>
-        <MudExpansionPanel Expanded="false" Text="@FilterTitle">
-            <div class="flex-row d-flex">
+        <MudExpansionPanel Expanded="false" Text="@FilterTitle" Class="schoensperger text">
+            <div class="flex-row d-flex gap-4">
                 <div class="flex-grow-1 d-flex flex-column">
                     <h3>Min. Grade</h3>
-                    <MudList T="Grade" @bind-SelectedValue="_selectedMinGrade" SelectionMode="SelectionMode.ToggleSelection">
-                        @foreach (var grade in _grades)
+                    <MudSelect T="Grade" @bind-Value="_selectedMinGrade" Placeholder="Select grade" Clearable="true" Variant="Variant.Outlined">
+                        @foreach(var grade in _grades)
                         {
-                            <MudListItem Value="@grade">@grade.Name</MudListItem>
+                            <MudSelectItem Value="@grade">@grade.Name</MudSelectItem>
                         }
-                    </MudList>
-                    <div>&nbsp;</div>
+                    </MudSelect>
                     <h3>Max. Grade</h3>
-                    <MudList T="Grade" @bind-SelectedValue="_selectedMaxGrade" SelectionMode="SelectionMode.ToggleSelection">
-                        @foreach (var grade in _grades)
+                    <MudSelect T="Grade" @bind-Value="_selectedMaxGrade" Placeholder="Select grade" Clearable="true" Variant="Variant.Outlined">
+                        @foreach(var grade in _grades)
                         {
-                            <MudListItem Value="@grade">@grade.Name</MudListItem>
+                            <MudSelectItem Value="@grade">@grade.Name</MudSelectItem>
                         }
-                    </MudList>
+                    </MudSelect>
+                    <MudSpacer />
+                    <MudSpacer />
+                    <MudSpacer />
                     <MudSpacer />
                     <MudButton OnClick="@ClearFilters">Clear filters</MudButton>
                 </div>
                 <div class="flex-column d-flex flex-grow-1">
                     <h3>Warband</h3>
-                    <MudTable Items="@_warbands" SelectedItemChanged="WarbandOnSelectedItemChanged" T="Warband" @ref="_warbandTable" Hover="true" Filter="new Func<Warband, bool>(WarbandFiltering)" RowClassFunc="@WarbandSelectedRowClassFunc">
+                    <MudTable Items="@_warbands" Dense="true" SelectedItemChanged="WarbandOnSelectedItemChanged" T="Warband" @ref="_warbandTable" Hover="true" Filter="new Func<Warband, bool>(WarbandFiltering)" RowClassFunc="@WarbandSelectedRowClassFunc">
                         <ToolBarContent>
                             <MudTextField @bind-Value="_warbandSearchString" Placeholder="Search warband" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                         </ToolBarContent>
@@ -56,7 +58,7 @@ else
         </MudExpansionPanel>
     </MudExpansionPanels>
 
-    <MudTable Items="@CurrentHiredSwords" @ref="_hiredSwordTable" T="HiredSword" Filter="new Func<HiredSword,bool>(HiredSwordFiltering)" Class="d-flex flex-column">
+    <MudTable Items="@CurrentHiredSwords" @ref="_hiredSwordTable" T="HiredSword" Dense="true" Filter="new Func<HiredSword,bool>(HiredSwordFiltering)" Class="d-flex flex-column">
         <ToolBarContent>
             <MudTextField @bind-Value="_hiredSwordSearchString" Placeholder="Search hired sword" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>

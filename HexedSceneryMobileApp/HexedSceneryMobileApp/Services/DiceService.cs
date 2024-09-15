@@ -14,6 +14,7 @@ namespace HexedSceneryMobileApp.Services
     public interface IDiceService
     {
         Task<Models.DiceType> GetDiceTypeAsync(int diceTypeId);
+        Task<List<Models.DiceType>> GetDiceTypesAsync();
     }
     public class DiceService : IDiceService
     {
@@ -49,6 +50,34 @@ namespace HexedSceneryMobileApp.Services
             }
 
             return _diceTypeCache[diceTypeId];
+        }
+
+        public async Task<List<Models.DiceType>> GetDiceTypesAsync()
+        {
+            var url = $"dice";
+
+            if (_diceTypeCache.Count == 0)
+            {
+                try
+                {
+                    using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
+                    {
+                        var data = await httpClient.GetFromJsonAsync<List<ApiModels.DiceType>>(url);
+                        var diceTypes = _mapper.Map<List<Models.DiceType>>(data);
+
+                        foreach(var diceType in diceTypes)
+                        {
+                            _diceTypeCache.Add(diceType.Id, diceType);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+
+            return _diceTypeCache.Values.ToList();
         }
     }
 }

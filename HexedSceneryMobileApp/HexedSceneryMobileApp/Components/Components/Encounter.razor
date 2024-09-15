@@ -18,25 +18,6 @@ else
     {
         <div>&nbsp;</div>
         <DiceChartComponent DiceChart="@_encounter.DiceChart" />
-@*         <MudTable Items="@_encounter.DiceChart.DiceResults">
-            <HeaderContent>
-                <MudTh Class="schoensperger text">@_encounter.DiceChart.Dice</MudTh>
-                <MudTh Class="schoensperger text">Result</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd Class="caslon-antique text" DataLabel="@_encounter.DiceChart.Dice">
-                    @if (string.IsNullOrEmpty(context.Name))
-                    {
-                        @context.ResultNumber
-                    }
-                    else
-                    {
-                        @context.Name
-                    }
-                </MudTd>
-                <MudTd Class="caslon-antique text" DataLabel="Result">@((MarkupString)context.Description)</MudTd>
-            </RowTemplate>
-        </MudTable> *@
     }
     @if (_encounter.MonsterId.HasValue)
     {
