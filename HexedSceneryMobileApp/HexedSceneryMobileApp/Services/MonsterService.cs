@@ -12,6 +12,7 @@ namespace HexedSceneryMobileApp.Services
     public interface IMonsterService
     {
         Task<Models.Monster> GetMonsterAsync(int monsterId);
+        Task<List<Models.Monster>> GetMonstersAsync();
     }
 
     public class MonsterService : IMonsterService
@@ -20,7 +21,7 @@ namespace HexedSceneryMobileApp.Services
         private readonly IMapper _mapper;
         private readonly ILogService _logger;
 
-        private static Dictionary<string, Monster> _monsterCache = new Dictionary<string, Monster>();
+        private static Dictionary<int, Monster> _monsterCache = new Dictionary<int, Monster>();
 
         public MonsterService(IHttpClientFactory httpClientFactory, IMapper mapper, ILogService logger)
         {
@@ -29,19 +30,36 @@ namespace HexedSceneryMobileApp.Services
             _logger = logger;
         }
 
+
+
         public async Task<Monster> GetMonsterAsync(int monsterId)
         {
             var url = $"monster/{monsterId}";
 
-            if (!_monsterCache.ContainsKey(url))
+            if (!_monsterCache.ContainsKey(monsterId))
+            {
+                await GetMonstersAsync();
+            }
+
+            return _monsterCache[monsterId];
+        }
+
+        public async Task<List<Monster>> GetMonstersAsync()
+        {
+            var url = $"monster";
+
+            if (_monsterCache.Count > 1)
             {
                 try
                 {
                     using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
                     {
-                        var data = await httpClient.GetFromJsonAsync<ApiModels.Monster>(url);
-                        var encounter = _mapper.Map<Models.Monster>(data);
-                        _monsterCache.Add(url, encounter);
+                        var data = await httpClient.GetFromJsonAsync<List<ApiModels.Monster>>(url);
+                        var monsters = _mapper.Map<List<Models.Monster>>(data);
+                        foreach(var monster in monsters)
+                        {
+                            _monsterCache.Add(monster.Id, monster);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -51,7 +69,7 @@ namespace HexedSceneryMobileApp.Services
                 }
             }
 
-            return _monsterCache[url];
+            return _monsterCache.Values.ToList();
         }
     }
 }

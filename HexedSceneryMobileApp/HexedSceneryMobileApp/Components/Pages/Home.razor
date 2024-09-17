@@ -5,6 +5,8 @@
 @inject IGradeService GradeService
 @inject IHiredSwordService HiredSwordService
 @inject IDiceService DiceService
+@inject IDiceChartService DiceChartService
+@inject IMonsterService MonsterService
 
 <PageTitle>Index</PageTitle>
 
@@ -23,6 +25,8 @@
         await GradeService.GetGradesAsync();
         await HiredSwordService.GetHiredSwordsAsync();
         await DiceService.GetDiceTypesAsync();
+        await DiceChartService.GetDiceChartsAsync();
+        await MonsterService.GetMonstersAsync();
     }
 
 }

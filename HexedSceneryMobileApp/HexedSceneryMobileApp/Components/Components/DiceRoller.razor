@@ -12,7 +12,8 @@
 else
 {
     <div style="flex-direction: row;" class="d-flex">
-        <MudTextField T="int?" DebounceInterval="500" @bind-Value="_result" Label="@_label" Text="@(_result?.ToString() ?? string.Empty)" Variant="@Variant.Text" OnDebounceIntervalElapsed="ManualDiceResultInput"></MudTextField>
+        <MudTextField T="int?" DebounceInterval="500" @bind-Value=_result Label="@_label" Variant="@Variant.Text" OnDebounceIntervalElapsed="ManualDiceResultInput" />
+        @* <MudTextField T="string" DebounceInterval="500" @bind-Value=_result Label="@_label" Variant="@Variant.Text" OnDebounceIntervalElapsed="ManualDiceResultInput" /> *@
         <MudIconButton OnClick="Roll" Icon="@Icons.Material.Filled.Casino" aria-label="shuffle" />
     </div>
 }
@@ -28,7 +29,9 @@ else
     [Parameter]
     public EventCallback<int> OnNewResult { get; set; }
 
-    private int? _result { get; set; }
+    // private int? _result { get; set; }
+    private int? _result;
+    // private string _result;
     private DiceType _diceType { get; set; }
     private string _label;
 
@@ -36,6 +39,7 @@ else
     {
         var result = await DiceRollHelper.Roll(_diceType, NumberOfDice);
         await OnNewResult.InvokeAsync(result);
+        // _result = result.ToString();
         _result = result;
         StateHasChanged();
     }
@@ -45,7 +49,7 @@ else
     {
         _diceType = await DiceService.GetDiceTypeAsync(DiceTypeId);
         _label = $"Roll {NumberOfDice}{_diceType.DisplayName} and enter the result or push the button to roll the dice";
-        _result = null;
+        // _result = "";
     }
 
     private void ManualDiceResultInput()
@@ -54,5 +58,9 @@ else
         {
             OnNewResult.InvokeAsync(_result.Value);
         }
+        // if (int.TryParse(_result, out int result))
+        // {
+        //     OnNewResult.InvokeAsync(result);
+        // }
     }
 }

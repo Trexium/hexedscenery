@@ -14,10 +14,10 @@ else
     <h3 class="schoensperger xtra-large-text">@_encounter.Name</h3>
     <p class="caslon-antique text">@((MarkupString)_encounter.Description)</p>
 
-    @if (_encounter.DiceChart != null)
+    @if (_encounter.DiceChartId.HasValue)
     {
         <div>&nbsp;</div>
-        <DiceChartComponent DiceChart="@_encounter.DiceChart" />
+        <DiceChartComponent DiceChartId="@_encounter.DiceChartId.Value" />
     }
     @if (_encounter.MonsterId.HasValue)
     {

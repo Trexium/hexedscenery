@@ -22,6 +22,25 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        [ApiKey]
+        public IEnumerable<Monster> Get()
+        {
+            var dataItems = _context.Monsters
+                .Include(m => m.MonsterEquipments)
+                    .ThenInclude(m => m.Equipment)
+                .Include(m => m.MonsterAdditionalProfiles)
+                    .ThenInclude(m => m.Profile)
+                .Include(m => m.MonsterSkills)
+                    .ThenInclude(m => m.Skill)
+                .Include(m => m.MonsterSpecialRules)
+                    .ThenInclude(m => m.SpecialRule)
+                .Include(m => m.Profile)
+                .ToList();
+            var monsters = _mapper.Map<List<Monster>>(dataItems);
+            return monsters;
+        }
+
         // GET api/<MonsterController>/5
         [HttpGet("{id}")]
         [ApiKey]

@@ -36,8 +36,6 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         public Encounter GetByResult(int encounterTypeId, int resultNumber)
         {
             var dataItem = _context.Encounters
-                .Include(m => m.DiceChart)
-                    .ThenInclude(m => m.DiceResults)
                 .Include(m => m.EncounterType)
                 .FirstOrDefault(m => m.EncounterTypeId == encounterTypeId && m.ResultNumber == resultNumber);
             var encounter = _mapper.Map<Encounter>(dataItem);

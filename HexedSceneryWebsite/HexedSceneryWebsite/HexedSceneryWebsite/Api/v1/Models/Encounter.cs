@@ -10,7 +10,5 @@
         public int? MonsterId { get; set; }
         public int? DiceChartId { get; set; }
         public int EncounterTypeId { get; set; }
-        public DiceChart? DiceChart { get; set; }
-        public Monster? Monster { get; set; }
     }
 }

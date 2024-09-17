@@ -5,22 +5,23 @@
 
 @inject IDiceRollHelper DiceRollHelper
 @inject IDiceService DiceService
+@inject IDiceChartService DiceChartService
 
-@if (DiceChart == null || _diceType == null)
+@if (_diceChart == null || _diceType == null)
 {
     <span>Loading...</span>
 }
 else
 {
-    <MudTable Items="@DiceChart.DiceResults" @ref="_mudTable" T="DiceResult" RowClassFunc="@SelectedRowClassFunc">
+    <MudTable Items="@_diceChart.DiceResults" @ref="_mudTable" T="DiceResult" RowClassFunc="@SelectedRowClassFunc">
         <HeaderContent>
-            <MudTh Class="schoensperger text"><MudButton OnClick="Roll" aria-label="roll" Class="schoensperger text">@DiceChart.Dice</MudButton></MudTh>
+            <MudTh Class="schoensperger text"><MudButton OnClick="Roll" aria-label="roll" Class="schoensperger text">@_diceChart.Dice</MudButton></MudTh>
             <MudTh Class="schoensperger text">Result</MudTh>
         </HeaderContent>
         <RowTemplate>
             @* <div class="@(_result == context.ResultNumber ? "selected" : "")" hidden></div> *@
             <div data-id="@context.ResultNumber" hidden ></div>
-            <MudTd Class="caslon-antique text" DataLabel="@DiceChart.Dice">
+            <MudTd Class="caslon-antique text" DataLabel="@_diceChart.Dice">
                 @if (string.IsNullOrEmpty(context.Name))
                 {
                     @context.ResultNumber
@@ -38,9 +39,10 @@ else
 
 @code {
     [Parameter]
-    public DiceChart DiceChart { get; set; }
+    public int DiceChartId { get; set; }
 
     private DiceType _diceType;
+    private DiceChart _diceChart;
 
     private int _result;
 
@@ -48,12 +50,13 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        _diceType = await DiceService.GetDiceTypeAsync(DiceChart.DiceTypeId.Value);
+        _diceChart = await DiceChartService.GetDiceChartAsync(DiceChartId);
+        _diceType = await DiceService.GetDiceTypeAsync(_diceChart.DiceTypeId.Value);
     }
 
     private async Task Roll()
     {
-        _result = await DiceRollHelper.Roll(_diceType, DiceChart.NumberOfDice ?? 1);
+        _result = await DiceRollHelper.Roll(_diceType, _diceChart.NumberOfDice ?? 1);
         var row = _mudTable.Items.FirstOrDefault(m => m.ResultNumber == _result);
         if (row != null)
         {

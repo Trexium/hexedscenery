@@ -118,6 +118,16 @@ namespace HexedSceneryMobileApp
                 });
 
             CreateMap<ApiModels.Race, Models.Race>();
+
+            CreateMap<Models.Encounter, Models.Roll>()
+                .ForMember(m => m.ResultNumber, opt => opt.MapFrom(s => s.ResultNumber))
+                .ForMember(m => m.TableName, opt => opt.MapFrom(s => s.Name))
+                .ForMember(m => m.Effect, opt => opt.MapFrom(s => s.Description));
+
+            CreateMap<Models.DiceResult, Models.Roll>()
+                .ForMember(m => m.ResultNumber, opt => opt.MapFrom(s => s.ResultNumber))
+                .ForMember(m => m.TableName, opt => opt.Ignore())
+                .ForMember(m => m.Effect, opt => opt.MapFrom(s => s.Description));
         }
     }
 }

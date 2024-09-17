@@ -83,6 +83,8 @@ namespace HexedSceneryMobileApp
                 builder.Services.AddSingleton<IGradeService, GradeService>();
                 builder.Services.AddSingleton<IHiredSwordService, HiredSwordService>();
                 builder.Services.AddSingleton<IWarbandService, WarbandService>();
+                builder.Services.AddSingleton<IDiceChartService, DiceChartService>();
+                builder.Services.AddSingleton<IMyRollsService, MyRollsService>();
                 var logService = new LogService(Enums.LogLevel.Debug);
                 builder.Services.AddSingleton<ILogService>(m => logService);
             }
