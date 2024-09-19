@@ -1,46 +1,39 @@
 ﻿@using HexedSceneryMobileApp.Services
 
 
-@inject IEncounterService EncounterService
 
-
-@if (_encounter == null)
+@if (CurrentEncounter == null)
 {
     <span>Loading...</span>
 }
 else
 {
     <div>&nbsp;</div>
-    <h3 class="schoensperger xtra-large-text">@_encounter.Name</h3>
-    <p class="caslon-antique text">@((MarkupString)_encounter.Description)</p>
+    <h3 class="schoensperger xtra-large-text">@CurrentEncounter.Name</h3>
+    <p class="caslon-antique text">@((MarkupString)CurrentEncounter.Description)</p>
 
-    @if (_encounter.DiceChartId.HasValue)
+    @if (CurrentEncounter.DiceChartId.HasValue)
     {
         <div>&nbsp;</div>
-        <DiceChartComponent DiceChartId="@_encounter.DiceChartId.Value" />
+        <DiceChartComponent DiceChartId="@CurrentEncounter.DiceChartId.Value" />
     }
-    @if (_encounter.MonsterId.HasValue)
+    @if (CurrentEncounter.MonsterId.HasValue)
     {
         <div>&nbsp;</div>
-        <Monster MonsterId="_encounter.MonsterId.Value" />
+        <Monster MonsterId="CurrentEncounter.MonsterId.Value" />
     }
 }
 
 
 @code {
-    [Parameter]
-    public int EncounterResultNumber { get; set; }
 
     [Parameter]
-    public int EncounterTypeId { get; set; }
+    public Models.Encounter CurrentEncounter { get; set; }
 
-    private Models.Encounter _encounter;
-  
 
 
     protected override async Task OnParametersSetAsync()
     {
-        _encounter = await EncounterService.GetEncounterAsync(EncounterTypeId, EncounterResultNumber);
-        StateHasChanged();
+        
     }
 }

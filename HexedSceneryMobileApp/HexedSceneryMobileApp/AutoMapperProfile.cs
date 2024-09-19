@@ -121,13 +121,17 @@ namespace HexedSceneryMobileApp
 
             CreateMap<Models.Encounter, Models.Roll>()
                 .ForMember(m => m.ResultNumber, opt => opt.MapFrom(s => s.ResultNumber))
-                .ForMember(m => m.TableName, opt => opt.MapFrom(s => s.Name))
-                .ForMember(m => m.Effect, opt => opt.MapFrom(s => s.Description));
+                .ForMember(m => m.TableName, opt => opt.Ignore())
+                .ForMember(m => m.Effect, opt => opt.MapFrom(s => s.Description))
+                .ForMember(m => m.ResultName, opt => opt.MapFrom(s => s.Name))
+                .ForMember(m => m.Id, opt => opt.MapFrom(s => Guid.NewGuid()));
 
             CreateMap<Models.DiceResult, Models.Roll>()
                 .ForMember(m => m.ResultNumber, opt => opt.MapFrom(s => s.ResultNumber))
                 .ForMember(m => m.TableName, opt => opt.Ignore())
-                .ForMember(m => m.Effect, opt => opt.MapFrom(s => s.Description));
+                .ForMember(m => m.Effect, opt => opt.MapFrom(s => s.Description))
+                .ForMember(m => m.ResultName, opt => opt.MapFrom(s => s.Name))
+                .ForMember(m => m.Id, opt => opt.MapFrom(s => Guid.NewGuid()));
         }
     }
 }

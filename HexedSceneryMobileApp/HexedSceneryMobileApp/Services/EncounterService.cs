@@ -16,6 +16,7 @@ namespace HexedSceneryMobileApp.Services
         Task<List<Models.TableCategory>> GetTableCategoriesAsync();
         Task<Models.EncounterType> GetEncounterTypeAsync(int id);
         Task<Models.Encounter> GetEncounterAsync(int encounterTypeId, int resultNumber);
+        Task LoadCachesAsync();
     }
     public class EncounterService : IEncounterService
     {
@@ -24,7 +25,7 @@ namespace HexedSceneryMobileApp.Services
         private readonly IDiceService _diceService;
         private static readonly Dictionary<string, List<Models.TableCategory>> _categoryCache = new Dictionary<string, List<Models.TableCategory>>();
         private static readonly Dictionary<int, Models.EncounterType> _encounterTypeCache = new Dictionary<int, Models.EncounterType>();
-        private static readonly Dictionary<string, Models.Encounter> _encounterCache = new Dictionary<string, Models.Encounter>();
+        private static readonly Dictionary<int, Dictionary<int, Models.Encounter>> _encounterCache = new Dictionary<int, Dictionary<int, Models.Encounter>>();
 
         public EncounterService(IHttpClientFactory httpClientFactory, IMapper mapper, IDiceService diceService)
         {
@@ -59,25 +60,11 @@ namespace HexedSceneryMobileApp.Services
 
         public async Task<Models.EncounterType> GetEncounterTypeAsync(int id)
         {
-            var url = $"encountertype/{id}";
+            //var url = $"encountertype/{id}";
 
             if (!_encounterTypeCache.ContainsKey(id))
             {
-                try
-                {
-                    using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
-                    {
-
-                        var data = await httpClient.GetFromJsonAsync<ApiModels.EncounterType>(url);
-                        var encounterType = _mapper.Map<Models.EncounterType>(data);
-                        _encounterTypeCache.Add(id, encounterType);
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
+                await LoadCachesAsync();
             }
 
             return _encounterTypeCache[id];
@@ -85,26 +72,62 @@ namespace HexedSceneryMobileApp.Services
 
         public async Task<Models.Encounter> GetEncounterAsync(int encounterTypeId, int resultNumber)
         {
-            var url = $"encounter/{encounterTypeId}/{resultNumber}";
+            //var url = $"encounter/{encounterTypeId}/{resultNumber}";
 
-            if (!_encounterCache.ContainsKey(url))
+            if (!_encounterCache.ContainsKey(encounterTypeId))
+            {
+                await LoadCachesAsync();
+            }
+
+            return (_encounterCache[encounterTypeId])[resultNumber];
+        }
+
+        public async Task LoadCachesAsync()
+        {
+            
+
+            if (_encounterCache.Count < 1)
             {
                 try
                 {
                     using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
                     {
-                        var data = await httpClient.GetFromJsonAsync<ApiModels.Encounter>(url);
-                        var encounter = _mapper.Map<Models.Encounter>(data);
-                        _encounterCache.Add(url, encounter);
+                        var url = $"encounter";
+                        var data = await httpClient.GetFromJsonAsync<List<ApiModels.Encounter>>(url);
+                        var encounters = _mapper.Map<List<Models.Encounter>>(data);
+
+                        foreach (var encounter in encounters)
+                        {
+                            if (_encounterCache.ContainsKey(encounter.EncounterTypeId))
+                            {
+                                _encounterCache[encounter.EncounterTypeId].Add(encounter.ResultNumber, encounter);
+                            }
+                            else
+                            {
+                                var encounterDict = new Dictionary<int, Models.Encounter>();
+                                encounterDict.Add(encounter.ResultNumber, encounter);
+                                _encounterCache.Add(encounter.EncounterTypeId, encounterDict);
+                            }
+                        }
+                    }
+
+                    using (var httpClient = _httpClientFactory.CreateClient("HexedApi"))
+                    {
+                        var url = "encountertype";
+                        var data = await httpClient.GetFromJsonAsync<List<ApiModels.EncounterType>>(url);
+                        var encounterTypes = _mapper.Map<List<Models.EncounterType>>(data);
+
+                        foreach (var encounterType in encounterTypes)
+                        {
+                            _encounterTypeCache.Add(encounterType.Id, encounterType);
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    return null;
+                    
                 }
             }
-
-            return _encounterCache[url];
         }
     }
 }

@@ -10,7 +10,7 @@ namespace HexedSceneryMobileApp.Services
 {
     public interface IDiceChartService
     {
-        Task<List<Models.DiceChart>> GetDiceChartsAsync();
+        Task LoadCachesAsync();
         Task<Models.DiceChart> GetDiceChartAsync(int diceChartId);
     }
     public class DiceChartService : IDiceChartService
@@ -29,13 +29,13 @@ namespace HexedSceneryMobileApp.Services
         {
             if (!_diceChartCache.ContainsKey(diceChartId))
             {
-                await GetDiceChartsAsync();
+                await LoadCachesAsync();
             }
 
             return _diceChartCache[diceChartId];
         }
 
-        public async Task<List<Models.DiceChart>> GetDiceChartsAsync()
+        public async Task LoadCachesAsync()
         {
             var url = $"dicechart";
 
@@ -55,11 +55,9 @@ namespace HexedSceneryMobileApp.Services
                 }
                 catch (Exception ex)
                 {
-                    return null;
+
                 }
             }
-
-            return _diceChartCache.Values.ToList();
         }
     }
 }

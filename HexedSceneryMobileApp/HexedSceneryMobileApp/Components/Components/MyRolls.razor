@@ -1,0 +1,40 @@
+﻿@using HexedSceneryMobileApp.Services
+
+
+@inject IMyRollsService MyRollsService
+
+
+@* @if (MyRollsService.MyRolls != null && MyRollsService.MyRolls.Any()) *@
+@if (true)
+{
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Bookmark" ButtonType="ButtonType.Button" OnClick="Toggle" Class="object-bottom object-center" />
+
+    <MudPopover Open="@_open" Fixed="true" Class="px-4 pt-4">
+        <div class="d-flex flex-column">
+            <MudTable Items="@MyRollsService.MyRolls">
+                <HeaderContent>
+                    <MudTh Class="schoensperger text">Chart</MudTh>
+                    <MudTh Class="schoensperger text">Result</MudTh>
+                    <MudTh Class="schoensperger text">Effect</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Chart" Class="caslon-antique text">@context.TableName</MudTd>
+                    <MudTd DataLabel="Result" Class="caslon-antique text">@context.Result</MudTd>
+                    <MudTd DataLabel="Effect" Class="caslon-antique text">@((MarkupString)context.Effect)</MudTd>
+                </RowTemplate>
+            </MudTable>
+            <MudButton OnClick="@Toggle" Class="ml-auto mr-n3 mb-1" Color="Color.Error">Close</MudButton>
+        </div>
+    </MudPopover>
+}
+
+
+
+@code {
+    private bool _open;
+
+    private void Toggle()
+    {
+        _open = !_open;
+    }
+}

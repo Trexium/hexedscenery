@@ -26,7 +26,7 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
         [ApiKey]
         public IEnumerable<EncounterType> Get()
         {
-            var dataItems = _context.EncounterTypes.Where(m => m.Active == true).ToList();
+            var dataItems = _context.EncounterTypes.Include(m => m.DiceType).Where(m => m.Active == true).ToList();
             var encounterTypes = _mapper.Map<List<EncounterType>>(dataItems);
             return encounterTypes;
         }

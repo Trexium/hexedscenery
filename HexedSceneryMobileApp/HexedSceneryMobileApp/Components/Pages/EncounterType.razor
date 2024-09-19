@@ -2,6 +2,7 @@
 @using HexedSceneryMobileApp.Services
 
 @inject IEncounterService EncounterService
+@inject IMyRollsService MyRollsService
 
 @if (_encounterType == null)
 {
@@ -25,11 +26,13 @@ else
         </MudExpansionPanels>
     }
 
-    @if (_diceResult != 0)
+    @if (_encounterResult != null)
     {
-        <HexedSceneryMobileApp.Components.Components.Encounter EncounterTypeId="@_encounterType.Id" EncounterResultNumber="@_diceResult" />
+        <HexedSceneryMobileApp.Components.Components.Encounter CurrentEncounter="@_encounterResult" />
     }
 }
+
+
 
 
 @code {
@@ -38,8 +41,7 @@ else
 
     private Models.EncounterType _encounterType;
 
-
-    private int _diceResult;
+    private Models.Encounter _encounterResult;
 
 
     protected override async Task OnInitializedAsync()
@@ -53,11 +55,11 @@ else
         {
             _encounterType = await EncounterService.GetEncounterTypeAsync(result);
         }
-        _diceResult = 0;
     }
 
     public async Task UpdateDiceResult(int newResult)
     {
-        _diceResult = newResult;
+        _encounterResult = await EncounterService.GetEncounterAsync(_encounterType.Id, newResult);
+        await MyRollsService.AddRoll(_encounterResult);
     }
 }

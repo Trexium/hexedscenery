@@ -6,6 +6,7 @@
 @inject IDiceRollHelper DiceRollHelper
 @inject IDiceService DiceService
 @inject IDiceChartService DiceChartService
+@inject IMyRollsService MyRollsService
 
 @if (_diceChart == null || _diceType == null)
 {
@@ -19,7 +20,6 @@ else
             <MudTh Class="schoensperger text">Result</MudTh>
         </HeaderContent>
         <RowTemplate>
-            @* <div class="@(_result == context.ResultNumber ? "selected" : "")" hidden></div> *@
             <div data-id="@context.ResultNumber" hidden ></div>
             <MudTd Class="caslon-antique text" DataLabel="@_diceChart.Dice">
                 @if (string.IsNullOrEmpty(context.Name))
@@ -60,6 +60,7 @@ else
         var row = _mudTable.Items.FirstOrDefault(m => m.ResultNumber == _result);
         if (row != null)
         {
+            await MyRollsService.AddRoll(row);
             _mudTable.SetSelectedItem(row);
         }
         StateHasChanged();

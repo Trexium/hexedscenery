@@ -14,7 +14,9 @@ namespace HexedSceneryMobileApp.Models
         }
         public Guid Id { get; set; }
         public int ResultNumber { get;set; }
+        public string ResultName { get; set; }
         public string TableName { get; set; }
         public string Effect {  get; set; }
+        public string Result { get { return $"{ResultNumber} - {ResultName}"; } }
     }
 }

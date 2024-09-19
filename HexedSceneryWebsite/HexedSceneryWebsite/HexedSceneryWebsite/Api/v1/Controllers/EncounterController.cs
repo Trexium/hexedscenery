@@ -22,6 +22,15 @@ namespace HexedSceneryWebsite.Api.v1.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
+        [ApiKey]
+        public IEnumerable<Encounter> Get()
+        {
+            var data = _context.Encounters.ToList();
+            var encounters = _mapper.Map<List<Encounter>>(data);
+            return encounters;
+        }
+
         [HttpGet("encounterType/{encounterTypeId}")]
         [ApiKey]
         public IEnumerable<Encounter> GetByEncounterType(int encounterTypeId)

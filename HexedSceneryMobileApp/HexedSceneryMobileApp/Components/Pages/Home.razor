@@ -7,6 +7,7 @@
 @inject IDiceService DiceService
 @inject IDiceChartService DiceChartService
 @inject IMonsterService MonsterService
+@inject IEncounterService EncounterService
 
 <PageTitle>Index</PageTitle>
 
@@ -24,9 +25,10 @@
         await WarbandService.GetWarbandsAsync();
         await GradeService.GetGradesAsync();
         await HiredSwordService.GetHiredSwordsAsync();
-        await DiceService.GetDiceTypesAsync();
-        await DiceChartService.GetDiceChartsAsync();
-        await MonsterService.GetMonstersAsync();
+        await DiceService.LoadCachesAsync();
+        await DiceChartService.LoadCachesAsync();
+        await MonsterService.LoadCachesAsync();
+        await EncounterService.LoadCachesAsync();
     }
 
 }

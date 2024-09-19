@@ -12,7 +12,7 @@ namespace HexedSceneryMobileApp.Services
     public interface IMonsterService
     {
         Task<Models.Monster> GetMonsterAsync(int monsterId);
-        Task<List<Models.Monster>> GetMonstersAsync();
+        Task LoadCachesAsync();
     }
 
     public class MonsterService : IMonsterService
@@ -38,17 +38,17 @@ namespace HexedSceneryMobileApp.Services
 
             if (!_monsterCache.ContainsKey(monsterId))
             {
-                await GetMonstersAsync();
+                await LoadCachesAsync();
             }
 
             return _monsterCache[monsterId];
         }
 
-        public async Task<List<Monster>> GetMonstersAsync()
+        public async Task LoadCachesAsync()
         {
             var url = $"monster";
 
-            if (_monsterCache.Count > 1)
+            if (_monsterCache.Count < 1)
             {
                 try
                 {
@@ -65,11 +65,8 @@ namespace HexedSceneryMobileApp.Services
                 catch (Exception ex)
                 {
                     await _logger.ErrorAsync("Network problem", ex);
-                    return null;
                 }
             }
-
-            return _monsterCache.Values.ToList();
         }
     }
 }

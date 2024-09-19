@@ -192,5 +192,10 @@ namespace HexedSceneryMobileApp
 
             return testdata;
         }
+
+        public Task LoadCachesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
