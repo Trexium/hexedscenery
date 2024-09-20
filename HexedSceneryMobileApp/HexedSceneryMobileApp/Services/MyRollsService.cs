@@ -16,6 +16,7 @@ namespace HexedSceneryMobileApp.Services
         Task RemoveRoll(Guid id);
         Task RemoveRoll(Roll roll);
         List<Roll> MyRolls { get; }
+        Task RemoveAll();
     }
     public class MyRollsService : IMyRollsService
     {
@@ -64,6 +65,11 @@ namespace HexedSceneryMobileApp.Services
         public async Task RemoveRoll(Roll roll)
         {
             await RemoveRoll(roll.Id);
+        }
+
+        public async Task RemoveAll()
+        {
+            _rollsCache.Clear();
         }
     }
 }

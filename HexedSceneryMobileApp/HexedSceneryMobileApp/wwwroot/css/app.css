@@ -94,18 +94,22 @@ h1:focus {
     font-family: CaslonAntique;
     src: url('../fonts/CaslonAntique.ttf') format('truetype');
 }
+
 @font-face {
     font-family: CaslonAntiqueBold;
     src: url('../fonts/CaslonAntique-Bold.ttf') format('truetype');
 }
+
 @font-face {
     font-family: CaslonAntiqueBoldItalic;
     src: url('../fonts/CaslonAntique-BoldItalic.ttf') format('truetype');
 }
+
 @font-face {
     font-family: CaslonAntiqueItalic;
     src: url('../fonts/CaslonAntique-Italic.ttf') format('truetype');
 }
+
 @font-face {
     font-family: Schoensperger;
     src: url('../fonts/Schoensperger.otf') format('opentype');
@@ -149,25 +153,142 @@ h1:focus {
     font-size: x-large !important;
 }
 
-div.mud-drawer-content {
+.transparent {
+    background-color: transparent !important;
+}
+
+.flat {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+aside.mud-drawer-pos-left > div.mud-drawer-content {
     padding-right: 50px;
 }
 
+aside.mud-drawer-pos-top {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+    aside.mud-drawer-pos-top > div.mud-drawer-content {
+        padding-left: 10%;
+        padding-right: 10%;
+        /*background-color: transparent;*/
+        border: none;
+        /*background: var(--paper-color);*/
+        background: #fffef0;
+        margin: 2rem;
+        /*padding: calc(var(--top-space) - 0.5lh) 3rem 1rem 5.5rem;*/
+        padding: 0 3rem 1rem 5.5rem;
+        line-height: 2.2;
+        color: var(--ink-color);
+        background-image:
+        /* the red line */ linear-gradient( 90deg, transparent, transparent 4rem, var(--side-line-color) 4rem, var(--side-line-color) 4.25rem, transparent 4.25rem ),
+        /*  The top space  */
+        linear-gradient( var(--paper-color), var(--paper-color) var(--top-space), transparent var(--top-space) ),
+        /* the blue lines */
+        repeating-linear-gradient( transparent, transparent calc(1lh - var(--line-thickness)), var(--main-line-color) calc(1lh - var(--line-thickness)), var(--main-line-color) 1lh, transparent 1lh );
+        box-shadow: 0 0 1rem rgb(0 0 0 / 0.25);
+    }
+
+        aside.mud-drawer-pos-top > div.mud-drawer-content > div.mud-drawer-header {
+        }
+
+div.my-rolls {
+    padding: 0px !important;
+    margin: 2lh 0px 0px 0px !important;
+}
+
+    div.my-rolls > div {
+        padding: 0px !important;
+        margin: 0px !important;
+        line-height: 1.5;
+    }
+
+        div.my-rolls > div > div {
+            padding: 0 !important;
+            margin: 0px !important;
+            line-height: 1.5;
+        }
+
+            div.my-rolls > div > div > div {
+                padding: 0 !important;
+                margin: 0px !important;
+                line-height: 1.5;
+            }
+
+                div.my-rolls > div > div > div > p {
+                    line-height: 1.5;
+                }
+
+:root {
+    /*--main-line-color: hsl(234, 62%, 86%);*/
+    --main-line-color: #DCDCDC;
+    /*--side-line-color: hsl(350, 100%, 91%);*/
+    --side-line-color: #DCDCDC;
+    /*--paper-color: hsl(0, 15%, 95%);*/
+    --paper-color: #fffef0;
+    --ink-color: hsl(0, 0%, 12%);
+    --line-thickness: 1px;
+    --top-space: 4lh;
+}
+
+.paper {
+    background: var(--paper-color);
+    margin: 2rem;
+    padding: calc(var(--top-space) - 0.5lh) 3rem 1rem 5.5rem;
+    font-family: system-ui;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    color: var(--ink-color);
+    background-image:
+    /* the red line */ linear-gradient( 90deg, transparent, transparent 4rem, var(--side-line-color) 4rem, var(--side-line-color) 4.25rem, transparent 4.25rem ),
+    /*  The top space  */
+    linear-gradient( var(--paper-color), var(--paper-color) var(--top-space), transparent var(--top-space) ),
+    /* the blue lines */
+    repeating-linear-gradient( transparent, transparent calc(1lh - var(--line-thickness)), var(--main-line-color) calc(1lh - var(--line-thickness)), var(--main-line-color) 1lh, transparent 1lh );
+    box-shadow: 0 0 1rem rgb(0 0 0 / 0.25);
+}
+
+
 div.background-paper {
     z-index: -1;
-    position: absolute;
+    position: fixed;
     display: flex;
-    width: 110%;
+    width: 106%;
     /*min-height: 100%;*/
-    height: 300%;
+    height: 103%;
     top: -30px;
-    left: 99%;
-    transform: translate(-96%, 0);
+    left: 95%;
+    transform: translate(-95%, 0);
     margin: 0 20px 0 0;
     padding: 0;
     box-shadow: 12px 13px 20px black, 0 0 60px #8a4d0f inset;
     background: #fffef0;
     filter: url(#wavy2);
+}
+
+div.background-paper-popup {
+    z-index: -1;
+    position: absolute;
+    display: flex;
+    /*height: 100%;*/
+    top: -3%;
+    bottom: 5%;
+    left: 2%;
+    right: 2%;
+    margin: 0 0 0 0;
+    padding: 0;
+    box-shadow: 1px 1px 10px black, 1px 10px 60px #8a4d0f inset, 1px 10px 60px black inset;
+    background: #fffef0;
+    filter: url(#wavy3);
+    /*--mud-drawer-width: 90%;*/
+    height: 98%;
+    /*--mud-drawer-content-height: 90%;*/
+    /*    padding-left: 5%;
+    padding-right: 5%;*/
 }
 
 div.background-paper-menu {
@@ -187,13 +308,13 @@ div.background-paper-menu {
 }
 
 /*div.background-paper-expansion-panel {*/
-    /*z-index: -1;*/
-    /*position: absolute !important;
+/*z-index: -1;*/
+/*position: absolute !important;
     display: flex;
     width: 100%;
     height: 100%;*/
-    /*min-height: 94.5%;*/
-    /*top: 0;
+/*min-height: 94.5%;*/
+/*top: 0;
     transform: translate(-96%, 0);
     margin: 0 0 0 0;
     padding: 0;
@@ -244,10 +365,10 @@ div.description > div {
 }
 
 .text {
-    font-size: 20px !important; 
+    font-size: 20px !important;
 }
 
-tr:has(> div.selected) { 
+tr:has(> div.selected) {
     border: solid 10px black !important;
     background-color: red !important;
 }
@@ -261,6 +382,7 @@ button.schoensperger > span.mud-button-label {
     font-family: Schoensperger;
     font-size: 20px;
 }
+
 div.mud-table {
     background-color: #fffef0;
 }
@@ -274,10 +396,6 @@ div.mud-main-content {
 }
 
 div.mud-overlay.mud-drawer-overlay.mud-overlay-drawer.mud-drawer-pos-left.mud-drawer-overlay--open.mud-drawer-overlay-responsive.mud-drawer-overlay-md {
-    background-color: transparent !important;
-}
-
-div.mud-overlay-scrim.mud-overlay-dark {
     background-color: transparent !important;
 }
 

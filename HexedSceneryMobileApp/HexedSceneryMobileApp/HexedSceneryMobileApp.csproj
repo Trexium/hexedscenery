@@ -67,6 +67,7 @@
       <None Remove="Resources\Fonts\CaslonAntique-Italic.ttf" />
       <None Remove="Resources\Fonts\CaslonAntique.ttf" />
       <None Remove="Resources\Fonts\Schoensperger.otf" />
+      <None Remove="Resources\Images\clipboard.jpg" />
     </ItemGroup>
 
     <ItemGroup>

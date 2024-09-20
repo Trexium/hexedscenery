@@ -15,25 +15,17 @@
     </svg>
 </div>
 
-<MudLayout>
+<MudLayout Style="height:100%;">
     <MudIconButton Class="" Style="position:absolute;left: 30px; top: 10px;" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-@*     <MudAppBar Elevation="0">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/arbems/.NET-MAUI-Blazor-Hybrid-app-with-MudBlazor" Target="_blank" />
-    </MudAppBar> *@
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Style="background-color: transparent; box-shadow:none;">
-@*         <MudDrawerHeader>
-            <MudText Typo="Typo.h6">MyApplication</MudText>
-        </MudDrawerHeader> *@
         <NavMenu OnNavItemClick="@DrawerToggle"/>
     </MudDrawer>
-    <MudMainContent>
+    <MudMainContent Style="height:100%;">
         <MudContainer MaxWidth="MaxWidth.Large" style="flex-direction: column; height: 100%;" Class="d-flex my-5 mx-auto pt-5 align-content-center justify-center align-center align-stretch">
             @Body
+            <HexedSceneryMobileApp.Components.Components.MyRolls />
         </MudContainer>
-        <HexedSceneryMobileApp.Components.Components.MyRolls />
+        
     </MudMainContent>
     
 </MudLayout>
