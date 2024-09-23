@@ -191,6 +191,7 @@ aside.mud-drawer-pos-top {
         /* the blue lines */
         repeating-linear-gradient( transparent, transparent calc(1lh - var(--line-thickness)), var(--main-line-color) calc(1lh - var(--line-thickness)), var(--main-line-color) 1lh, transparent 1lh );
         box-shadow: 0 0 1rem rgb(0 0 0 / 0.25);
+        
     }
 
         aside.mud-drawer-pos-top > div.mud-drawer-content > div.mud-drawer-header {

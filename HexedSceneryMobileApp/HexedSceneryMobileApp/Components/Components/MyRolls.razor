@@ -7,7 +7,7 @@
 @* @if (MyRollsService.MyRolls != null && MyRollsService.MyRolls.Any()) *@
 @if (true)
 {
-    <MudDrawer @bind-Open="@_open" Anchor="Anchor.Top" Elevation="1" Variant="@DrawerVariant.Temporary" OverlayAutoClose="true" Width="90%" Height="80%" OverlayVisible="true">
+    <MudDrawer @bind-Open="@_open" Fixed="false" Anchor="Anchor.Top" Elevation="1" Variant="@DrawerVariant.Temporary" OverlayAutoClose="true" Width="90%" Height="80%" OverlayVisible="true">
 
         <MudDrawerHeader Class="d-flex flex-row justify-space-between pt-7">
             <div>&nbsp;</div>
@@ -18,15 +18,39 @@
                 <MudButton ButtonType="ButtonType.Button" Class="caslon-antique text" OnClick="MyRollsService.RemoveAll">Clear</MudButton>
             </div>
         </MudDrawerHeader>
+        @*         <div class="my-rolls">
+    <MudTable @ref="_table" T="@Models.Roll" Items="@MyRollsService.MyRolls">
+    <RowTemplate>
+    <MudTd>
+    <div class="d-flex flex-column my-roll">
+    <div class="d-flex flex-row flex-grow-1 justify-space-between">
+    <div class="caslon-antique text"><span class="schoensperger text">Chart:</span> @context.TableName</div>
+    <div class="caslon-antique text"><span class="schoensperger text">Result:</span> @context.Result</div>
 
+    </div>
+    <div>
+    <div><p class="caslon-antique text"><span class="schoensperger text">Effect: </span>@((MarkupString)context.DisplayEffectText)</p></div>
+    </div>
+    </div>
+    </MudTd>
+    <MudTd><div class="flex-grow-0"><MudIconButton Class="fixed" ButtonType="ButtonType.Button" Icon="@Icons.Material.TwoTone.Clear" OnClick="@(_ => MyRollsService.RemoveRoll(context))" /></div></MudTd>
+    </RowTemplate>
+    <PagerContent>
+    <MudPagination Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+    </PagerContent>
+    </MudTable>
+    </div> *@
         <div class="my-rolls">
             @foreach (var roll in MyRollsService.MyRolls)
             {
                 <div class="d-flex flex-column my-roll">
                     <div class="d-flex flex-row flex-grow-1 justify-space-between">
                         <div class="caslon-antique text"><span class="schoensperger text">Chart:</span> @roll.TableName</div>
-                        <div class="caslon-antique text"><span class="schoensperger text">Result:</span> @roll.Result</div>
+
                         <div class="flex-grow-0"><MudIconButton Class="fixed" ButtonType="ButtonType.Button" Icon="@Icons.Material.TwoTone.Clear" OnClick="@(_ => MyRollsService.RemoveRoll(roll))" /></div>
+                    </div>
+                    <div>
+                        <div class="caslon-antique text"><span class="schoensperger text">Result:</span> @roll.Result</div>
                     </div>
                     <div>
                         <div><p class="caslon-antique text"><span class="schoensperger text">Effect: </span>@((MarkupString)roll.DisplayEffectText)</p></div>
@@ -47,6 +71,8 @@
 
 @code {
     private bool _open;
+
+    private MudTable<Models.Roll> _table;
 
     private void Toggle()
     {
