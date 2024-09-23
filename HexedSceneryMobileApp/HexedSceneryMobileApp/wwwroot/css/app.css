@@ -1,5 +1,10 @@
 ﻿html, body {
     font-family: 'CaslonAntique';
+    height: 100%;
+}
+
+div#app {
+    height: 100%;
 }
 
 a, .btn-link {
@@ -162,6 +167,12 @@ h1:focus {
     border: none !important;
 }
 
+.spacer {
+    line-height: 1.5;
+    font-size: 20px;
+    height: 32px;
+}
+
 aside.mud-drawer-pos-left > div.mud-drawer-content {
     padding-right: 50px;
 }
@@ -170,6 +181,7 @@ aside.mud-drawer-pos-top {
     background-color: transparent;
     border: none;
     box-shadow: none;
+    overflow:scroll;
 }
 
     aside.mud-drawer-pos-top > div.mud-drawer-content {
@@ -191,8 +203,22 @@ aside.mud-drawer-pos-top {
         /* the blue lines */
         repeating-linear-gradient( transparent, transparent calc(1lh - var(--line-thickness)), var(--main-line-color) calc(1lh - var(--line-thickness)), var(--main-line-color) 1lh, transparent 1lh );
         box-shadow: 0 0 1rem rgb(0 0 0 / 0.25);
-        
+        /*height: 80%;
+        max-height: 50%;*/
+        /*bottom: 10px;
+        top: 50px;*/
+        height:fit-content;
+        max-height: fit-content;
     }
+
+
+
+        aside.mud-drawer-pos-top.mud-drawer--closed {
+            /*height: 10%;
+            max-height: 10%;*/
+            /*display: none !important;*/
+            margin-bottom: 100px !important;
+        }
 
         aside.mud-drawer-pos-top > div.mud-drawer-content > div.mud-drawer-header {
         }
