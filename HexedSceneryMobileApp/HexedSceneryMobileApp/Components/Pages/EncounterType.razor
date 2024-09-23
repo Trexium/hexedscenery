@@ -12,7 +12,7 @@ else
 {
     <h1>@_encounterType.DisplayName</h1>
 
-    <HexedSceneryMobileApp.Components.Components.DiceRoller DiceTypeId="@_encounterType.DiceType.Id" NumberOfDice="@_encounterType.NumberOfDice.Value" OnNewResult="UpdateDiceResult" />
+    <HexedSceneryMobileApp.Components.Components.DiceRoller @ref="_diceRollerRef" DiceTypeId="@_encounterType.DiceType.Id" NumberOfDice="@_encounterType.NumberOfDice.Value" OnNewResult="UpdateDiceResult" />
 
     if (_encounterType.Description != null)
     {
@@ -43,6 +43,8 @@ else
 
     private Models.Encounter _encounterResult;
 
+    private Components.DiceRoller _diceRollerRef;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,6 +56,11 @@ else
         if (int.TryParse(EncounterTypeId, out int result))
         {
             _encounterType = await EncounterService.GetEncounterTypeAsync(result);
+            if (_diceRollerRef != null)
+            {
+                await _diceRollerRef.ClearResult();
+                _encounterResult = null;
+            }
         }
     }
 

@@ -223,6 +223,11 @@ div.my-rolls {
                     line-height: 1.5;
                 }
 
+div.bottom-spacer {
+    margin: 0;
+    padding: 20% 0 0 0;
+}
+
 :root {
     /*--main-line-color: hsl(234, 62%, 86%);*/
     --main-line-color: #DCDCDC;
