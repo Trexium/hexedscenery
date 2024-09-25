@@ -170,7 +170,7 @@ h1:focus {
 .spacer {
     line-height: 1.5;
     font-size: 20px;
-    height: 32px;
+    /*height: 32px;*/
 }
 
 aside.mud-drawer-pos-left > div.mud-drawer-content {
@@ -203,10 +203,6 @@ aside.mud-drawer-pos-top {
         /* the blue lines */
         repeating-linear-gradient( transparent, transparent calc(1lh - var(--line-thickness)), var(--main-line-color) calc(1lh - var(--line-thickness)), var(--main-line-color) 1lh, transparent 1lh );
         box-shadow: 0 0 1rem rgb(0 0 0 / 0.25);
-        /*height: 80%;
-        max-height: 50%;*/
-        /*bottom: 10px;
-        top: 50px;*/
         height:fit-content;
         max-height: fit-content;
     }
@@ -214,9 +210,6 @@ aside.mud-drawer-pos-top {
 
 
         aside.mud-drawer-pos-top.mud-drawer--closed {
-            /*height: 10%;
-            max-height: 10%;*/
-            /*display: none !important;*/
             margin-bottom: 100px !important;
         }
 
@@ -231,23 +224,23 @@ div.my-rolls {
     div.my-rolls > div {
         padding: 0px !important;
         margin: 0px !important;
-        line-height: 1.5;
+        line-height: 30px;
     }
 
         div.my-rolls > div > div {
             padding: 0 !important;
             margin: 0px !important;
-            line-height: 1.5;
+            line-height: 30px;
         }
 
             div.my-rolls > div > div > div {
                 padding: 0 !important;
                 margin: 0px !important;
-                line-height: 1.5;
+                line-height: 30px;
             }
 
                 div.my-rolls > div > div > div > p {
-                    line-height: 1.5;
+                    line-height: 30px;
                 }
 
 div.bottom-spacer {
