@@ -168,7 +168,7 @@ h1:focus {
 }
 
 .spacer {
-    line-height: 1.5;
+    line-height: 30px;
     font-size: 20px;
     /*height: 32px;*/
 }
@@ -209,9 +209,11 @@ aside.mud-drawer-pos-top {
 
 
 
-        aside.mud-drawer-pos-top.mud-drawer--closed {
-            margin-bottom: 100px !important;
-        }
+    aside.mud-drawer-pos-top.mud-drawer--closed {
+        /*margin-bottom: 200% !important;*/
+        /*top:-2010px !important;*/
+        transform: translateY(-5%);
+    }
 
         aside.mud-drawer-pos-top > div.mud-drawer-content > div.mud-drawer-header {
         }
@@ -436,4 +438,12 @@ label.mud-input-label {
 span.mud-button-label {
     font-family: CaslonAntique;
     font-size: 20px;
+}
+
+div.mud-expansion-panels {
+    background-color: transparent;
+}
+
+div.mud-expand-panel {
+    background-color: transparent;
 }
