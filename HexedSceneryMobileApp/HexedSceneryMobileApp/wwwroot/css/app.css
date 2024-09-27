@@ -185,19 +185,19 @@ aside.mud-drawer-pos-top {
 }
 
     aside.mud-drawer-pos-top > div.mud-drawer-content {
-        padding-left: 10%;
-        padding-right: 10%;
+        padding-left: 2%;
+        padding-right: 2%;
         /*background-color: transparent;*/
         border: none;
         /*background: var(--paper-color);*/
         background: #fffef0;
         margin: 2rem;
         /*padding: calc(var(--top-space) - 0.5lh) 3rem 1rem 5.5rem;*/
-        padding: 0 3rem 1rem 5.5rem;
+        padding: 0 0.5rem 1rem 1rem;
         line-height: 2rem;
         color: var(--ink-color);
         background-image:
-        /* the red line */ linear-gradient( 90deg, transparent, transparent 4rem, var(--side-line-color) 4rem, var(--side-line-color) 4.25rem, transparent 4.25rem ),
+        /* the red line */ /*linear-gradient( 90deg, transparent, transparent 4rem, var(--side-line-color) 4rem, var(--side-line-color) 4.25rem, transparent 4.25rem ),*/
         /*  The top space  */
         linear-gradient( var(--paper-color), var(--paper-color) var(--top-space), transparent var(--top-space) ),
         /* the blue lines */

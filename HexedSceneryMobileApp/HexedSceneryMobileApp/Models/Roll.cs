@@ -18,9 +18,19 @@ namespace HexedSceneryMobileApp.Models
         public string TableName { get; set; }
         public string Effect {  get; set; }
         public string Result { get { return $"{ResultNumber} - {ResultName}"; } }
-        public string DisplayEffectText { get
+        public string EffectShort { get
             {
-                return Effect.Length > 250 ? $"{Effect.Substring(0, 247)}..." : Effect;
+                if (Effect.Length < 101)
+                {
+                    ShowFullEffect = true;
+                    return Effect;
+                }
+                else
+                {
+                    return $"{Effect.Substring(0, 97)}...";
+                }
             } }
+
+        public bool ShowFullEffect { get; set; }
     }
 }

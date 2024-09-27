@@ -4,49 +4,54 @@
 @inject IMyRollsService MyRollsService
 
 
-@* @if (MyRollsService.MyRolls != null && MyRollsService.MyRolls.Any()) *@
-@if (true)
-{
-    <MudDrawer @bind-Open="@_open" Fixed="false" Anchor="Anchor.Top" Elevation="1" Variant="@DrawerVariant.Temporary" OverlayAutoClose="true" Width="90%" Height="80%" OverlayVisible="true">
 
-        <MudDrawerHeader Class="d-flex flex-row justify-space-between pt-7">
-            <div>&nbsp;</div>
-            <div>
-                <MudText Typo="Typo.h3" Align="Align.Center" Class="schoensperger">My Rolls</MudText>
-            </div>
-            <div>
-                <MudButton ButtonType="ButtonType.Button" Class="caslon-antique text" OnClick="MyRollsService.RemoveAll">Clear</MudButton>
-            </div>
-        </MudDrawerHeader>
-        <div class="my-rolls">
-            @foreach (var roll in MyRollsService.MyRolls)
-            {
-                <div class="d-flex flex-row justify-space-between">
-                    <div class="d-flex flex-column my-roll flex-grow-1">
-                        <div class="d-flex flex-row flex-grow-1 justify-space-between">
-                            <div class="caslon-antique text"><span class="schoensperger text">Chart:</span> @roll.TableName</div>
+<MudDrawer @bind-Open="@_open" Fixed="false" Anchor="Anchor.Top" Elevation="1" Variant="@DrawerVariant.Temporary" OverlayAutoClose="true" Width="90%" Height="80%" OverlayVisible="true">
 
-                            @* <div class="flex-grow-0"><MudIconButton ButtonType="ButtonType.Button" Icon="@Icons.Material.TwoTone.Clear" OnClick="@(_ => MyRollsService.RemoveRoll(roll))" /></div> *@
-                        </div>
-                        <div>
-                            <div class="caslon-antique text"><span class="schoensperger text">Result:</span> @roll.Result</div>
-                        </div>
-                        <div class="d-flex flex-row justify-left">
-                            <div class="schoensperger text">Effect:</div>
-                            <div><p class="caslon-antique text">@((MarkupString)roll.DisplayEffectText)</p></div>
-                        </div>
-                    </div>
-                    <div class="flex-grow-0"><MudIconButton ButtonType="ButtonType.Button" Icon="@Icons.Material.TwoTone.Clear" OnClick="@(_ => MyRollsService.RemoveRoll(roll))" /></div>
-                </div>
-                <div class="spacer">&nbsp;</div>
-            }
+    <MudDrawerHeader Class="d-flex flex-row justify-space-between pt-7">
+        <div>&nbsp;</div>
+        <div>
+            <MudText Typo="Typo.h3" Align="Align.Center" Class="schoensperger">My Rolls</MudText>
         </div>
-    </MudDrawer>
-    <div class="bottom-spacer">&nbsp;</div>
-    <div class="justify-center d-flex flex-row pb-14 fixed" style="bottom:0; left:0; width:100%;">
-        <MudFab Label="@(_open ? "Close" : "My Rolls")" Color="Color.Dark" ButtonType="ButtonType.Button" OnClick="Toggle" Class="caslon-antique text mx-1" />
+        <div>
+            <MudButton ButtonType="ButtonType.Button" Class="caslon-antique text" OnClick="MyRollsService.RemoveAll">Clear</MudButton>
+        </div>
+    </MudDrawerHeader>
+    <div class="my-rolls">
+        @foreach (var roll in MyRollsService.MyRolls)
+        {
+            <div class="d-flex flex-row justify-space-between">
+                <div class="d-flex flex-column my-roll flex-grow-1">
+                    <div class="d-flex flex-row flex-grow-1 justify-space-between">
+                        <div class="caslon-antique text"><span class="schoensperger text">Chart:</span> @roll.TableName</div>
+
+                        @* <div class="flex-grow-0"><MudIconButton ButtonType="ButtonType.Button" Icon="@Icons.Material.TwoTone.Clear" OnClick="@(_ => MyRollsService.RemoveRoll(roll))" /></div> *@
+                    </div>
+                    <div>
+                        <div class="caslon-antique text"><span class="schoensperger text">Result:</span> @roll.Result</div>
+                    </div>
+                    <div class="d-flex flex-row justify-left">
+                        <div class="schoensperger text">Effect:</div>
+                        @if (roll.ShowFullEffect)
+                        {
+                            <div @onclick="(() => roll.ShowFullEffect = false)"><p class="caslon-antique text">@((MarkupString)roll.Effect)</p></div>
+                        }
+                        else
+                        {
+                            <div @onclick="(() => roll.ShowFullEffect = true)"><p class="caslon-antique text">@((MarkupString)roll.EffectShort)</p></div>
+                        }
+                    </div>
+                </div>
+                <div class="flex-grow-0"><MudIconButton ButtonType="ButtonType.Button" Icon="@Icons.Material.TwoTone.Clear" OnClick="@(_ => MyRollsService.RemoveRoll(roll))" /></div>
+            </div>
+            <div class="spacer">&nbsp;</div>
+        }
     </div>
-}
+</MudDrawer>
+<div class="bottom-spacer">&nbsp;</div>
+<div class="justify-center d-flex flex-row pb-14 fixed" style="bottom:0; left:0; width:100%;">
+    <MudFab Label="@(_open ? "Close" : "My Rolls")" Color="Color.Dark" ButtonType="ButtonType.Button" OnClick="Toggle" Class="caslon-antique text mx-1" />
+</div>
+
 
 
 
