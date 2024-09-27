@@ -46,9 +46,10 @@ namespace HexedSceneryMobileApp
             builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
             builder.Services.AddSingleton<IDiceRollHelper, DiceRollHelper>();
+            builder.Services.AddSingleton<IMyRollsService, MyRollsService>();
 
             // Add dummy data instead of getting data from api
-            
+
             var test = builder.Configuration["ApiUrl"];
             builder.Services.AddHttpClient("HexedApi", client => 
             {
@@ -66,12 +67,20 @@ namespace HexedSceneryMobileApp
                 logging.AddDebug();
             });
 
+            var logService = new LogService(Enums.LogLevel.Debug);
+            builder.Services.AddSingleton<ILogService>(m => logService);
+
             if (!OperatingSystem.IsWindows())
             {
                 builder.Services.AddSingleton<IEncounterService, DummyData>();
                 builder.Services.AddSingleton<IMenuService, DummyData>();
                 builder.Services.AddSingleton<IHiredSwordService, DummyData>();
                 builder.Services.AddSingleton<IDiceService, DummyData>();
+                builder.Services.AddSingleton<IMonsterService, DummyData>();
+                builder.Services.AddSingleton<IGradeService, DummyData>();
+                builder.Services.AddSingleton<IHiredSwordService, DummyData>();
+                builder.Services.AddSingleton<IWarbandService, DummyData>();
+                builder.Services.AddSingleton<IDiceChartService, DummyData>();
             }
             else
             {
@@ -84,9 +93,6 @@ namespace HexedSceneryMobileApp
                 builder.Services.AddSingleton<IHiredSwordService, HiredSwordService>();
                 builder.Services.AddSingleton<IWarbandService, WarbandService>();
                 builder.Services.AddSingleton<IDiceChartService, DiceChartService>();
-                builder.Services.AddSingleton<IMyRollsService, MyRollsService>();
-                var logService = new LogService(Enums.LogLevel.Debug);
-                builder.Services.AddSingleton<ILogService>(m => logService);
             }
 #endif
 

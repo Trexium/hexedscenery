@@ -48,7 +48,10 @@ namespace HexedSceneryMobileApp.Services
                 }
             }
 
+            var test = System.Text.Json.JsonSerializer.Serialize(_menuCache);
+
             return _menuCache;
+
         }
     }
 }
