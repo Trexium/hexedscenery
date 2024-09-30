@@ -17,7 +17,7 @@ else
     <h1>Hired Swords</h1>
     <div>&nbsp;</div>
     <MudExpansionPanels>
-        <MudExpansionPanel Expanded="false" Text="@FilterTitle" Class="schoensperger text">
+        <MudExpansionPanel Expanded="false" Text="@FilterTitle" Class="schoensperger text no-gutters" Gutters="false">
             <div class="flex-row d-flex gap-4">
                 <div class="flex-grow-1 d-flex flex-column">
                     <h3>Min. Grade</h3>
@@ -47,7 +47,7 @@ else
                             <MudTextField @bind-Value="_warbandSearchString" Placeholder="Search warband" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
                         </ToolBarContent>
                         <RowTemplate>
-                            <MudTd Class="caslon-antique text" DataLabel="Warband">@context.Name</MudTd>
+                            <MudTd Class="caslon-antique text justify-start">@context.Name</MudTd>
                         </RowTemplate>
                         <PagerContent>
                             <MudTablePager HideRowsPerPage="true" />
@@ -62,13 +62,6 @@ else
         <ToolBarContent>
             <MudTextField @bind-Value="_hiredSwordSearchString" Placeholder="Search hired sword" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
-        <ColGroup>
-            <col style="width: 40%;" />
-            <col style="width: 15%;" />
-            <col style="width: 15%;" />
-            <col style="width: 15%;" />
-            <col style="width: 15%;" />
-        </ColGroup>
         <HeaderContent>
             <MudTh Class="schoensperger text"><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<HiredSword, object>(x=>x.Name)">Hired Sword</MudTableSortLabel></MudTh>
             <MudTh Class="schoensperger text"><MudTableSortLabel SortBy="new Func<HiredSword, object>(x=>x.HireFee)">Hire Fee</MudTableSortLabel></MudTh>

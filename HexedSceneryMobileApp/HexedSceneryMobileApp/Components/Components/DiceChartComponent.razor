@@ -14,7 +14,7 @@
 }
 else
 {
-    <MudTable Items="@_diceChart.DiceResults" @ref="_mudTable" T="DiceResult" RowClassFunc="@SelectedRowClassFunc">
+    <MudTable Items="@_diceChart.DiceResults" @ref="_mudTable" T="DiceResult" RowClassFunc="@SelectedRowClassFunc" Breakpoint="Breakpoint.None">
         <HeaderContent>
             <MudTh Class="schoensperger text"><MudButton OnClick="Roll" aria-label="roll" Class="schoensperger text">@_diceChart.Dice</MudButton></MudTh>
             <MudTh Class="schoensperger text">Result</MudTh>

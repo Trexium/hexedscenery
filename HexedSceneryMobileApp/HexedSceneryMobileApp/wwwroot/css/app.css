@@ -246,6 +246,21 @@ div.bottom-spacer {
     padding: 20% 0 0 0;
 }
 
+div.mud-expand-panel.no-gutters > div > div div.mud-expand-panel-content.mud-expand-panel-gutters {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+div.mud-table.no-gutters > div.mud-table-container > table > thead > tr > th {
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
+div.mud-table.no-gutters > div.mud-table-container > table > tbody > tr > td {
+    padding-left: 1px;
+    padding-right: 1px;
+}
+
 :root {
     /*--main-line-color: hsl(234, 62%, 86%);*/
     --main-line-color: #DCDCDC;
@@ -377,6 +392,10 @@ tr.mud-table-row.selected {
     box-shadow: inset 0.01em 0.01em 1em 0.01em #8a4d0f;
 }
 
+.small-text {
+    font-size: 0.8rem;
+}
+
 /*Hacks to ignore default behavior*/
 button.schoensperger > span.mud-button-label {
     font-family: Schoensperger;
@@ -384,11 +403,11 @@ button.schoensperger > span.mud-button-label {
 }
 
 div.mud-table {
-    background-color: #fffef0;
+    background-color: transparent;
 }
 
 div.mud-expand-panel {
-    background-color: #fffef0;
+    background-color: transparent;
 }
 
 div.mud-main-content {
