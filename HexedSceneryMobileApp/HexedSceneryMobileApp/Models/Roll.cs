@@ -20,14 +20,14 @@ namespace HexedSceneryMobileApp.Models
         public string Result { get { return $"{ResultNumber} - {ResultName}"; } }
         public string EffectShort { get
             {
-                if (Effect.Length < 101)
+                if (Effect.Length < 21)
                 {
                     ShowFullEffect = true;
                     return Effect;
                 }
                 else
                 {
-                    return $"{Effect.Substring(0, 97)}...";
+                    return $"{Effect.Substring(0, 17)}...";
                 }
             } }
 

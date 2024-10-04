@@ -241,6 +241,29 @@ div.my-rolls {
 
                 }
 
+td.mud-table-cell::before {
+    font-family: Schoensperger;
+}
+
+/*td.mud-table-cell.effect::before {
+    padding: 0px;
+}*/
+
+td.mud-table-cell.effect > div > div > div {
+    padding: 0px;
+}
+
+td.mud-table-cell.effect > div.mud-expansion-panels {
+    border: none;
+    box-shadow: none;
+}
+
+    td.mud-table-cell.effect > div.mud-expansion-panels > div.mud-expand-panel {
+        border: none;
+        box-shadow: none;
+    }
+
+
 div.bottom-spacer {
     margin: 0;
     padding: 20% 0 0 0;
