@@ -24,17 +24,20 @@
                 <MudTh Class="schoensperger text">Effect</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Chart" Class="caslon-antique text chart">@context.TableName</MudTd>
-                <MudTd DataLabel="Result" Class="caslon-antique text">@context.Result</MudTd>
-                <MudTd Class="caslon-antique text px-0 effect">
+                <div @onclick="() => OpenFullRoll()">
+                    <MudTd DataLabel="Chart" Class="caslon-antique text chart">@context.TableName</MudTd>
+                    <MudTd DataLabel="Result" Class="caslon-antique text">@context.Result</MudTd>
+                    @* <MudTd Class="caslon-antique text px-0 effect">
                     <MudExpansionPanels>
-                        <MudExpansionPanel Text="Effect" Class="schoensperger" Expanded="false">
-                            <div class="caslon-antique">
-                                @((MarkupString)context.Effect)
-                            </div>
-                        </MudExpansionPanel>
+                    <MudExpansionPanel Text="Effect" Class="schoensperger" Expanded="false">
+                    <div class="caslon-antique">
+                    @((MarkupString)context.Effect)
+                    </div>
+                    </MudExpansionPanel>
                     </MudExpansionPanels>
-                </MudTd>
+                    </MudTd> *@
+                    <MudTd DataLabel="Effect" Class="caslon-antique text">@context.EffectShort</MudTd>
+                </div>
             </RowTemplate>
         </MudTable>
     </div>
@@ -55,5 +58,10 @@
     private void Toggle()
     {
         _open = !_open;
+    }
+
+    private void OpenFullRoll()
+    {
+        
     }
 }

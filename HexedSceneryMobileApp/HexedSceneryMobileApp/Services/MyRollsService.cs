@@ -13,6 +13,7 @@ namespace HexedSceneryMobileApp.Services
         Task<List<Roll>> GetMyRolls();
         Task AddRoll(Encounter encounter);
         Task AddRoll(DiceResult diceResult);
+        Task AddRoll(Roll roll);
         Task RemoveRoll(Guid id);
         Task RemoveRoll(Roll roll);
         List<Roll> MyRolls { get; }
@@ -47,6 +48,26 @@ namespace HexedSceneryMobileApp.Services
             var roll = _mapper.Map<Roll>(diceResult);
             roll.TableName = (await _diceChartService.GetDiceChartAsync(diceResult.DiceChartId)).Name;
             _rollsCache.Add(roll.Id, roll);
+        }
+
+        public async Task AddRoll(Roll roll)
+        {
+            roll = _mapper.Map<Roll>(roll);
+            _rollsCache.Add(roll.Id, roll);
+        }
+
+
+        // Not complete, probobly has to be rewritten
+        public async Task AddChildRoll(Encounter parent, DiceResult child)
+        {
+            var parentTableName = (await _encounterService.GetEncounterTypeAsync(parent.EncounterTypeId)).DisplayName;
+            
+            var parentId = _rollsCache.Values.FirstOrDefault(m => m.TableName == parentTableName && !m.ChildChartResult.HasValue)?.Id;
+
+            if (parentId.HasValue)
+            {
+                var childChart = await _diceChartService.GetDiceChartAsync(child.DiceChartId);
+            }
         }
 
         public async Task<List<Roll>> GetMyRolls()

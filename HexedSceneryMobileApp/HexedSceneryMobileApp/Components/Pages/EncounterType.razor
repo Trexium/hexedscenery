@@ -64,9 +64,11 @@ else
         }
     }
 
-    public async Task UpdateDiceResult(int newResult)
+    public async Task UpdateDiceResult(Models.Roll newResult)
     {
-        _encounterResult = await EncounterService.GetEncounterAsync(_encounterType.Id, newResult);
-        await MyRollsService.AddRoll(_encounterResult);
+        _encounterResult = await EncounterService.GetEncounterAsync(_encounterType.Id, newResult.ResultNumber);
+        newResult.Encounter = _encounterResult;
+        newResult.ChildChart = _encounterResult.DiceChart;
+        await MyRollsService.AddRoll(newResult);
     }
 }

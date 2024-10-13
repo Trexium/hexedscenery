@@ -11,91 +11,96 @@ namespace HexedSceneryMobileApp.Helpers
 {
     public interface IDiceRollHelper
     {
-        Task<int> Roll(DiceType diceType, int numberOfDice = 1);
-        Task<int> RollD2(int numberOfDice = 1);
-        Task<int> RollD3(int numberOfDice = 1);
-        Task<int> RollD4(int numberOfDice = 1);
-        Task<int> RollD6(int numberOfDice = 1);
-        Task<int> RollD8(int numberOfDice = 1);
-        Task<int> RollD10(int numberOfDice = 1);
-        Task<int> RollD12(int numberOfDice = 1);
-        Task<int> RollD20(int numberOfDice = 1);
-        Task<int> RollD66();
-        Task<int> RollD100(int numberOfDice = 1);
+        Task<Roll> Roll(DiceType diceType, int numberOfDice = 1);
+        Task<Roll> RollD2(int numberOfDice = 1);
+        Task<Roll> RollD3(int numberOfDice = 1);
+        Task<Roll> RollD4(int numberOfDice = 1);
+        Task<Roll> RollD6(int numberOfDice = 1);
+        Task<Roll> RollD8(int numberOfDice = 1);
+        Task<Roll> RollD10(int numberOfDice = 1);
+        Task<Roll> RollD12(int numberOfDice = 1);
+        Task<Roll> RollD20(int numberOfDice = 1);
+        Task<Roll> RollD66();
+        Task<Roll> RollD100(int numberOfDice = 1);
     }
     public class DiceRollHelper : IDiceRollHelper
     {
 
-        public async Task<int> Roll(DiceType diceType, int numberOfDice = 1)
+        public async Task<Roll> Roll(DiceType diceType, int numberOfDice = 1)
         {
             return await DoRollLogic(diceType, numberOfDice);
         }
 
-        public async Task<int> RollD2(int numberOfDice = 1)
+        public async Task<Roll> RollD2(int numberOfDice = 1)
         {
             return RollNormalDice(numberOfDice, 1, 2);
         }
 
-        public async Task<int> RollD3(int numberOfDice = 1)
+        public async Task<Roll> RollD3(int numberOfDice = 1)
         {
             return RollNormalDice(numberOfDice, 1, 3);
         }
 
-        public async Task<int> RollD4(int numberOfDice = 1)
+        public async Task<Roll> RollD4(int numberOfDice = 1)
         {
             return RollNormalDice(numberOfDice, 1, 4);
         }
 
-        public async Task<int> RollD6(int numberOfDice = 1)
+        public async Task<Roll> RollD6(int numberOfDice = 1)
         {
             return RollNormalDice(numberOfDice, 1, 6);
         }
 
-        public async Task<int> RollD8(int numberOfDice = 1)
+        public async Task<Roll> RollD8(int numberOfDice = 1)
         {
             return RollNormalDice(numberOfDice, 1, 8);
         }
 
-        public async Task<int> RollD10(int numberOfDice = 1)
+        public async Task<Roll> RollD10(int numberOfDice = 1)
         {
             return RollNormalDice(numberOfDice, 1, 10);
         }
 
-        public async Task<int> RollD12(int numberOfDice = 1)
+        public async Task<Roll> RollD12(int numberOfDice = 1)
         {
             return RollNormalDice(numberOfDice, 1, 12);
         }
 
-        public async Task<int> RollD20(int numberOfDice = 1)
+        public async Task<Roll> RollD20(int numberOfDice = 1)
         {
             return RollNormalDice(numberOfDice, 1, 20);
         }
 
-        public async Task<int> RollD66()
+        public async Task<Roll> RollD66()
         {
             var randomGenerator = new Random();
-            return (randomGenerator.Next(1, 7) * 10) + randomGenerator.Next(1, 7);
+            var result = new Roll();
+            result.Id = Guid.NewGuid();
+            result.ResultNumber = (randomGenerator.Next(1, 7) * 10) + randomGenerator.Next(1, 7);
+            return result;
         }
 
-        public async Task<int> RollD100(int numberOfDice = 1)
+        public async Task<Roll> RollD100(int numberOfDice = 1)
         {
             return RollNormalDice(numberOfDice, 1, 100);
         }
 
-        private int RollNormalDice(int numberOfDice, int minNumber, int maxNumber)
+        private Roll RollNormalDice(int numberOfDice, int minNumber, int maxNumber)
         {
             var randomGenerator = new Random();
-            var result = 0;
+            var result = new Roll();
+            result.ResultNumber = 0;
+            result.Id = Guid.NewGuid();
 
             for (int i = 0; i < numberOfDice; i++)
             {
-                result += randomGenerator.Next(minNumber, maxNumber + 1);
+                result.ResultNumber += randomGenerator.Next(minNumber, maxNumber + 1);
             }
 
             return result;
         }
 
-        private async Task<int> DoRollLogic(DiceType diceType, int numberOfDice)
+        private async Task<Roll> DoRollLogic(DiceType diceType, int numberOfDice)
         {
             switch (diceType.Type)
             {
@@ -121,7 +126,7 @@ namespace HexedSceneryMobileApp.Helpers
                     return await RollD100(numberOfDice);
             }
 
-            return -1;
+            return null;
         }
     }
 }

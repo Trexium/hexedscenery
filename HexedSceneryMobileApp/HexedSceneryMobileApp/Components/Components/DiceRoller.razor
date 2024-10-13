@@ -12,7 +12,7 @@
 else
 {
     <div style="flex-direction: row;" class="d-flex">
-        <MudTextField T="int?" DebounceInterval="500" Value=@_result Label="@_label" Variant="@Variant.Text" OnDebounceIntervalElapsed="ManualDiceResultInput" />
+        <MudTextField T="int?" DebounceInterval="500" Value=@_diceResult Label="@_label" Variant="@Variant.Text" OnDebounceIntervalElapsed="ManualDiceResultInput" />
         <MudIconButton OnClick="Roll" Icon="@Icons.Material.Filled.Casino" aria-label="shuffle" />
     </div>
 }
@@ -26,26 +26,28 @@ else
     [Parameter]
     public int NumberOfDice { get; set; }
     [Parameter]
-    public EventCallback<int> OnNewResult { get; set; }
+    public EventCallback<Roll> OnNewResult { get; set; }
 
-    private int? _result;
+    private int? _diceResult;
+    private Roll? _result;
 
     private DiceType _diceType { get; set; }
     private string _label;
 
     public async Task Roll()
     {
-        var result = await DiceRollHelper.Roll(_diceType, NumberOfDice);
-        await OnNewResult.InvokeAsync(result);
-        _result = result;
+        _result = await DiceRollHelper.Roll(_diceType, NumberOfDice);
+        _diceResult = _result.ResultNumber;
+
+        await OnNewResult.InvokeAsync(_result);
+
         StateHasChanged();
     }
 
     public async Task ClearResult()
     {
-        _result = null;
+        _diceResult = null;
     }
-
 
     protected override async Task OnParametersSetAsync()
     {
@@ -55,9 +57,9 @@ else
 
     private void ManualDiceResultInput(string value)
     {
-        if (_result.HasValue)
+        if (_result != null)
         {
-            OnNewResult.InvokeAsync(_result.Value);
+            OnNewResult.InvokeAsync(_result);
         }
     }
 }

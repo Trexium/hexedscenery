@@ -14,6 +14,10 @@ namespace HexedSceneryMobileApp.Models
         }
         public Guid Id { get; set; }
         public int ResultNumber { get;set; }
+        public Encounter Encounter { get; set; }
+        public DiceChart? ChildChart { get; set; }
+        public Roll? ChildChartResult { get; set; }
+
         public string ResultName { get; set; }
         public string TableName { get; set; }
         public string Effect {  get; set; }
