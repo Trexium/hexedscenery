@@ -196,12 +196,12 @@ aside.mud-drawer-pos-top {
         padding: 0 0.5rem 1rem 1rem;
         line-height: 2rem;
         color: var(--ink-color);
-        background-image:
+        /*background-image:*/
         /* the red line */ /*linear-gradient( 90deg, transparent, transparent 4rem, var(--side-line-color) 4rem, var(--side-line-color) 4.25rem, transparent 4.25rem ),*/
         /*  The top space  */
-        linear-gradient( var(--paper-color), var(--paper-color) var(--top-space), transparent var(--top-space) ),
+        /*linear-gradient( var(--paper-color), var(--paper-color) var(--top-space), transparent var(--top-space) ),*/
         /* the blue lines */
-        repeating-linear-gradient( transparent, transparent calc(1lh - var(--line-thickness)), var(--main-line-color) calc(1lh - var(--line-thickness)), var(--main-line-color) 1lh, transparent 1lh );
+        /*repeating-linear-gradient( transparent, transparent calc(1lh - var(--line-thickness)), var(--main-line-color) calc(1lh - var(--line-thickness)), var(--main-line-color) 1lh, transparent 1lh )*/;
         /*repeating-linear-gradient( transparent, transparent calc(2lh - var(--line-thickness)), var(--main-line-color) calc(2lh - var(--line-thickness)), var(--main-line-color) 2lh, transparent 2lh );*/
         box-shadow: 0 0 1rem rgb(0 0 0 / 0.25);
         height: fit-content;
@@ -219,30 +219,51 @@ aside.mud-drawer-pos-top {
 
 div.my-rolls {
     padding: 0px !important;
-    margin: 2lh 0px 0px 0px !important;
+    /*margin: 2lh 0px 0px 0px !important;*/
+    margin: 0px 0px 0px 0px !important;
 }
 
-    div.my-rolls > div {
-        padding: 0px !important;
-        margin: 0px !important;
-    }
+div.my-rolls > div {
+    padding: 0px !important;
+    margin: 0px !important;
+}
 
-        div.my-rolls > div > div {
-            padding: 0 !important;
-            margin: 0px !important;
-        }
+div.my-rolls > div > div {
+    padding: 0 !important;
+    margin: 0px !important;
+}
 
-            div.my-rolls > div > div > div {
-                padding: 0 !important;
-                margin: 0px !important;
-            }
+div.my-rolls > div > div > div {
+    padding: 0 !important;
+    margin: 0px !important;
+}
 
-                div.my-rolls > div > div > div > p {
+div.my-rolls > div > div > div > p {
 
-                }
+}
+
+div.my-rolls > div.mud-table > div > table > tbody > tr > td {
+    padding: 0px;
+    /*border: none !important;*/
+}
+
+div.my-rolls > div.mud-table > div > table > tbody > tr > td.chart {
+    padding-top: 1lh;
+}
+
+div.my-rolls > div.mud-table > div > table > tbody > tr > td.mud-table-cell::before {
+    font-family: Schoensperger;
+    border: none;
+}
+
+div.my-rolls > div.mud-table > div > table > tbody > tr.mud-table-row {
+    border: none;
+    border-image-width: 0px;
+}
 
 td.mud-table-cell::before {
     font-family: Schoensperger;
+    padding: 0px !important;
 }
 
 /*td.mud-table-cell.effect::before {

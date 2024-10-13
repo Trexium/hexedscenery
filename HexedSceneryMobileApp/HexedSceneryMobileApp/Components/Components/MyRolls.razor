@@ -17,14 +17,14 @@
         </div>
     </MudDrawerHeader>
     <div class="my-rolls">
-        <MudTable Items="@MyRollsService.MyRolls" T="Models.Roll">
+        <MudTable Items="@MyRollsService.MyRolls" T="Models.Roll" Elevation="0">
             <HeaderContent>
                 <MudTh Class="schoensperger text">Chart</MudTh>
                 <MudTh Class="schoensperger text">Result</MudTh>
                 <MudTh Class="schoensperger text">Effect</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Chart" Class="caslon-antique text">@context.TableName</MudTd>
+                <MudTd DataLabel="Chart" Class="caslon-antique text chart">@context.TableName</MudTd>
                 <MudTd DataLabel="Result" Class="caslon-antique text">@context.Result</MudTd>
                 <MudTd Class="caslon-antique text px-0 effect">
                     <MudExpansionPanels>
