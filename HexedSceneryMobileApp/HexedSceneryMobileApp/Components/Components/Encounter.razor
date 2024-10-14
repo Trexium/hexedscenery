@@ -15,7 +15,7 @@ else
     @if (CurrentEncounter.DiceChartId.HasValue)
     {
         <div>&nbsp;</div>
-        <DiceChartComponent DiceChartId="@CurrentEncounter.DiceChartId.Value" />
+        <DiceChartComponent DiceChartId="@CurrentEncounter.DiceChartId.Value" ParentId="@CurrentEncounter.Id" ParentTypeId="@EncounterTypeId" />
     }
     @if (CurrentEncounter.MonsterId.HasValue)
     {
@@ -29,6 +29,9 @@ else
 
     [Parameter]
     public Models.Encounter CurrentEncounter { get; set; }
+
+    [Parameter]
+    public int EncounterTypeId { get; set; }
 
 
 

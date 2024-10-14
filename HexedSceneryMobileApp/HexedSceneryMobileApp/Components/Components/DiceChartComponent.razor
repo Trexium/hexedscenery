@@ -42,6 +42,12 @@ else
     [Parameter]
     public int DiceChartId { get; set; }
 
+    [Parameter]
+    public int? ParentId { get; set; }
+
+    [Parameter]
+    public int? ParentTypeId { get; set; }
+
     private DiceType _diceType;
     private DiceChart _diceChart;
 

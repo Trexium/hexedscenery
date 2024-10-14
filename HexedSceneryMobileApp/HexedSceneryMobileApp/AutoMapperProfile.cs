@@ -133,11 +133,7 @@ namespace HexedSceneryMobileApp
                 .ForMember(m => m.ResultName, opt => opt.MapFrom(s => s.Name))
                 .ForMember(m => m.Id, opt => opt.MapFrom(s => Guid.NewGuid()));
 
-            CreateMap<Models.Roll, Models.Roll>()
-                .ForMember(m => m.TableName, opt =>
-                {
-
-                })
+            CreateMap<Models.Roll, Models.Roll>();
         }
     }
 }

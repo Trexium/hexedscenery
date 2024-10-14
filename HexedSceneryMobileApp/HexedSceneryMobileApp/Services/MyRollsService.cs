@@ -53,6 +53,12 @@ namespace HexedSceneryMobileApp.Services
         public async Task AddRoll(Roll roll)
         {
             roll = _mapper.Map<Roll>(roll);
+
+            if (roll)
+            roll.TableName = (await _encounterService.GetEncounterTypeAsync(roll.Encounter.EncounterTypeId)).DisplayName;
+
+            if (roll.)
+
             _rollsCache.Add(roll.Id, roll);
         }
 
