@@ -11,9 +11,10 @@ namespace HexedSceneryMobileApp.Services
     public interface IMyRollsService
     {
         Task<List<Roll>> GetMyRolls();
-        Task AddRoll(Encounter encounter);
-        Task AddRoll(DiceResult diceResult);
-        Task AddRoll(Roll roll);
+        //Task AddRoll(Encounter encounter);
+        //Task AddRoll(DiceResult diceResult);
+        Task<Guid> AddRoll(Roll roll);
+        Task AddChildRoll(Guid parentId, DiceResult childResult);
         Task RemoveRoll(Guid id);
         Task RemoveRoll(Roll roll);
         List<Roll> MyRolls { get; }
@@ -36,44 +37,43 @@ namespace HexedSceneryMobileApp.Services
             _diceChartService = diceChartService;
         }
 
-        public async Task AddRoll(Encounter encounter)
+        //public async Task AddRoll(Encounter encounter)
+        //{
+        //    var roll = _mapper.Map<Roll>(encounter);
+        //    roll.TableName = (await _encounterService.GetEncounterTypeAsync(encounter.EncounterTypeId)).DisplayName;
+        //    _rollsCache.Add(roll.Id, roll);
+        //}
+
+        //public async Task AddRoll(DiceResult diceResult)
+        //{
+        //    var roll = _mapper.Map<Roll>(diceResult);
+        //    roll.TableName = (await _diceChartService.GetDiceChartAsync(diceResult.DiceChartId)).Name;
+        //    _rollsCache.Add(roll.Id, roll);
+        //}
+
+        public async Task<Guid> AddRoll(Roll roll)
         {
-            var roll = _mapper.Map<Roll>(encounter);
-            roll.TableName = (await _encounterService.GetEncounterTypeAsync(encounter.EncounterTypeId)).DisplayName;
-            _rollsCache.Add(roll.Id, roll);
-        }
+            var uniqueId = Guid.NewGuid();
+            roll.Id = uniqueId;
+            
+            
+            //roll.TableName = (await _encounterService.GetEncounterTypeAsync(roll.Encounter.EncounterTypeId)).DisplayName;
 
-        public async Task AddRoll(DiceResult diceResult)
-        {
-            var roll = _mapper.Map<Roll>(diceResult);
-            roll.TableName = (await _diceChartService.GetDiceChartAsync(diceResult.DiceChartId)).Name;
-            _rollsCache.Add(roll.Id, roll);
-        }
-
-        public async Task AddRoll(Roll roll)
-        {
-            roll = _mapper.Map<Roll>(roll);
-
-            if (roll)
-            roll.TableName = (await _encounterService.GetEncounterTypeAsync(roll.Encounter.EncounterTypeId)).DisplayName;
-
-            if (roll.)
+            
 
             _rollsCache.Add(roll.Id, roll);
+            return roll.Id;
         }
 
 
         // Not complete, probobly has to be rewritten
-        public async Task AddChildRoll(Encounter parent, DiceResult child)
+        public async Task AddChildRoll(Guid parentId, DiceResult childResult)
         {
-            var parentTableName = (await _encounterService.GetEncounterTypeAsync(parent.EncounterTypeId)).DisplayName;
-            
-            var parentId = _rollsCache.Values.FirstOrDefault(m => m.TableName == parentTableName && !m.ChildChartResult.HasValue)?.Id;
-
-            if (parentId.HasValue)
+            if (_rollsCache[parentId].ChildChartResults == null)
             {
-                var childChart = await _diceChartService.GetDiceChartAsync(child.DiceChartId);
+                _rollsCache[parentId].ChildChartResults = new List<DiceResult>();
             }
+            _rollsCache[parentId].ChildChartResults.Add(childResult);
         }
 
         public async Task<List<Roll>> GetMyRolls()
@@ -98,5 +98,6 @@ namespace HexedSceneryMobileApp.Services
         {
             _rollsCache.Clear();
         }
+
     }
 }

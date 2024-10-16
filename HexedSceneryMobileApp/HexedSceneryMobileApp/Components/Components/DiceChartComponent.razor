@@ -43,15 +43,18 @@ else
     public int DiceChartId { get; set; }
 
     [Parameter]
-    public int? ParentId { get; set; }
+    public Guid? ParentRollId { get; set; }
 
-    [Parameter]
-    public int? ParentTypeId { get; set; }
+    // [Parameter]
+    // public int? ParentId { get; set; }
+
+    // [Parameter]
+    // public int? ParentTypeId { get; set; }
 
     private DiceType _diceType;
     private DiceChart _diceChart;
 
-    private int _result;
+    private int? _result;
 
     private MudTable<DiceResult> _mudTable;
 
@@ -64,10 +67,11 @@ else
     private async Task Roll()
     {
         _result = await DiceRollHelper.Roll(_diceType, _diceChart.NumberOfDice ?? 1);
+
         var row = _mudTable.Items.FirstOrDefault(m => m.ResultNumber == _result);
-        if (row != null)
+        if (row != null && ParentRollId.HasValue)
         {
-            await MyRollsService.AddRoll(row);
+            await MyRollsService.AddChildRoll(ParentRollId.Value, row);
             _mudTable.SetSelectedItem(row);
         }
         StateHasChanged();

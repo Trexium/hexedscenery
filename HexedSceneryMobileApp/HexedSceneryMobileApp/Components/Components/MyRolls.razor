@@ -25,8 +25,8 @@
             </HeaderContent>
             <RowTemplate>
                 <div @onclick="() => OpenFullRoll()">
-                    <MudTd DataLabel="Chart" Class="caslon-antique text chart">@context.TableName</MudTd>
-                    <MudTd DataLabel="Result" Class="caslon-antique text">@context.Result</MudTd>
+                    <MudTd DataLabel="Chart" Class="caslon-antique text chart">@context.EncounterType.DisplayName</MudTd>
+                    <MudTd DataLabel="Result" Class="caslon-antique text">@context.ResultNumber</MudTd>
                     @* <MudTd Class="caslon-antique text px-0 effect">
                     <MudExpansionPanels>
                     <MudExpansionPanel Text="Effect" Class="schoensperger" Expanded="false">
@@ -36,7 +36,7 @@
                     </MudExpansionPanel>
                     </MudExpansionPanels>
                     </MudTd> *@
-                    <MudTd DataLabel="Effect" Class="caslon-antique text">@context.EffectShort</MudTd>
+                    <MudTd DataLabel="Effect" Class="caslon-antique text">@context.Encounter.Description</MudTd>
                 </div>
             </RowTemplate>
         </MudTable>

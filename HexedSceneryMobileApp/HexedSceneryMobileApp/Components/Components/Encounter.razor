@@ -2,36 +2,39 @@
 
 
 
-@if (CurrentEncounter == null)
+@if (CurrentRoll == null)
 {
     <span>Loading...</span>
 }
 else
 {
     <div>&nbsp;</div>
-    <h3 class="schoensperger xtra-large-text">@CurrentEncounter.Name</h3>
-    <p class="caslon-antique text">@((MarkupString)CurrentEncounter.Description)</p>
+    <h3 class="schoensperger xtra-large-text">@CurrentRoll.Encounter.Name</h3>
+    <p class="caslon-antique text">@((MarkupString)CurrentRoll.Encounter.Description)</p>
 
-    @if (CurrentEncounter.DiceChartId.HasValue)
+    @if (CurrentRoll.Encounter.DiceChartId.HasValue)
     {
         <div>&nbsp;</div>
-        <DiceChartComponent DiceChartId="@CurrentEncounter.DiceChartId.Value" ParentId="@CurrentEncounter.Id" ParentTypeId="@EncounterTypeId" />
+        <DiceChartComponent DiceChartId="@CurrentRoll.Encounter.DiceChartId.Value" ParentId="@CurrentRoll.Encounter.Id" ParentTypeId="@EncounterTypeId" />
     }
-    @if (CurrentEncounter.MonsterId.HasValue)
+    @if (CurrentRoll.Encounter.MonsterId.HasValue)
     {
         <div>&nbsp;</div>
-        <Monster MonsterId="CurrentEncounter.MonsterId.Value" />
+        <Monster MonsterId="CurrentRoll.Encounter.MonsterId.Value" />
     }
 }
 
 
 @code {
 
-    [Parameter]
-    public Models.Encounter CurrentEncounter { get; set; }
+    // [Parameter]
+    // public Models.Encounter CurrentEncounter { get; set; }
 
     [Parameter]
     public int EncounterTypeId { get; set; }
+
+    [Parameter]
+    public Models.Roll CurrentRoll { get; set; }
 
 
 

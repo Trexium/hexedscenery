@@ -14,27 +14,25 @@ namespace HexedSceneryMobileApp.Models
         }
         public Guid Id { get; set; }
         public int ResultNumber { get;set; }
+        public EncounterType EncounterType { get; set; }
         public Encounter Encounter { get; set; }
         public DiceChart? ChildChart { get; set; }
-        public Roll? ChildChartResult { get; set; }
+        public List<DiceResult>? ChildChartResults { get; set; }
+        
+        //public string Result { get { return $"{ResultNumber} - {ResultName}"; } }
+        //public string EffectShort { get
+        //    {
+        //        if (Effect.Length < 21)
+        //        {
+        //            ShowFullEffect = true;
+        //            return Effect;
+        //        }
+        //        else
+        //        {
+        //            return $"{Effect.Substring(0, 17)}...";
+        //        }
+        //    } }
 
-        public string ResultName { get; set; }
-        public string TableName { get; set; }
-        public string Effect {  get; set; }
-        public string Result { get { return $"{ResultNumber} - {ResultName}"; } }
-        public string EffectShort { get
-            {
-                if (Effect.Length < 21)
-                {
-                    ShowFullEffect = true;
-                    return Effect;
-                }
-                else
-                {
-                    return $"{Effect.Substring(0, 17)}...";
-                }
-            } }
-
-        public bool ShowFullEffect { get; set; }
+        //public bool ShowFullEffect { get; set; }
     }
 }

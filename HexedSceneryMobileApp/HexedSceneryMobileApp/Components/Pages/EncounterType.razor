@@ -45,6 +45,8 @@ else
 
     private Components.DiceRoller _diceRollerRef;
 
+    private Guid? _encounterUniqueRollId;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,9 +68,11 @@ else
 
     public async Task UpdateDiceResult(Models.Roll newResult)
     {
-        _encounterResult = await EncounterService.GetEncounterAsync(_encounterType.Id, newResult.ResultNumber);
-        newResult.Encounter = _encounterResult;
-        newResult.ChildChart = _encounterResult.DiceChart;
-        await MyRollsService.AddRoll(newResult);
+        var encounter = await EncounterService.GetEncounterAsync(_encounterType.Id, newResult.ResultNumber);
+        newResult.Encounter = encounter;
+        newResult.ChildChart = encounter.DiceChart;
+        newResult.EncounterType = _encounterType;
+        _encounterUniqueRollId = await MyRollsService.AddRoll(newResult);
+        _encounterResult = encounter;
     }
 }
