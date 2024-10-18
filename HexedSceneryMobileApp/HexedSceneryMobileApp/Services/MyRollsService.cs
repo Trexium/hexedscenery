@@ -11,14 +11,13 @@ namespace HexedSceneryMobileApp.Services
     public interface IMyRollsService
     {
         Task<List<Roll>> GetMyRolls();
-        //Task AddRoll(Encounter encounter);
-        //Task AddRoll(DiceResult diceResult);
         Task<Guid> AddRoll(Roll roll);
         Task AddChildRoll(Guid parentId, DiceResult childResult);
         Task RemoveRoll(Guid id);
         Task RemoveRoll(Roll roll);
         List<Roll> MyRolls { get; }
         Task RemoveAll();
+        Task<Roll> GetRoll(Guid id);
     }
     public class MyRollsService : IMyRollsService
     {
@@ -37,30 +36,11 @@ namespace HexedSceneryMobileApp.Services
             _diceChartService = diceChartService;
         }
 
-        //public async Task AddRoll(Encounter encounter)
-        //{
-        //    var roll = _mapper.Map<Roll>(encounter);
-        //    roll.TableName = (await _encounterService.GetEncounterTypeAsync(encounter.EncounterTypeId)).DisplayName;
-        //    _rollsCache.Add(roll.Id, roll);
-        //}
-
-        //public async Task AddRoll(DiceResult diceResult)
-        //{
-        //    var roll = _mapper.Map<Roll>(diceResult);
-        //    roll.TableName = (await _diceChartService.GetDiceChartAsync(diceResult.DiceChartId)).Name;
-        //    _rollsCache.Add(roll.Id, roll);
-        //}
-
         public async Task<Guid> AddRoll(Roll roll)
         {
             var uniqueId = Guid.NewGuid();
             roll.Id = uniqueId;
             
-            
-            //roll.TableName = (await _encounterService.GetEncounterTypeAsync(roll.Encounter.EncounterTypeId)).DisplayName;
-
-            
-
             _rollsCache.Add(roll.Id, roll);
             return roll.Id;
         }
@@ -99,5 +79,13 @@ namespace HexedSceneryMobileApp.Services
             _rollsCache.Clear();
         }
 
+        public async Task<Roll> GetRoll(Guid id)
+        {
+            if (_rollsCache.TryGetValue(id, out var roll))
+            {
+                return roll;
+            }
+            return null;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,5 +18,20 @@ namespace HexedSceneryMobileApp.Models
         public string? Description { get; set; }
 
         public int DiceChartId { get; set; }
+
+        public string? ShortDescription
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Description) && Description.Length > 20)
+                {
+                    return $"{Description.Substring(0, 17)}...";
+                }
+                else
+                {
+                    return Description;
+                }
+            }
+        }
     }
 }

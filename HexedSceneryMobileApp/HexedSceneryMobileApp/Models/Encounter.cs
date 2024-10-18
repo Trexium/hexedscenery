@@ -27,5 +27,34 @@ namespace HexedSceneryMobileApp.Models
         public DiceChart? DiceChart { get; set; }
 
         public Monster? Monster { get; set; }
+        public string? ShortDescription 
+        { 
+            get 
+            {
+                if (!string.IsNullOrEmpty(Description) && Description.Length > 20)
+                {
+                    return $"{Description.Substring(0, 17)}...";
+                }
+                else
+                {
+                    return Description;
+                }
+            } 
+        }
+
+        public string? ShortName
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Name) && Name.Length > 20)
+                {
+                    return $"{Name.Substring(0, 17)}...";
+                }
+                else
+                {
+                    return Name;
+                }
+            }
+        }
     }
 }

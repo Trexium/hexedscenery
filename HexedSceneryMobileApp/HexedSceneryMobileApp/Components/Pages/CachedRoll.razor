@@ -1,0 +1,32 @@
+﻿@page "/cachedroll/{rollId}"
+@using HexedSceneryMobileApp.Services
+
+@inject IMyRollsService MyRollsService
+
+
+@if (_currentRoll == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <h1>@($"{_currentRoll.EncounterType.DisplayName} - {_currentRoll.ResultNumber}")</h1>
+
+    <HexedSceneryMobileApp.Components.Components.Encounter CurrentRoll="@_currentRoll" EncounterTypeId="@_currentRoll.EncounterType.Id" />
+}
+
+
+
+
+@code {
+    [Parameter]
+    public string? RollId { get; set; }
+
+    private Models.Roll? _currentRoll;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _currentRoll = await MyRollsService.GetRoll(new Guid(RollId));   
+    }
+}

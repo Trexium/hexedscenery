@@ -26,9 +26,9 @@ else
         </MudExpansionPanels>
     }
 
-    @if (_encounterResult != null)
+    @if (_encounterRoll != null)
     {
-        <HexedSceneryMobileApp.Components.Components.Encounter CurrentEncounter="@_encounterResult" EncounterTypeId="@_encounterType.Id" />
+        <HexedSceneryMobileApp.Components.Components.Encounter CurrentRoll="@_encounterRoll" EncounterTypeId="@_encounterType.Id" />
     }
 }
 
@@ -41,7 +41,9 @@ else
 
     private Models.EncounterType _encounterType;
 
-    private Models.Encounter _encounterResult;
+    // private Models.Encounter _encounterResult;
+
+    private Models.Roll? _encounterRoll;
 
     private Components.DiceRoller _diceRollerRef;
 
@@ -61,18 +63,19 @@ else
             if (_diceRollerRef != null)
             {
                 await _diceRollerRef.ClearResult();
-                _encounterResult = null;
+                _encounterRoll = null;
             }
         }
     }
 
     public async Task UpdateDiceResult(Models.Roll newResult)
     {
-        var encounter = await EncounterService.GetEncounterAsync(_encounterType.Id, newResult.ResultNumber);
-        newResult.Encounter = encounter;
-        newResult.ChildChart = encounter.DiceChart;
-        newResult.EncounterType = _encounterType;
-        _encounterUniqueRollId = await MyRollsService.AddRoll(newResult);
-        _encounterResult = encounter;
+        _encounterRoll = newResult;
+        var encounter = await EncounterService.GetEncounterAsync(_encounterType.Id, _encounterRoll.ResultNumber);
+        _encounterRoll.Encounter = encounter;
+        _encounterRoll.ChildChart = encounter.DiceChart;
+        _encounterRoll.EncounterType = _encounterType;
+        _encounterUniqueRollId = await MyRollsService.AddRoll(_encounterRoll);
+        // _encounterResult = encounter;
     }
 }

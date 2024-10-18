@@ -22,22 +22,22 @@
                 <MudTh Class="schoensperger text">Chart</MudTh>
                 <MudTh Class="schoensperger text">Result</MudTh>
                 <MudTh Class="schoensperger text">Effect</MudTh>
+                <MudTh Class="schoensperger text">Sub chart result</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <div @onclick="() => OpenFullRoll()">
+                <MudNavLink Href="@($"cachedroll/{context.Id}")" Match="NavLinkMatch.Prefix" >
                     <MudTd DataLabel="Chart" Class="caslon-antique text chart">@context.EncounterType.DisplayName</MudTd>
-                    <MudTd DataLabel="Result" Class="caslon-antique text">@context.ResultNumber</MudTd>
-                    @* <MudTd Class="caslon-antique text px-0 effect">
-                    <MudExpansionPanels>
-                    <MudExpansionPanel Text="Effect" Class="schoensperger" Expanded="false">
-                    <div class="caslon-antique">
-                    @((MarkupString)context.Effect)
-                    </div>
-                    </MudExpansionPanel>
-                    </MudExpansionPanels>
-                    </MudTd> *@
-                    <MudTd DataLabel="Effect" Class="caslon-antique text">@context.Encounter.Description</MudTd>
-                </div>
+                    <MudTd DataLabel="Result" Class="caslon-antique text">@($"{context.ResultNumber} - {context.Encounter.ShortName}")</MudTd>
+                    <MudTd DataLabel="Effect" Class="caslon-antique text">@context.Encounter.ShortDescription</MudTd>
+                    @if (context.ChildChartResults != null && context.ChildChartResults.Any())
+                    {
+                        @foreach(var subChartResult in context.ChildChartResults)
+                        {
+                            <MudTd DataLabel="Sub Chart Result" Class="caslon-antique">@($"{subChartResult.ResultNumber} - {subChartResult.ShortDescription}")</MudTd>
+                        }
+                        
+                    }
+                </MudNavLink>
             </RowTemplate>
         </MudTable>
     </div>

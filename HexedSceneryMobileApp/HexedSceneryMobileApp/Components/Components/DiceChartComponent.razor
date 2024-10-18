@@ -14,28 +14,55 @@
 }
 else
 {
-    <MudTable Items="@_diceChart.DiceResults" @ref="_mudTable" T="DiceResult" RowClassFunc="@SelectedRowClassFunc" Breakpoint="Breakpoint.None">
-        <HeaderContent>
-            <MudTh Class="schoensperger text"><MudButton OnClick="Roll" aria-label="roll" Class="schoensperger text">@_diceChart.Dice</MudButton></MudTh>
-            <MudTh Class="schoensperger text">Result</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <div data-id="@context.ResultNumber" hidden ></div>
-            <MudTd Class="caslon-antique text" DataLabel="@_diceChart.Dice">
-                @if (string.IsNullOrEmpty(context.Name))
-                {
-                    @context.ResultNumber
-                }
-                else
-                {
-                    @context.Name
-                }
-            </MudTd>
-            <MudTd Class="caslon-antique text" DataLabel="Result">@((MarkupString)context.Description)</MudTd>
-        </RowTemplate>
-    </MudTable>
-    
-    <MudIconButton OnClick="Roll" Icon="@Icons.Material.Filled.Casino" aria-label="roll" />
+    @if (DiceResults == null)
+    {
+        <MudTable Items="@_diceChart.DiceResults" @ref="_mudTable" T="DiceResult" RowClassFunc="@SelectedRowClassFunc" Breakpoint="Breakpoint.None">
+            <HeaderContent>
+                <MudTh Class="schoensperger text"><MudButton OnClick="Roll" aria-label="roll" Class="schoensperger text">@_diceChart.Dice</MudButton></MudTh>
+                <MudTh Class="schoensperger text">Result</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <div data-id="@context.ResultNumber" hidden></div>
+                <MudTd Class="caslon-antique text" DataLabel="@_diceChart.Dice">
+                    @if (string.IsNullOrEmpty(context.Name))
+                    {
+                        @context.ResultNumber
+                    }
+                    else
+                    {
+                        @context.Name
+                    }
+                </MudTd>
+                <MudTd Class="caslon-antique text" DataLabel="Result">@((MarkupString)context.Description)</MudTd>
+            </RowTemplate>
+        </MudTable>
+
+        <MudIconButton OnClick="Roll" Icon="@Icons.Material.Filled.Casino" aria-label="roll" />
+    }
+    else
+    {
+        <MudTable MultiSelection="true" Items="@_diceChart.DiceResults" @ref="_mudTable" T="DiceResult" RowClassFunc="@SelectedRowClassFunc" Breakpoint="Breakpoint.None">
+            <HeaderContent>
+                <MudTh Class="schoensperger text"><MudButton OnClick="Roll" aria-label="roll" Class="schoensperger text">@_diceChart.Dice</MudButton></MudTh>
+                <MudTh Class="schoensperger text">Result</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <div data-id="@context.ResultNumber" hidden></div>
+                <MudTd Class="caslon-antique text" DataLabel="@_diceChart.Dice">
+                    @if (string.IsNullOrEmpty(context.Name))
+                    {
+                        @context.ResultNumber
+                    }
+                    else
+                    {
+                        @context.Name
+                    }
+                </MudTd>
+                <MudTd Class="caslon-antique text" DataLabel="Result">@((MarkupString)context.Description)</MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+
 }
 
 @code {
@@ -45,11 +72,8 @@ else
     [Parameter]
     public Guid? ParentRollId { get; set; }
 
-    // [Parameter]
-    // public int? ParentId { get; set; }
-
-    // [Parameter]
-    // public int? ParentTypeId { get; set; }
+    [Parameter]
+    public List<DiceResult> DiceResults { get; set; }
 
     private DiceType _diceType;
     private DiceChart _diceChart;
@@ -62,6 +86,14 @@ else
     {
         _diceChart = await DiceChartService.GetDiceChartAsync(DiceChartId);
         _diceType = await DiceService.GetDiceTypeAsync(_diceChart.DiceTypeId.Value);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (DiceResults != null && _mudTable != null)
+        {
+            _mudTable.SelectedItems = DiceResults.ToHashSet();
+        }
     }
 
     private async Task Roll()
